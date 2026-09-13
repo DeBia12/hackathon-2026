@@ -25,4 +25,14 @@ conformi invece di essere corretti dopo. Con 5 ore non c'è tempo per una fase d
 passa AA (5.3:1), ma su nero fallisce (3.96:1), e `#767676` su `#F3F3F3` fallisce (4.09:1).
 ~Stima a occhio scartata: i valori del brand sono controintuitivi.~
 
+**2026-09-13 — Design system Accenture estratto dal sito reale, non ricostruito a mano**
+La skill `accenture-brand` ora contiene token, font e componenti letti da accenture.com
+via Playwright: curva di movimento `cubic-bezier(0.85,0,0,1)` a 550ms, wipe a gradiente
+dei bottoni, card 300x424 senza ombra, logo animato, Graphik + GT Sectra Fine in woff2.
+L'estrazione ha corretto tre errori della versione a stima: il brand usa **due** famiglie
+di font (mancava il serif editoriale), il grigio di superficie è caldo `#F1F1EF` e non
+`#F3F3F3`, ed esiste un viola dedicato al fondo scuro `#BE82FF` (7.83:1) che risolve il
+problema del viola illeggibile su nero.
+~Ricostruzione a memoria scartata: produce un risultato "ispirato a", non riconoscibile.~
+
 ---
