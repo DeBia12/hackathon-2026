@@ -1,7 +1,7 @@
 ---
 name: ui-builder
 description: Costruisce componenti React accessibili con Tailwind e design system Accenture. Usalo quando serve creare o modificare UI - form, card, modali, navigazione, dashboard. Produce componenti WCAG 2.2 AA per costruzione, non per correzione successiva.
-tools: Read, Write, Edit, Glob, Grep, Bash
+tools: Read, Write, Edit, Glob, Grep, Bash, Skill
 model: sonnet
 ---
 
@@ -83,3 +83,15 @@ da uno screen reader che scorre la lista dei controlli.
 Elenca in 3 righe: cosa hai creato, dove, e quali scelte di accessibilità hai preso.
 Se hai il dubbio che un contrasto sia al limite, verificalo:
 `node .claude/skills/a11y-check/contrast.mjs "#colore" "#sfondo"`
+
+## Skill da usare in autonomia
+
+- **`codebase-design`** — quando devi decidere la forma di un componente: cosa esporre
+  come prop, dove passa il confine fra due componenti, se un componente è troppo sottile.
+  È vocabolario di riferimento: leggilo e decidi, non condurre un'intervista.
+- **`prototype`** — quando la domanda è "come deve comportarsi questa interazione?" e
+  serve vederla girare. Scrivi codice usa-e-getta, rispondi alla domanda, buttalo.
+- **`accenture-brand`** — token, contrasti verificati, elementi grafici del brand.
+- **`a11y-check`** — pattern ARIA corretti e calcolo dei contrasti.
+
+Dopo aver costruito qualcosa di sostanziale, invoca **`code-review`** sul tuo diff.

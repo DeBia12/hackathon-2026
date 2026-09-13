@@ -87,3 +87,62 @@ Prima di dichiarare finita una UI, lancia l'agente `a11y-auditor`.
 - Non rifattorizzare codice che funziona: 5 ore.
 - Non scrivere test se non per logica di dominio critica (calcoli finanziari, parsing).
 - Non inseguire il pixel-perfect: la giuria guarda il processo.
+
+## Il sistema di agenti
+
+Tre livelli, con gradi diversi di autonomia.
+
+### 1. Hook — automazione deterministica
+
+Scattano sempre, senza che nessuno decida di invocarli. Sono il livello più affidabile.
+
+| Quando | Cosa fa |
+|---|---|
+| Dopo ogni modifica a un `.tsx` | Blocca 5 violazioni di accessibilità certe |
+| Prima di ogni `git commit` | Blocca il commit se in stage c'è una credenziale |
+| A fine turno | Esegue il typecheck; se fallisce, il turno non si chiude |
+
+Codice in `.claude/hooks/`. Per disattivarne uno, togli la voce da `.claude/settings.json`.
+
+### 2. Agenti — esecutori specializzati
+
+| Agente | Compito |
+|---|---|
+| `feature-dev` | Funzionalità end-to-end: dati, logica, interfaccia, commit |
+| `ui-builder` | Componenti React accessibili |
+| `supabase-dev` | Schema, policy RLS, migrazioni |
+| `a11y-auditor` | Audit WCAG 2.2 AA |
+| `edu-content` | Testi e microcopy in linguaggio semplice |
+| `deck-builder` | Slide della presentazione |
+
+Tutti possono invocare skill in autonomia.
+
+### 3. Skill — conoscenza richiamabile
+
+Di progetto: `accenture-brand`, `a11y-check`, `demo-ready`, `create-readme`.
+
+Da [mattpocock/skills](https://github.com/mattpocock/skills): `codebase-design`,
+`diagnosing-bugs`, `code-review`, `prototype`, `research`, `tdd`,
+`resolving-merge-conflicts`, più `implement`, `triage`, `handoff`, `ask-matt`.
+
+> Le ultime quattro hanno `disable-model-invocation: true`: sono **comandi manuali**,
+> non si auto-invocano. È una scelta deliberata dell'autore — guidano flussi lunghi il
+> cui inizio deve decidere una persona. Lanciale con `/implement`, `/triage`, `/handoff`,
+> `/ask-matt`. Le altre il modello le sceglie da sé.
+
+`/ask-matt` è il router: se non sai quale skill serve, chiedilo a lui.
+
+### Come si lavora, in pratica
+
+```
+/kickoff <idea>        inquadra, decide, crea il branch e lo scheletro
+  → feature-dev        costruisce in autonomia fino al commit
+     ├─ codebase-design   se la forma del modulo è in dubbio
+     ├─ prototype         se serve vedere un comportamento girare
+     ├─ diagnosing-bugs   se qualcosa si rompe
+     └─ code-review       prima di committare
+/audit                 audit di accessibilità e correzione dei bloccanti
+/demo                  checklist dell'ultima ora
+```
+
+Se un flusso sembra troppo cerimonioso per il tempo che resta, saltalo: 5 ore.

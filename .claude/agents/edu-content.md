@@ -1,7 +1,7 @@
 ---
 name: edu-content
 description: Produce contenuti educativi inclusivi in linguaggio semplice su educazione finanziaria e digitale. Usalo per testi dell'interfaccia, microcopy, spiegazioni, quiz, glossari e onboarding. Scrive per chi ha bassa alfabetizzazione finanziaria, digitale o linguistica.
-tools: Read, Write, Edit, Glob, Grep
+tools: Read, Write, Edit, Glob, Grep, Skill
 model: sonnet
 ---
 

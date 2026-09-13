@@ -1,0 +1,183 @@
+/* ============================================================================
+   ACCENTURE DESIGN SYSTEM
+   Token e componenti estratti da accenture.com/it-it (settembre 2026).
+   Ogni valore qui è misurato dal sito reale, non stimato.
+   Dipende da: assets/fonts.css
+   ============================================================================ */
+
+@import "./assets/fonts.css";
+
+/* --------------------------------------------------------------------------
+   1. TOKEN
+   -------------------------------------------------------------------------- */
+:root {
+  /* Colori del brand */
+  --acn-purple:         #A100FF;  /* primario: riempimenti, accenti, il segno ">" */
+  --acn-purple-2:       #7500C0;  /* secondario: hover, testo viola su chiaro */
+  --acn-purple-3:       #460073;  /* terziario: fondi profondi */
+  --acn-purple-active:  #57008F;  /* stato :active dei bottoni */
+  --acn-purple-deep:    #39005E;  /* fondo card "announcement" */
+  --acn-purple-light:   #BE82FF;  /* viola su fondo SCURO — 7.83:1 su nero */
+  --acn-purple-focus:   #DCAFFF;  /* anello di focus su fondo scuro */
+
+  /* Neutri */
+  --acn-black:          #000000;
+  --acn-white:          #FFFFFF;
+  --acn-surface-dark:   #202020;  /* card video / interviste */
+  --acn-surface-dark-2: #2B2B2B;  /* superfici scure sollevate */
+  --acn-surface-light:  #F1F1EF;  /* grigio caldo: card chiare, sezioni */
+  --acn-border-light:   #E3E3DF;  /* bordi e divisori su chiaro */
+  --acn-grey:           #A2A2A0;  /* testo attenuato — solo su fondo SCURO */
+  --acn-grey-on-light:  #5F5F5F;  /* testo attenuato su fondo chiaro */
+
+  /* Tipografia */
+  --acn-font:        "Graphik", Arial, Helvetica, sans-serif;
+  --acn-font-serif:  "GT Sectra Fine", Palatino, "Times New Roman", serif;
+
+  /* Spaziatura — scala reale del sito */
+  --acn-space-sm:  16px;
+  --acn-space-md:  32px;
+  --acn-space-lg:  48px;
+  --acn-space-xl:  96px;
+  --acn-space-xxl: 160px;
+
+  /* Struttura */
+  --acn-header-h:   72px;
+  --acn-nav-h:      56px;
+  --acn-max-width:  1920px;
+  --acn-gutter:     80px;   /* padding orizzontale desktop */
+
+  /* Movimento — la firma del brand */
+  --acn-ease:       cubic-bezier(0.85, 0, 0, 1);
+  --acn-ease-in:    cubic-bezier(0.22, 0, 0.63, 1);
+  --acn-ease-out:   cubic-bezier(0.38, 0, 0, 1);
+  --acn-duration:   550ms;
+  --acn-duration-l: 750ms;
+
+  /* Angoli: il brand è squadrato. 0 ovunque. */
+  --acn-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--acn-font);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  background: var(--acn-black);
+  color: var(--acn-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tema chiaro: applica .acn-light a una sezione o al body */
+.acn-light {
+  background: var(--acn-white);
+  color: var(--acn-black);
+}
+
+/* Focus visibile — obbligatorio, mai rimuoverlo */
+:focus-visible {
+  outline: 2px solid var(--acn-purple);
+  outline-offset: 8px;
+}
+.acn-dark :focus-visible,
+body:not(.acn-light) :focus-visible {
+  outline-color: var(--acn-purple-focus);
+}
+
+/* --------------------------------------------------------------------------
+   3. TIPOGRAFIA
+   Scala fluida: i valori sono quelli a 1440px; sopra i 1440px il sito
+   scala tutto linearmente fino a 1920px (fattore 1.333).
+   -------------------------------------------------------------------------- */
+.acn-display {            /* titolo hero: 100px a 1440px */
+  font-family: var(--acn-font);
+  font-size: clamp(42px, 7vw, 100px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: clamp(-3px, -0.03em, -1.44px);
+  text-transform: uppercase;
+  text-wrap: balance;
+  margin: 0;
+}
+
+.acn-h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.acn-h2 {
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.acn-h3 {
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Voce editoriale: il serif. Usalo per citazioni e sottotitoli d'apertura,
+   mai per il testo di lettura lungo. */
+.acn-editorial {
+  font-family: var(--acn-font-serif);
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 300;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.acn-body   { font-size: 16px; line-height: 1.6; font-weight: 400; }
+.acn-body-l { font-size: 18px; line-height: 1.6; font-weight: 400; }
+
+/* Etichetta sopra il titolo: maiuscolo, piccolo, spaziato */
+.acn-eyebrow {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.acn-caption { font-size: 14px; line-height: 1.5; color: var(--acn-grey); }
+.acn-light .acn-caption { color: var(--acn-grey-on-light); }
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT
+   -------------------------------------------------------------------------- */
+.acn-container {
+  width: 100%;
+  max-width: var(--acn-max-width);
+  margin-inline: auto;
+  padding-inline: var(--acn-space-sm);
+}
+@media (min-width: 600px)  { .acn-container { padding-inline: var(--acn-space-lg); } }
+@media (min-width: 1024px) { .acn-container { padding-inline: var(--acn-gutter); } }
+
+.acn-section { padding-block: var(--acn-space-xl); }
+@media (min-width: 1024px) { .acn-section { padding-block: var(--acn-space-xxl); } }
+
+/* Griglia 4 / 8 / 12 colonne, come il sito */
+.acn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: var(--acn-space-sm);
+  row-gap: var(--acn-space-sm);
+}
+@media (min-width: 600px)  { .acn-grid { grid-template-columns: repeat(8, 1fr);  column-gap: 24px; row-gap: var(--acn-space-md); } }
+@media (min-width: 1024px) { .acn-grid { grid-template-columns: repeat(12, 1fr); column-gap: var(--acn-space-md); } }
+@media (min-width: 1440px) { .acn-grid { column-gap: 40px; } }

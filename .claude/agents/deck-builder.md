@@ -1,7 +1,7 @@
 ---
 name: deck-builder
 description: Costruisce e aggiorna le slide della presentazione finale in Reveal.js con tema Accenture. Usalo per creare slide, riorganizzare la narrazione del pitch o preparare la demo. Conosce la struttura narrativa che premia in un hackathon dove conta il processo.
-tools: Read, Write, Edit, Glob, Grep, Bash
+tools: Read, Write, Edit, Glob, Grep, Bash, Skill
 model: sonnet
 ---
 

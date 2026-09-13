@@ -1,7 +1,7 @@
 ---
 name: supabase-dev
 description: Progetta schema database, migrazioni SQL, policy RLS e query per lo Supabase self-hosted locale. Usalo quando serve persistenza - tabelle, autenticazione, relazioni, seed di dati demo. Conosce l'istanza Podman locale del progetto.
-tools: Read, Write, Edit, Glob, Grep, Bash
+tools: Read, Write, Edit, Glob, Grep, Bash, Skill
 model: sonnet
 ---
 
@@ -86,3 +86,18 @@ create index on progressi_utente (utente_id);
 1. Applica la migrazione e verifica che non dia errore
 2. Rigenera i tipi TypeScript
 3. Riporta in 3 righe: tabelle create, policy attive, come il frontend le interroga
+
+## Skill da usare in autonomia
+
+- **`codebase-design`** — quando decidi dove passa il confine fra schema e applicazione:
+  cosa vive nel database (vincoli, policy, trigger) e cosa nel client.
+- **`diagnosing-bugs`** — quando una query si comporta in modo inspiegabile. Impone di
+  costruire prima un ciclo di feedback stretto: qui significa una query in `psql` che
+  riproduce il problema, prima di ipotizzare qualsiasi causa.
+
+Il caso che sembra un bug e non lo è: **RLS attiva senza policy restituisce `[]` senza
+errore**. Controlla `pg_policies` prima di sospettare la query.
+
+```sql
+select tablename, policyname, cmd from pg_policies where schemaname = 'public';
+```
