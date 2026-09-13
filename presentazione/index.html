@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="it">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hackathon — Presentazione</title>
+
+    <link rel="stylesheet" href="vendor/reveal/reset.css" />
+    <link rel="stylesheet" href="vendor/reveal/reveal.css" />
+    <link rel="stylesheet" href="theme/accenture.css" />
+    <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css" />
+  </head>
+
+  <body>
+    <div class="reveal">
+      <div class="slides">
+
+        <!-- 1. TITOLO -->
+        <section class="slide-dark" data-background-color="#000000">
+          <h1 class="senza-segno">
+            <span style="color:#a100ff">&gt;</span> Nome del progetto
+          </h1>
+          <p style="font-size:1.1em">Il claim in una riga: cosa cambia e per chi.</p>
+          <p class="caption">Nome Cognome · Nome Cognome — Hackathon 2026</p>
+          <aside class="notes">
+            Aprire con calma. Dire il claim, non leggerlo dalla slide.
+          </aside>
+        </section>
+
+        <!-- 2. IL PROBLEMA -->
+        <section>
+          <h2>Il problema</h2>
+          <p class="big-number">3 su 10</p>
+          <p class="caption">[dato da sostituire con la fonte reale]</p>
+          <p>Racconta una persona vera, non una categoria.</p>
+          <aside class="notes">
+            Una persona, un ostacolo concreto. Niente statistiche a raffica: una sola,
+            quella che fa male.
+          </aside>
+        </section>
+
+        <!-- 3. L'INTUIZIONE -->
+        <section>
+          <h2>L'intuizione</h2>
+          <p style="font-size:1.3em">
+            La frase che spiega <span class="accent">perché</span> la nostra soluzione ha senso.
+          </p>
+          <aside class="notes">
+            Questa è la slide che la giuria ricorda. Una frase, detta lentamente.
+          </aside>
+        </section>
+
+        <!-- 4. LA SOLUZIONE -->
+        <section>
+          <h2>La soluzione</h2>
+          <ul>
+            <li>Cosa fa, in poche parole</li>
+            <li>Per chi è pensata</li>
+            <li>Cosa la rende diversa</li>
+          </ul>
+          <aside class="notes">Massimo 40 secondi: la demo mostrerà il resto.</aside>
+        </section>
+
+        <!-- 5. ARCHITETTURA -->
+        <section>
+          <h2>Architettura</h2>
+          <div class="two-col">
+            <div>
+              <div class="arch-box"><strong>app/</strong> React 19 + TypeScript + Tailwind</div>
+              <div class="arch-box" style="margin-top:.5em"><strong>agents/</strong> Claude Agent SDK</div>
+              <div class="arch-box" style="margin-top:.5em"><strong>backend/</strong> Supabase self-hosted</div>
+            </div>
+            <div>
+              <p style="font-size:.8em">
+                <strong>Perché così:</strong> [la scelta e l'alternativa scartata].
+              </p>
+              <p style="font-size:.8em" class="accent">
+                Tutto in locale: nessuna dipendenza dal wifi della sede.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            Spiegare UNA scelta architetturale e il suo trade-off. La giuria valuta il come.
+          </aside>
+        </section>
+
+        <!-- 6. IL PROCESSO -->
+        <section>
+          <h2>Il nostro processo</h2>
+          <div class="step"><strong>ui-builder</strong> — componenti accessibili per costruzione</div>
+          <div class="step"><strong>a11y-auditor</strong> — audit WCAG 2.2 AA automatico</div>
+          <div class="step"><strong>edu-content</strong> — testi in linguaggio semplice</div>
+          <div class="step"><strong>supabase-dev</strong> — schema, RLS e migrazioni</div>
+          <aside class="notes">
+            Il cuore del pitch: l'evento premia il COME. Dire cosa ha fatto ciascun agente
+            e cosa abbiamo deciso noi.
+          </aside>
+        </section>
+
+        <!-- 7. ACCESSIBILITÀ -->
+        <section>
+          <h2>Accessibilità by design</h2>
+          <p>Non una verifica finale: un vincolo dentro gli agenti che scrivono il codice.</p>
+          <div class="two-col" style="margin-top:1em">
+            <div class="arch-box">
+              <strong>Misurato, non stimato</strong>
+              Contrasti calcolati da script, non a occhio
+            </div>
+            <div class="arch-box">
+              <strong>Esempio reale</strong>
+              Il viola brand su nero dà 3.96:1 — sotto la soglia AA
+            </div>
+          </div>
+          <aside class="notes">
+            Mostrare contrast.mjs dal vivo se c'è tempo: fa vedere il metodo, non l'intenzione.
+          </aside>
+        </section>
+
+        <!-- 8. DEMO -->
+        <section class="slide-dark" data-background-color="#000000">
+          <h2 class="senza-segno"><span style="color:#a100ff">&gt;</span> Demo</h2>
+          <p class="caption">Passare all'applicazione</p>
+          <aside class="notes">
+            ALT+TAB alla finestra già aperta. Percorso provato: [scrivere qui i 3 passaggi].
+          </aside>
+        </section>
+
+        <!-- 9. LEZIONI -->
+        <section>
+          <h2>Cosa abbiamo imparato</h2>
+          <ul>
+            <li>[Una cosa che ha funzionato]</li>
+            <li>[Un errore e come l'abbiamo corretto]</li>
+            <li>[Una sorpresa]</li>
+          </ul>
+          <aside class="notes">
+            L'onestà sull'errore vale più di tre successi. Non saltare questa slide.
+          </aside>
+        </section>
+
+        <!-- 10. PROSSIMI PASSI -->
+        <section class="slide-dark" data-background-color="#000000">
+          <h2 class="senza-segno"><span style="color:#a100ff">&gt;</span> Con altre 5 ore</h2>
+          <ul>
+            <li>[Priorità 1]</li>
+            <li>[Priorità 2]</li>
+          </ul>
+          <p style="margin-top:1em; font-size:1.1em">Chiudere ripetendo il claim iniziale.</p>
+          <aside class="notes">Grazie. Poi silenzio: lasciare spazio alle domande.</aside>
+        </section>
+
+      </div>
+    </div>
+
+    <script src="vendor/reveal/reveal.js"></script>
+    <script src="vendor/reveal/plugin/notes/notes.js"></script>
+    <script src="vendor/reveal/plugin/highlight/highlight.js"></script>
+    <script>
+      Reveal.initialize({
+        hash: true,
+        slideNumber: "c/t",
+        transition: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+          ? "none"
+          : "slide",
+        plugins: [RevealNotes, RevealHighlight],
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,201 @@
+/* ============================================================
+   Tema Accenture per Reveal.js
+   Contrasti verificati con .claude/skills/a11y-check/contrast.mjs
+   ============================================================ */
+
+:root {
+  --acn-viola: #a100ff;
+  --acn-viola-testo: #7500c0;
+  --acn-viola-scuro: #460073;
+  --acn-nero: #000000;
+  --acn-bianco: #ffffff;
+  --acn-superficie: #f3f3f3;
+  --acn-grigio: #5f5f5f;
+
+  --r-main-font: "Graphik", "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  --r-heading-font: var(--r-main-font);
+}
+
+.reveal-viewport {
+  background: var(--acn-bianco);
+}
+
+.reveal {
+  font-family: var(--r-main-font);
+  font-size: 34px;
+  color: var(--acn-nero);
+}
+
+.reveal .slides {
+  text-align: left;
+}
+
+.reveal .slides section {
+  padding: 0 4%;
+}
+
+/* --- Tipografia --- */
+.reveal h1,
+.reveal h2,
+.reveal h3 {
+  font-family: var(--r-heading-font);
+  font-weight: 600;
+  text-transform: none;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+  color: var(--acn-nero);
+  margin-bottom: 0.5em;
+  text-wrap: balance;
+}
+
+.reveal h1 { font-size: 2.4em; }
+.reveal h2 { font-size: 1.7em; }
+.reveal h3 { font-size: 1.2em; }
+
+.reveal p,
+.reveal li {
+  line-height: 1.5;
+  text-wrap: pretty;
+}
+
+.reveal ul {
+  display: block;
+  margin-left: 1em;
+}
+
+.reveal li {
+  margin-bottom: 0.5em;
+}
+
+/* --- Il segno distintivo del brand --- */
+.reveal h1::before,
+.reveal h2::before {
+  content: ">";
+  color: var(--acn-viola);
+  margin-right: 0.35em;
+  font-weight: 400;
+}
+
+.reveal .senza-segno::before {
+  content: none;
+}
+
+/* --- Accenti --- */
+.reveal .accent {
+  color: var(--acn-viola-testo); /* 8.34:1 su bianco */
+}
+
+.reveal .big-number {
+  font-size: 3.2em;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--acn-viola-testo);
+  margin: 0.2em 0;
+}
+
+.reveal .caption {
+  font-size: 0.75em;
+  color: var(--acn-grigio);
+  margin-top: 0;
+}
+
+/* --- Slide a fondo scuro ---
+   Sul nero il viola pieno dà 3.96:1: ammesso solo per i titoli grandi,
+   mai per il testo di lettura, che resta bianco. */
+.reveal section.slide-dark {
+  color: var(--acn-bianco);
+}
+
+.reveal section.slide-dark h1,
+.reveal section.slide-dark h2,
+.reveal section.slide-dark h3,
+.reveal section.slide-dark p,
+.reveal section.slide-dark li {
+  color: var(--acn-bianco);
+}
+
+.reveal section.slide-dark .big-number {
+  color: var(--acn-viola);
+}
+
+.reveal section.slide-dark .caption {
+  color: #d0d0d0; /* 12.6:1 su nero */
+}
+
+/* --- Layout --- */
+.reveal .two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.2em;
+  align-items: start;
+}
+
+.reveal .arch-box {
+  border: 2px solid var(--acn-viola);
+  padding: 0.6em 0.8em;
+  font-size: 0.8em;
+  background: var(--acn-bianco);
+}
+
+.reveal .arch-box strong {
+  display: block;
+  color: var(--acn-viola-testo);
+}
+
+.reveal .step {
+  border-left: 4px solid var(--acn-viola);
+  padding-left: 0.8em;
+  margin-bottom: 0.8em;
+  font-size: 0.85em;
+}
+
+/* --- Link --- */
+.reveal a {
+  color: var(--acn-viola-testo);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.reveal section.slide-dark a {
+  color: var(--acn-viola);
+}
+
+.reveal a:hover {
+  color: var(--acn-viola-scuro);
+}
+
+/* --- Focus visibile: anche il deck si naviga da tastiera --- */
+.reveal a:focus-visible,
+.reveal button:focus-visible {
+  outline: 3px solid var(--acn-viola-testo);
+  outline-offset: 3px;
+}
+
+.reveal section.slide-dark a:focus-visible {
+  outline-color: var(--acn-viola);
+}
+
+/* --- Controlli e barra di avanzamento --- */
+.reveal .controls {
+  color: var(--acn-viola-testo);
+}
+
+.reveal .progress {
+  color: var(--acn-viola);
+  height: 4px;
+}
+
+/* --- Chi ha chiesto meno animazioni, ne riceve meno --- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal .slides section {
+    transition: none !important;
+  }
+}
+
+/* --- Stampa / export PDF --- */
+@media print {
+  .reveal .controls,
+  .reveal .progress {
+    display: none !important;
+  }
+}

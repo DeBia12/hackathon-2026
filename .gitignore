@@ -1,0 +1,57 @@
+# --- Dipendenze ---
+node_modules/
+.pnp
+.pnp.js
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# --- Build ---
+dist/
+dist-ssr/
+build/
+.next/
+out/
+*.local
+
+# --- Ambiente / segreti ---
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+secrets/
+
+# --- Supabase self-hosted ---
+backend/supabase/volumes/db/data/
+backend/supabase/volumes/storage/
+backend/supabase/.env
+
+# --- Editor / OS ---
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea/
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+
+# --- Log ---
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- Claude Code (locale, non condiviso col team) ---
+.claude/settings.local.json
+.claude/.cache/
+
+# --- Test / coverage ---
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
