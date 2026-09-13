@@ -1,0 +1,25 @@
+# Fine riga normalizzate a LF nel repository.
+# Gli script shell e i file SQL girano dentro container Linux e WSL:
+# con CRLF bash fallisce con "\r: command not found".
+* text=auto eol=lf
+
+*.sh        text eol=lf
+*.mjs       text eol=lf
+*.sql       text eol=lf
+*.yml       text eol=lf
+*.yaml      text eol=lf
+
+# File Windows che devono restare CRLF
+*.bat       text eol=crlf
+*.cmd       text eol=crlf
+*.ps1       text eol=crlf
+
+# Binari
+*.png       binary
+*.jpg       binary
+*.jpeg      binary
+*.gif       binary
+*.ico       binary
+*.pdf       binary
+*.woff      binary
+*.woff2     binary

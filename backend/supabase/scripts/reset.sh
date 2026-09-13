@@ -17,4 +17,4 @@ fi
 $COMPOSE --env-file .env down -v
 podman volume rm supabase_db-data 2>/dev/null || true
 echo "✓ dati eliminati. Riavvio..."
-exec "$(dirname "${BASH_SOURCE[0]}")/up.sh"
+exec bash "$(dirname "${BASH_SOURCE[0]}")/up.sh"

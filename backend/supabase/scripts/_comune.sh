@@ -24,7 +24,7 @@ rilancia_in_wsl_se_serve() {
   percorso_wsl="$(echo "$script_dir" | sed 's|^/\([A-Za-z]\)/|/mnt/\L\1/|')"
 
   echo "→ podman non è su Windows: eseguo dentro WSL ($DISTRO)"
-  exec wsl.exe -d "$DISTRO" -- bash -lc "\"$percorso_wsl/$script_nome\" $*"
+  exec wsl.exe -d "$DISTRO" -- bash -lc "bash \"$percorso_wsl/$script_nome\" $*"
 }
 
 # Sceglie il comando compose disponibile.
