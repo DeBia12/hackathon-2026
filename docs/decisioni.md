@@ -17,7 +17,7 @@ dati e auth completi in locale.
 ~Supabase cloud scartato: rischio rete. SQLite scartato: niente auth né realtime.~
 
 **2026-09-13 — Accessibilità come vincolo di costruzione, non come verifica finale**
-Gli agenti `ui-builder` e `a11y-auditor` incorporano WCAG 2.2 AA: i componenti nascono
+Gli agenti `ui-builder` e `revisore-accessibilita` incorporano WCAG 2.2 AA: i componenti nascono
 conformi invece di essere corretti dopo. Con 5 ore non c'è tempo per una fase di remediation.
 
 **2026-09-13 — Palette brand verificata con script invece che a stima**

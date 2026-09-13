@@ -6,7 +6,7 @@
       "Bash(npm install)",
       "Bash(npm ci)",
       "Bash(npx tsc:*)",
-      "Bash(node .claude/skills/a11y-check/contrast.mjs:*)",
+      "Bash(node .claude/skills/accessibilita/contrast.mjs:*)",
       "Bash(git status:*)",
       "Bash(git diff:*)",
       "Bash(git log:*)",
@@ -54,7 +54,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node .claude/hooks/verifica-a11y.mjs"
+            "command": "node .claude/hooks/verifica-accessibilita.mjs"
           }
         ]
       }

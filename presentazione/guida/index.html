@@ -1,204 +1,114 @@
 <!doctype html>
-<html lang="it" class="js">
+<html lang="it">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Come lavora un team con gli agenti AI — Guida al metodo</title>
-<meta name="description" content="Come abbiamo costruito un ambiente di sviluppo in cui la qualità è automatica e il lavoro è condiviso fra persone e agenti AI.">
+<title>Guida pratica — web app, skill e agenti</title>
+<meta name="description" content="Come far partire la web app, come si aggiunge codice e come funzionano skill, agenti e controlli automatici.">
 <link rel="icon" href="./brand/assets/logo/chevron.svg" type="image/svg+xml">
 <link rel="stylesheet" href="./brand/accenture.css">
 <style>
-  /* ============================================================
-     Layout della guida: menu fisso + contenuto.
-     Usa i token di accenture.css, non ne inventa di nuovi.
-     ============================================================ */
+  /* Layout della guida. Usa i token di accenture.css, non ne inventa di nuovi. */
   body { background: var(--acn-white); color: var(--acn-black); }
 
   .guida {
     display: grid;
-    grid-template-columns: 280px minmax(0, 1fr);
-    max-width: 1600px;
+    grid-template-columns: 260px minmax(0, 1fr);
+    max-width: 1400px;
     margin-inline: auto;
   }
 
   /* --- Menu laterale --- */
   .menu {
-    position: sticky;
-    top: 0;
-    align-self: start;
-    height: 100vh;
-    overflow-y: auto;
-    padding: 48px 32px 48px 48px;
+    position: sticky; top: 0; align-self: start;
+    height: 100vh; overflow-y: auto;
+    padding: 48px 32px;
     border-right: 1px solid var(--acn-border-light);
   }
-
   .menu__titolo {
-    font-size: 14px; font-weight: 500; line-height: 1.2;
-    letter-spacing: .02em; text-transform: uppercase;
-    color: var(--acn-grey-on-light);
-    margin: 0 0 24px;
+    font-size: 14px; font-weight: 500; letter-spacing: .02em;
+    text-transform: uppercase; color: var(--acn-grey-on-light);
+    margin: 0 0 20px;
   }
-
   .menu__lista { list-style: none; margin: 0; padding: 0; }
-  .menu__lista li { margin-bottom: 4px; }
-
   .menu__voce {
     display: flex; align-items: baseline; gap: 12px;
-    padding: 10px 12px;
-    min-height: 44px;
-    color: var(--acn-black);
-    text-decoration: none;
+    padding: 10px 12px; min-height: 44px;
+    color: var(--acn-black); text-decoration: none;
     font-size: 16px; line-height: 1.4;
     border-left: 3px solid transparent;
     transition: background-color 550ms cubic-bezier(.85,0,0,1),
                 border-color 550ms cubic-bezier(.85,0,0,1);
   }
   .menu__voce:hover { background: var(--acn-surface-light); }
-
-  /* Stato attivo: bordo + sfondo + peso, non solo il colore */
+  /* Lo stato attivo non è affidato al solo colore: bordo + sfondo + peso */
   .menu__voce[aria-current="true"] {
     border-left-color: var(--acn-purple);
     background: var(--acn-surface-light);
     font-weight: 500;
   }
-
   .menu__num {
-    font-size: 13px;
-    color: var(--acn-grey-on-light);
-    font-variant-numeric: tabular-nums;
-    flex-shrink: 0;
+    font-size: 13px; color: var(--acn-grey-on-light);
+    font-variant-numeric: tabular-nums; flex-shrink: 0;
   }
   .menu__voce[aria-current="true"] .menu__num { color: var(--acn-purple-2); }
 
   /* --- Contenuto --- */
-  .contenuto { padding: 0 80px 160px; min-width: 0; }
-
-  .sezione {
-    padding-top: 96px;
-    scroll-margin-top: 32px;
-    max-width: 760px;
-  }
+  .contenuto { padding: 0 64px 120px; min-width: 0; }
+  .sezione { padding-top: 80px; scroll-margin-top: 24px; max-width: 720px; }
   .sezione + .sezione { border-top: 1px solid var(--acn-border-light); }
 
-  .sezione__eyebrow {
-    font-size: 14px; font-weight: 500; letter-spacing: .02em;
-    text-transform: uppercase; color: var(--acn-purple-2);
-    margin: 0 0 16px;
-  }
-
   .sezione h2 {
-    font-size: clamp(32px, 4vw, 48px); font-weight: 500;
-    line-height: 1.2; letter-spacing: -.03em;
-    margin: 0 0 32px;
+    font-size: clamp(30px, 3.5vw, 42px); font-weight: 500;
+    line-height: 1.2; letter-spacing: -.03em; margin: 0 0 24px;
   }
-
   .sezione h3 {
-    font-size: 24px; font-weight: 500; line-height: 1.3;
-    letter-spacing: -.02em;
-    margin: 48px 0 16px;
+    font-size: 22px; font-weight: 500; line-height: 1.3;
+    letter-spacing: -.02em; margin: 40px 0 14px;
   }
-
-  .sezione p { font-size: 18px; line-height: 1.65; margin: 0 0 20px; }
-  .sezione ul, .sezione ol { font-size: 18px; line-height: 1.65; padding-left: 24px; }
-  .sezione li { margin-bottom: 12px; }
+  .sezione p  { font-size: 17px; line-height: 1.65; margin: 0 0 18px; }
+  .sezione ul { font-size: 17px; line-height: 1.65; padding-left: 22px; }
+  .sezione li { margin-bottom: 10px; }
 
   .occhiello {
     font-family: "GT Sectra Fine", Palatino, serif;
-    font-size: clamp(22px, 2.4vw, 28px);
-    font-weight: 300; line-height: 1.35;
-    margin: 0 0 32px;
+    font-size: clamp(20px, 2.2vw, 26px);
+    font-weight: 300; line-height: 1.35; margin: 0 0 28px;
   }
 
-  /* --- Riquadri --- */
+  /* --- Riquadro nota --- */
   .nota {
     border-left: 4px solid var(--acn-purple);
     background: var(--acn-surface-light);
-    padding: 24px 28px;
-    margin: 32px 0;
+    padding: 20px 24px; margin: 28px 0;
   }
   .nota p:last-child { margin-bottom: 0; }
   .nota__etichetta {
     font-size: 13px; font-weight: 500; letter-spacing: .02em;
-    text-transform: uppercase; color: var(--acn-purple-2);
-    margin: 0 0 8px;
-  }
-
-  /* --- Schede --- */
-  .schede {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 16px;
-    margin: 32px 0;
-  }
-  .scheda {
-    border: 1px solid var(--acn-border-light);
-    padding: 24px;
-  }
-  .scheda h4 {
-    font-size: 18px; font-weight: 500; margin: 0 0 8px;
-    letter-spacing: -.01em;
-  }
-  .scheda p { font-size: 16px; margin: 0; color: var(--acn-grey-on-light); }
-  .scheda__tag {
-    display: inline-block;
-    font-size: 12px; font-weight: 500; letter-spacing: .02em;
-    text-transform: uppercase;
-    color: var(--acn-purple-2);
-    margin-bottom: 12px;
+    text-transform: uppercase; color: var(--acn-purple-2); margin: 0 0 8px;
   }
 
   /* --- Tabelle --- */
-  .tabella { width: 100%; border-collapse: collapse; margin: 32px 0; font-size: 16px; }
+  .tabella { width: 100%; border-collapse: collapse; margin: 28px 0; font-size: 16px; }
   .tabella th, .tabella td {
-    text-align: left; padding: 14px 16px;
-    border-bottom: 1px solid var(--acn-border-light);
-    vertical-align: top;
+    text-align: left; padding: 12px 14px;
+    border-bottom: 1px solid var(--acn-border-light); vertical-align: top;
   }
   .tabella th { font-weight: 500; background: var(--acn-surface-light); }
-  .tabella td:first-child { font-weight: 500; }
+  .tabella td:first-child { font-weight: 500; white-space: nowrap; }
+  .tabella code { white-space: nowrap; }
 
-  /* --- Codice a scomparsa --- */
-  .dettaglio {
-    border: 1px solid var(--acn-border-light);
-    margin: 24px 0;
-  }
-  .dettaglio > summary {
-    cursor: pointer;
-    padding: 16px 20px;
-    min-height: 44px;
-    display: flex; align-items: center; gap: 12px;
-    font-size: 16px; font-weight: 500;
-    background: var(--acn-surface-light);
-    list-style: none;
-    transition: background-color 550ms cubic-bezier(.85,0,0,1);
-  }
-  .dettaglio > summary::-webkit-details-marker { display: none; }
-  .dettaglio > summary:hover { background: var(--acn-border-light); }
-  .dettaglio > summary::before {
-    content: "+";
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 20px; height: 20px; flex-shrink: 0;
-    background: var(--acn-purple); color: var(--acn-white);
-    font-size: 16px; line-height: 1;
-  }
-  .dettaglio[open] > summary::before { content: "\2212"; }
-  .dettaglio__corpo { padding: 20px; border-top: 1px solid var(--acn-border-light); }
-  .dettaglio__corpo > :last-child { margin-bottom: 0; }
-
+  /* --- Codice --- */
   pre {
-    background: var(--acn-black);
-    color: var(--acn-white);
-    padding: 20px;
-    overflow-x: auto;
+    background: var(--acn-black); color: var(--acn-white);
+    padding: 18px; overflow-x: auto;
     font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
-    font-size: 14px; line-height: 1.6;
-    margin: 0 0 16px;
+    font-size: 14px; line-height: 1.6; margin: 0 0 16px;
   }
-  pre .cm { color: var(--acn-grey); }          /* 8.21:1 su nero */
-  pre .kw { color: var(--acn-purple-light); }  /* 7.83:1 su nero */
+  pre .cm { color: var(--acn-grey); }          /* #A2A2A0 — 8.21:1 su nero */
+  pre .kw { color: var(--acn-purple-light); }  /* #BE82FF — 7.83:1 su nero */
   code:not(pre code) {
-    background: var(--acn-surface-light);
-    padding: 2px 6px;
+    background: var(--acn-surface-light); padding: 2px 6px;
     font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     font-size: .9em;
   }
@@ -206,154 +116,118 @@
   /* --- Passi numerati --- */
   .passi { list-style: none; padding: 0; counter-reset: passo; }
   .passi > li {
-    counter-increment: passo;
-    position: relative;
-    padding-left: 56px;
-    margin-bottom: 28px;
+    counter-increment: passo; position: relative;
+    padding-left: 52px; margin-bottom: 24px;
   }
   .passi > li::before {
     content: counter(passo);
     position: absolute; left: 0; top: 0;
-    width: 36px; height: 36px;
+    width: 34px; height: 34px;
     display: flex; align-items: center; justify-content: center;
     background: var(--acn-black); color: var(--acn-white);
-    font-size: 16px; font-weight: 500;
+    font-size: 15px; font-weight: 500;
   }
   .passi strong { display: block; margin-bottom: 4px; font-weight: 500; }
 
-  /* --- Confronto --- */
-  .confronto { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 32px 0; }
-  .confronto__lato { padding: 24px; border: 1px solid var(--acn-border-light); }
-  .confronto__lato--prima { background: var(--acn-surface-light); }
-  .confronto__lato--dopo { background: var(--acn-black); color: var(--acn-white); border-color: var(--acn-black); }
-  .confronto__titolo {
-    font-size: 13px; font-weight: 500; letter-spacing: .02em;
-    text-transform: uppercase; margin: 0 0 12px;
-    color: var(--acn-grey-on-light);
-  }
-  .confronto__lato--dopo .confronto__titolo { color: var(--acn-purple-light); }
-  .confronto p { font-size: 16px; margin: 0; line-height: 1.55; }
-
   /* ============================================================
-     Verificatore di contrasti
+     Esploratore dei file
      ============================================================ */
-  .verificatore {
-    border: 1px solid var(--acn-border-light);
-    padding: 28px;
-    margin: 32px 0;
-  }
-
-  .verificatore__preset-titolo {
-    display: block;
-    font-size: 13px; font-weight: 500; letter-spacing: .02em;
-    text-transform: uppercase; color: var(--acn-grey-on-light);
-    margin-bottom: 12px;
-  }
-  .verificatore__bottoni { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-
-  .preset {
-    min-height: 44px;
-    padding: 8px 16px;
-    font: inherit; font-size: 14px;
-    background: var(--acn-white);
-    color: var(--acn-black);
-    border: 1px solid var(--acn-border-light);
-    cursor: pointer;
-    transition: background-color 550ms cubic-bezier(.85,0,0,1),
-                border-color 550ms cubic-bezier(.85,0,0,1);
-  }
-  .preset:hover { background: var(--acn-surface-light); border-color: var(--acn-purple); }
-  .preset:focus-visible { outline: 2px solid var(--acn-purple); outline-offset: 4px; }
-
-  .verificatore__campi {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
-    margin-bottom: 24px;
-  }
-  .campo label {
-    display: block;
-    font-size: 15px; font-weight: 500;
-    margin-bottom: 8px;
-  }
-  .campo__riga { display: flex; gap: 8px; align-items: center; }
-  .campo input[type="color"] {
-    width: 48px; height: 44px;
-    padding: 2px;
-    border: 1px solid var(--acn-border-light);
-    background: var(--acn-white);
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-  .campo input[type="text"] {
-    flex: 1; min-width: 0;
-    min-height: 44px;
-    padding: 8px 12px;
-    font-family: ui-monospace, Consolas, monospace;
-    font-size: 15px;
-    border: 1px solid var(--acn-border-light);
-    background: var(--acn-white);
-    color: var(--acn-black);
-  }
-  .campo input:focus-visible { outline: 2px solid var(--acn-purple); outline-offset: 2px; }
-  .campo input[aria-invalid="true"] { border-color: #B3261E; border-width: 2px; }
-
-  .anteprima {
-    padding: 28px 24px;
-    margin-bottom: 20px;
-    border: 1px solid var(--acn-border-light);
-    transition: background-color 550ms cubic-bezier(.85,0,0,1),
-                color 550ms cubic-bezier(.85,0,0,1);
-  }
-  .anteprima__grande { font-size: 24px; font-weight: 500; margin: 0 0 8px; line-height: 1.3; }
-  .anteprima__normale { font-size: 16px; margin: 0; line-height: 1.6; }
-
-  .esito {
+  .esplora {
     display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 28px;
-    align-items: start;
-    padding: 20px 24px;
+    grid-template-columns: minmax(240px, 340px) minmax(0, 1fr);
+    border: 1px solid var(--acn-border-light);
+    margin: 28px 0;
+    min-height: 520px;
+  }
+
+  .esplora__albero {
+    border-right: 1px solid var(--acn-border-light);
+    overflow-y: auto;
+    max-height: 620px;
+    padding: 8px 0;
     background: var(--acn-surface-light);
   }
-  .esito__valore {
-    font-size: 44px; font-weight: 500; line-height: 1;
-    margin: 0;
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -.02em;
-  }
-  .esito__unita { font-size: 20px; color: var(--acn-grey-on-light); }
-  .esito__lista { list-style: none; margin: 0; padding: 0; font-size: 15px; }
-  .esito__lista li {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 6px;
-  }
-  .esito__etichetta { min-width: 120px; }
+  .esplora__albero ul { list-style: none; margin: 0; padding: 0; }
+  .esplora__albero ul ul { padding-left: 16px; }
 
-  /* Il verdetto non è affidato al solo colore: c'è sempre la parola */
-  .pallino { font-weight: 500; }
-  .pallino[data-esito="si"] { color: #1B6B2F; }
-  .pallino[data-esito="no"] { color: #B3261E; }
+  /* Sia le cartelle sia i file sono <button>: navigabili da tastiera per costruzione */
+  .nodo {
+    display: flex; align-items: center; gap: 8px;
+    width: 100%; min-height: 32px;
+    padding: 5px 12px;
+    border: 0; background: none;
+    font: inherit; font-size: 14px; text-align: left;
+    color: var(--acn-black); cursor: pointer;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    transition: background-color 550ms cubic-bezier(.85,0,0,1);
+  }
+  .nodo:hover { background: var(--acn-border-light); }
+  .nodo:focus-visible { outline: 2px solid var(--acn-purple); outline-offset: -2px; }
+  .nodo[aria-current="true"] {
+    background: var(--acn-white);
+    font-weight: 500;
+    box-shadow: inset 3px 0 0 var(--acn-purple);
+  }
 
-  .esito__commento {
-    grid-column: 1 / -1;
-    margin: 8px 0 0;
-    font-size: 15px; line-height: 1.5;
+  /* Il segno del brand fa da freccia: ruota quando la cartella è aperta */
+  .nodo__freccia {
+    width: 9px; height: 9px; flex-shrink: 0;
+    fill: var(--acn-purple);
+    transition: rotate 550ms cubic-bezier(.85,0,0,1);
+  }
+  .nodo[aria-expanded="true"] .nodo__freccia { rotate: 90deg; }
+  .nodo__spazio { width: 9px; flex-shrink: 0; }
+  .nodo__nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+  .esplora__pannello { display: flex; flex-direction: column; min-width: 0; }
+
+  .esplora__intestazione {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--acn-border-light);
+  }
+  .esplora__percorso {
+    margin: 0; font-size: 15px; font-weight: 500;
+    font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
+    word-break: break-all;
+  }
+  .esplora__desc {
+    margin: 8px 0 0; font-size: 15px; line-height: 1.5;
     color: var(--acn-grey-on-light);
   }
-  .esito__commento:empty { display: none; }
+  .esplora__meta {
+    margin: 8px 0 0; font-size: 13px;
+    color: var(--acn-grey-on-light);
+    font-variant-numeric: tabular-nums;
+  }
 
-  /* --- Responsive --- */
+  .esplora__codice {
+    margin: 0; flex: 1;
+    max-height: 460px; overflow: auto;
+    border-radius: 0;
+  }
+  .esplora__codice code { white-space: pre; }
+
+  .esplora__vuoto {
+    padding: 48px 24px; text-align: center;
+    color: var(--acn-grey-on-light); font-size: 16px;
+  }
+
+  @media (max-width: 900px) {
+    .esplora { grid-template-columns: 1fr; }
+    .esplora__albero { border-right: 0; border-bottom: 1px solid var(--acn-border-light); max-height: 300px; }
+  }
+
   @media (max-width: 1024px) {
     .guida { grid-template-columns: 1fr; }
     .menu {
       position: static; height: auto;
       border-right: 0; border-bottom: 1px solid var(--acn-border-light);
-      padding: 24px;
+      padding: 20px;
     }
     .menu__lista { display: flex; flex-wrap: wrap; gap: 4px; }
     .menu__voce { border-left: 0; border-bottom: 3px solid transparent; }
     .menu__voce[aria-current="true"] { border-left: 0; border-bottom-color: var(--acn-purple); }
-    .contenuto { padding: 0 24px 96px; }
-    .confronto, .schede { grid-template-columns: 1fr; }
+    .contenuto { padding: 0 24px 80px; }
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -377,7 +251,7 @@
     </svg>
   </span>
   <span style="margin-left:20px;padding-left:20px;border-left:1px solid var(--acn-border-light);font-size:15px;color:var(--acn-grey-on-light)">
-    Hackathon 2026 — Guida al metodo
+    Hackathon 2026 — Guida pratica
   </span>
 </header>
 
@@ -386,884 +260,345 @@
   <nav class="menu" aria-label="Sommario della guida">
     <p class="menu__titolo" id="titolo-menu">In questa guida</p>
     <ul class="menu__lista" aria-labelledby="titolo-menu">
-      <li><a class="menu__voce" href="#sintesi"><span class="menu__num" aria-hidden="true">01</span> In breve</a></li>
-      <li><a class="menu__voce" href="#metodo"><span class="menu__num" aria-hidden="true">02</span> Come lavoriamo</a></li>
-      <li><a class="menu__voce" href="#stack"><span class="menu__num" aria-hidden="true">03</span> Le scelte tecniche</a></li>
-      <li><a class="menu__voce" href="#skill"><span class="menu__num" aria-hidden="true">04</span> Le competenze</a></li>
-      <li><a class="menu__voce" href="#agenti"><span class="menu__num" aria-hidden="true">05</span> Gli agenti</a></li>
-      <li><a class="menu__voce" href="#controlli"><span class="menu__num" aria-hidden="true">06</span> I controlli automatici</a></li>
-      <li><a class="menu__voce" href="#sessione"><span class="menu__num" aria-hidden="true">07</span> Una sessione reale</a></li>
-      <li><a class="menu__voce" href="#replicare"><span class="menu__num" aria-hidden="true">08</span> Portarlo altrove</a></li>
-      <li><a class="menu__voce" href="#limiti"><span class="menu__num" aria-hidden="true">09</span> Limiti e rischi</a></li>
-      <li><a class="menu__voce" href="#iniziare"><span class="menu__num" aria-hidden="true">10</span> Iniziare</a></li>
+      <li><a class="menu__voce" href="#avvio"><span class="menu__num" aria-hidden="true">01</span> Far partire tutto</a></li>
+      <li><a class="menu__voce" href="#webapp"><span class="menu__num" aria-hidden="true">02</span> Creare la web app</a></li>
+      <li><a class="menu__voce" href="#skill"><span class="menu__num" aria-hidden="true">03</span> Le skill</a></li>
+      <li><a class="menu__voce" href="#agenti"><span class="menu__num" aria-hidden="true">04</span> Gli agenti</a></li>
+      <li><a class="menu__voce" href="#hook"><span class="menu__num" aria-hidden="true">05</span> Gli hook</a></li>
+      <li><a class="menu__voce" href="#giornata"><span class="menu__num" aria-hidden="true">06</span> Una giornata tipo</a></li>
+      <li><a class="menu__voce" href="#file"><span class="menu__num" aria-hidden="true">07</span> Tutti i file</a></li>
     </ul>
   </nav>
 
   <main class="contenuto" id="contenuto">
 
-    <!-- ===================== 01 — IN BREVE ===================== -->
-    <section class="sezione" id="sintesi" aria-labelledby="t-sintesi">
-      <p class="sezione__eyebrow">01 — In breve</p>
-      <h1 id="t-sintesi" style="font-size:clamp(40px,5vw,64px);font-weight:500;line-height:1.15;letter-spacing:-.03em;margin:0 0 32px">
-        Come lavora un team con gli agenti AI
-      </h1>
+    <!-- ===================== 01 — AVVIO ===================== -->
+    <section class="sezione" id="avvio">
+      <h2>Far partire tutto</h2>
 
       <p class="occhiello">
-        Abbiamo preparato un ambiente di lavoro in cui la qualità non dipende
-        dalla memoria delle persone, ma è controllata dal sistema stesso.
+        Tre comandi per avere l'ambiente in piedi. Il resto della guida spiega
+        cosa ci fai dentro.
       </p>
 
-      <p>
-        Questa guida racconta <strong>come</strong> abbiamo lavorato, non cosa abbiamo
-        costruito. È la parte che si può riusare: il prototipo dell'hackathon vale
-        una giornata, il metodo vale molto di più.
-      </p>
+<pre><code><span class="cm"># una volta sola: installa le dipendenze di app/ e agents/</span>
+npm run setup
 
-      <h2 style="font-size:24px;margin:48px 0 16px">Il problema, l'idea, il risultato</h2>
+<span class="cm"># la web app su http://localhost:5173</span>
+npm run dev
 
-      <div class="schede">
-        <div class="scheda">
-          <span class="scheda__tag">Il problema</span>
-          <h3 style="font-size:18px;margin:0 0 8px">La qualità si perde sotto pressione</h3>
-          <p>Quando il tempo stringe, le prime cose che saltano sono accessibilità,
-             controlli e attenzione ai dati sensibili.</p>
-        </div>
-        <div class="scheda">
-          <span class="scheda__tag">L'idea</span>
-          <h3 style="font-size:18px;margin:0 0 8px">Renderla un vincolo, non una buona intenzione</h3>
-          <p>Se il sistema impedisce di fare la cosa sbagliata, non serve ricordarsi
-             di fare quella giusta.</p>
-        </div>
-        <div class="scheda">
-          <span class="scheda__tag">Il risultato</span>
-          <h3 style="font-size:18px;margin:0 0 8px">Un ambiente che si controlla da solo</h3>
-          <p>Tre livelli di automazione, sei assistenti specializzati e quindici
-             competenze richiamabili al bisogno.</p>
-        </div>
-      </div>
+<span class="cm"># prima di ogni push: typecheck + lint + build</span>
+npm run check</code></pre>
 
-      <h2 style="font-size:24px;margin:48px 0 16px">Cosa c'è dentro, in numeri</h2>
+      <p>Gli altri comandi, quando servono:</p>
+
       <table class="tabella">
-        <caption class="acn-sr-only">Componenti dell'ambiente di lavoro</caption>
+        <caption class="acn-sr-only">Comandi npm del progetto</caption>
+        <thead>
+          <tr><th scope="col">Comando</th><th scope="col">Cosa fa</th></tr>
+        </thead>
         <tbody>
-          <tr><td>3</td><td>controlli automatici che scattano da soli, senza che nessuno li richiami</td></tr>
-          <tr><td>6</td><td>assistenti specializzati, ognuno con un mestiere preciso</td></tr>
-          <tr><td>15</td><td>competenze che gli assistenti consultano quando servono</td></tr>
-          <tr><td>4</td><td>comandi rapidi per le operazioni ricorrenti</td></tr>
-          <tr><td>0</td><td>servizi esterni necessari: tutto funziona senza collegamento a internet</td></tr>
+          <tr><td><code>npm run present</code></td><td>Le slide, su <code>:8000</code></td></tr>
+          <tr><td><code>npm run guida</code></td><td>Questa guida, su <code>:8001</code></td></tr>
+          <tr><td><code>npm run db:up</code></td><td>Supabase in locale (Podman, dentro WSL)</td></tr>
+          <tr><td><code>npm run db:down</code></td><td>Spegne Supabase</td></tr>
+          <tr><td><code>npm run contrasto</code></td><td>Misura il contrasto fra due colori</td></tr>
         </tbody>
       </table>
 
       <div class="nota">
-        <p class="nota__etichetta">Da leggere così</p>
+        <p class="nota__etichetta">Se qualcosa non parte</p>
         <p>
-          Il testo principale non richiede competenze tecniche. Dove serve la prova
-          concreta, trovi un riquadro <strong>«Vedi come funziona davvero»</strong>:
-          aprilo solo se ti interessa il dettaglio.
+          <code>npm run dev</code> fallisce quasi sempre per lo stesso motivo: le dipendenze
+          non sono installate. Lancia <code>npm run setup</code>. Per il database serve WSL
+          con Podman attivo — se non ti serve persistenza, saltalo: la web app gira lo stesso.
         </p>
       </div>
     </section>
 
-    <!-- ===================== 02 — COME LAVORIAMO ===================== -->
-    <section class="sezione" id="metodo" aria-labelledby="t-metodo">
-      <p class="sezione__eyebrow">02 — Come lavoriamo</p>
-      <h2 id="t-metodo">Non è «l'AI che scrive il codice»</h2>
+    <!-- ===================== 02 — WEB APP ===================== -->
+    <section class="sezione" id="webapp">
+      <h2>Creare la web app</h2>
 
       <p>
-        L'immagine comune è che si chieda qualcosa all'intelligenza artificiale e
-        lei produca il risultato. Nella pratica funziona diversamente, e la differenza
-        conta.
+        Vite + React 19 + TypeScript + Tailwind v4. Tutto il codice sta in <code>app/</code>,
+        e <code>@/</code> è l'alias per <code>app/src/</code>.
       </p>
 
-      <p class="occhiello">
-        Il modello giusto non è quello del genio che esaudisce desideri.
-        È quello di una squadra in cui ognuno ha un ruolo, delle regole
-        e un responsabile che risponde del risultato.
-      </p>
+      <table class="tabella">
+        <caption class="acn-sr-only">Dove sta cosa</caption>
+        <thead>
+          <tr><th scope="col">Percorso</th><th scope="col">Contenuto</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>app/src/App.tsx</code></td><td>La pagina principale</td></tr>
+          <tr><td><code>app/src/components/ui/</code></td><td>I mattoni: <code>Button</code>, <code>Card</code>, <code>Field</code></td></tr>
+          <tr><td><code>app/src/index.css</code></td><td>I colori e i font del brand</td></tr>
+          <tr><td><code>app/src/lib/</code></td><td>Utilità e client Supabase</td></tr>
+        </tbody>
+      </table>
 
-      <h3>Chi decide che cosa</h3>
+      <h3>Aggiungere un componente</h3>
 
       <p>
-        La distinzione che regge tutto il metodo: <strong>le persone decidono cosa
-        va costruito e perché, gli agenti decidono come scriverlo</strong>. Quando
-        questa linea si confonde, il lavoro peggiora in entrambe le direzioni.
+        Non lo scrivi a mano: lo chiedi all'agente <code>ui-builder</code>, che conosce
+        i token del brand e le regole di accessibilità.
       </p>
 
-      <div class="confronto">
-        <div class="confronto__lato confronto__lato--prima">
-          <p class="confronto__titolo">Decide la persona</p>
-          <p>
-            Quale problema risolviamo · Per chi · Cosa entra nella demo e cosa no ·
-            Quando una scelta è abbastanza buona · Se il risultato è onesto
-          </p>
-        </div>
-        <div class="confronto__lato confronto__lato--dopo">
-          <p class="confronto__titolo">Decide l'agente</p>
-          <p>
-            Come strutturare un componente · Quali controlli servono ·
-            Come nominare le cose · Dove mettere un confine nel codice ·
-            Come scrivere un messaggio d'errore comprensibile
-          </p>
-        </div>
+<pre><code><span class="kw">&gt;</span> usa ui-builder per una card con titolo, testo e un bottone "Scopri di più"</code></pre>
+
+      <p>
+        Ti restituisce un file in <code>app/src/components/ui/</code> già conforme:
+        HTML semantico, focus visibile, contrasti verificati. Poi lo importi:
+      </p>
+
+<pre><code><span class="kw">import</span> { Card } <span class="kw">from</span> "@/components/ui/Card";</code></pre>
+
+      <h3>I colori: non scriverli a mano</h3>
+
+      <p>
+        I colori stanno in <code>app/src/index.css</code> dentro il blocco <code>@theme</code>,
+        e li usi come classi Tailwind: <code>bg-surface</code>, <code>text-ink</code>,
+        <code>bg-accent-text</code>. Sono presi dal sito Accenture vero, uno per uno.
+      </p>
+
+      <div class="nota">
+        <p class="nota__etichetta">L'unica regola che conta</p>
+        <p>
+          Il brand ha <strong>due viola e due grigi</strong>, e il fondo decide quale usare.
+          Su chiaro: <code>text-accent-text</code> e <code>text-muted</code>.
+          Su scuro: <code>text-accent-light</code> e <code>text-muted-dark</code>.
+          Scambiarli produce testo illeggibile — <code>#A2A2A0</code> su bianco dà 2.56:1,
+          sotto la soglia di 4.5:1.
+        </p>
       </div>
 
-      <h3>I tre livelli, dal più al meno affidabile</h3>
+      <p>
+        Nel dubbio, misura invece di stimare:
+      </p>
+
+<pre><code>npm run contrasto '#BE82FF' '#000000'
+<span class="cm">→ 7.83:1 — AA PASS, AAA PASS</span></code></pre>
+    </section>
+
+    <!-- ===================== 03 — SKILL ===================== -->
+    <section class="sezione" id="skill">
+      <h2>Le skill</h2>
+
+      <p class="occhiello">
+        Una skill è un foglio di istruzioni che Claude legge quando serve.
+        Non esegue nulla da sola: cambia il modo in cui lavora.
+      </p>
 
       <p>
-        Non tutto ciò che è automatico è ugualmente affidabile. Abbiamo costruito
-        su tre livelli, e la differenza fra loro è il cuore del metodo.
+        Stanno in <code>.claude/skills/</code>, una cartella per skill con dentro un
+        <code>SKILL.md</code>. Ne abbiamo 21: quattro scritte da noi, diciassette prese
+        da un repository esterno.
+      </p>
+
+      <h3>Come si usano</h3>
+
+      <p>
+        Due modi. Le scrivi col nome preceduto da <code>/</code>, oppure non fai niente
+        e Claude le apre da solo quando riconosce che servono.
+      </p>
+
+<pre><code><span class="cm"># esplicito</span>
+<span class="kw">&gt;</span> /accenture-brand
+
+<span class="cm"># implicito: questa frase apre accenture-brand + accessibilita da sola</span>
+<span class="kw">&gt;</span> fammi una landing page in stile Accenture</code></pre>
+
+      <h3>Le nostre quattro</h3>
+
+      <table class="tabella">
+        <caption class="acn-sr-only">Skill scritte per questo progetto</caption>
+        <thead>
+          <tr><th scope="col">Skill</th><th scope="col">Cosa contiene</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>accenture-brand</code></td><td>Design system completo: font reali, colori, animazioni, componenti</td></tr>
+          <tr><td><code>accessibilita</code></td><td>Criteri WCAG 2.2 AA e lo script che misura i contrasti</td></tr>
+          <tr><td><code>demo-ready</code></td><td>Checklist per l'ultima ora prima della consegna</td></tr>
+          <tr><td><code>create-readme</code></td><td>Come si scrive il README del progetto</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Le altre diciassette vengono da
+        <a href="https://github.com/mattpocock/skills">mattpocock/skills</a> e coprono il flusso
+        dall'idea al codice: <code>grilling</code>, <code>to-spec</code>, <code>to-tickets</code>,
+        <code>implement</code>, <code>tdd</code>, <code>code-review</code>. Se non sai quale
+        ti serve, <code>/ask-matt</code> te lo dice.
+      </p>
+    </section>
+
+    <!-- ===================== 04 — AGENTI ===================== -->
+    <section class="sezione" id="agenti">
+      <h2>Gli agenti</h2>
+
+      <p class="occhiello">
+        Un agente è un Claude separato, con un mestiere solo e una memoria tutta sua.
+      </p>
+
+      <p>
+        La differenza con una skill è questa: la skill è <em>conoscenza</em> che entra nella
+        conversazione in corso; l'agente è un <em>esecutore</em> che apre una conversazione
+        nuova, fa il suo lavoro e ti riporta solo il risultato. Il tuo contesto resta pulito.
+      </p>
+
+      <p>
+        Stanno in <code>.claude/agents/</code>. Li chiami per nome:
+      </p>
+
+<pre><code><span class="kw">&gt;</span> usa revisore-accessibilita sulla pagina del questionario</code></pre>
+
+      <table class="tabella">
+        <caption class="acn-sr-only">Gli otto agenti disponibili</caption>
+        <thead>
+          <tr><th scope="col">Agente</th><th scope="col">Quando usarlo</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>matt-implementer</code></td><td>«Costruisci X» — un incarico intero, in un contesto separato</td></tr>
+          <tr><td><code>ui-builder</code></td><td>Serve un componente React</td></tr>
+          <tr><td><code>supabase-dev</code></td><td>Serve una tabella, una query o una policy</td></tr>
+          <tr><td><code>revisore-accessibilita</code></td><td>Hai finito una schermata e vuoi il verdetto</td></tr>
+          <tr><td><code>edu-content</code></td><td>Servono testi in linguaggio semplice</td></tr>
+          <tr><td><code>deck-builder</code></td><td>Servono slide</td></tr>
+          <tr><td><code>matt-implementer</code></td><td>Esegue un singolo ticket in contesto fresco</td></tr>
+          <tr><td><code>matt-reviewer</code></td><td>Rivede codice che non ha scritto</td></tr>
+        </tbody>
+      </table>
+
+      <div class="nota">
+        <p class="nota__etichetta">Perché separati e non uno solo</p>
+        <p>
+          Un agente che sa fare tutto sa fare tutto male. Ognuno di questi ha istruzioni
+          strette e solo gli strumenti che gli servono: <code>matt-reviewer</code>, per dire,
+          non può scrivere file — può solo leggere e giudicare. È questo che rende la sua
+          review affidabile.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== 05 — HOOK ===================== -->
+    <section class="sezione" id="hook">
+      <h2>Gli hook</h2>
+
+      <p>
+        Skill e agenti vanno invocati. Gli hook no: sono script che scattano da soli,
+        sempre, che a Claude faccia comodo o meno. Sono il livello più affidabile,
+        perché non dipendono da una decisione.
+      </p>
+
+      <table class="tabella">
+        <caption class="acn-sr-only">I tre hook attivi</caption>
+        <thead>
+          <tr><th scope="col">Quando scatta</th><th scope="col">Cosa fa</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Prima di un <code>git commit</code></td><td>Blocca il commit se in stage c'è una credenziale</td></tr>
+          <tr><td>Dopo ogni modifica a un <code>.tsx</code></td><td>Cerca violazioni di accessibilità certe e le fa correggere</td></tr>
+          <tr><td>A fine turno</td><td>Lancia il typecheck: se fallisce, il turno non si chiude</td></tr>
+        </tbody>
+      </table>
+
+      <p>
+        Il codice è in <code>.claude/hooks/</code>, tre file da leggere in due minuti.
+        Per disattivarne uno, togli la voce da <code>.claude/settings.json</code>.
+      </p>
+    </section>
+
+    <!-- ===================== 06 — GIORNATA TIPO ===================== -->
+    <section class="sezione" id="giornata">
+      <h2>Una giornata tipo</h2>
+
+      <p>
+        I comandi con lo slash stanno in <code>.claude/commands/</code> e mettono in fila
+        più passaggi. Questo è il giro completo, dall'inizio alla consegna.
       </p>
 
       <ol class="passi">
         <li>
-          <strong>I controlli automatici — scattano sempre</strong>
-          Sono regole del sistema. Non dipendono dal fatto che qualcuno si ricordi
-          di applicarle: succedono e basta. Se provi a salvare del codice con un
-          problema di accessibilità, il sistema lo segnala prima che tu prosegua.
-          È il livello più affidabile perché non passa da nessuna decisione.
+          <strong><code>/kickoff</code> — si parte</strong>
+          Crea il branch, scrive il brief e registra la decisione architetturale
+          in <code>docs/decisioni.md</code>.
         </li>
         <li>
-          <strong>Gli agenti — eseguono un mestiere</strong>
-          Ognuno sa fare una cosa e la fa con criteri scritti. Chi costruisce
-          interfacce conosce le regole di accessibilità; chi lavora sui dati conosce
-          le regole di sicurezza del database. Sono affidabili quanto le istruzioni
-          che gli abbiamo dato.
+          <strong>Si costruisce</strong>
+          Chiedi quello che ti serve in italiano. Claude sceglie skill e agenti da solo.
+          Se il lavoro è grosso e poco chiaro, <code>/buildmatt</code> lo spacca in
+          ticket e li distribuisce.
         </li>
         <li>
-          <strong>Le competenze — si consultano al bisogno</strong>
-          Sono documenti che un agente apre quando incontra un problema di quel tipo.
-          Come un manuale su uno scaffale: utile se qualcuno lo prende. È il livello
-          più flessibile e il meno garantito.
+          <strong><code>/audit</code> — si verifica</strong>
+          Audit di accessibilità sull'interfaccia. Da lanciare prima di dire «ho finito»,
+          non dopo.
+        </li>
+        <li>
+          <strong><code>/ship</code> — si consegna</strong>
+          Esegue <code>npm run check</code>, poi committa e pusha. Se il check fallisce,
+          non pusha.
+        </li>
+        <li>
+          <strong><code>/demo</code> — l'ultima ora</strong>
+          Congela il codice, verifica che la demo parta e prepara il piano B.
         </li>
       </ol>
 
       <div class="nota">
-        <p class="nota__etichetta">Il punto che vale la pena portare a casa</p>
+        <p class="nota__etichetta">La regola del progetto</p>
         <p>
-          Più una cosa è importante, più in basso deve stare in questa lista.
-          L'accessibilità e la protezione delle credenziali non sono affidate alla
-          buona volontà: sono al primo livello, quello che scatta da solo.
+          Ogni decisione non ovvia va in <code>docs/decisioni.md</code>: una riga con cosa,
+          perché, e cosa hai scartato. In questo hackathon la giuria guarda il processo
+          più del risultato — quel file è il processo.
         </p>
       </div>
-
-      <details class="dettaglio">
-        <summary>Vedi come funziona davvero</summary>
-        <div class="dettaglio__corpo">
-          <p>
-            Il primo livello è fatto di <em>hook</em>: piccoli programmi che il sistema
-            esegue in momenti precisi. Questo è l'intero controllo che impedisce
-            di salvare una password nel codice — si attiva prima di ogni salvataggio
-            definitivo:
-          </p>
-<pre><code><span class="cm">// cerca credenziali fra le righe che stanno per essere salvate</span>
-<span class="kw">const</span> schemi = [
-  { nome: <span class="kw">"chiave API"</span>,      regex: /sk-ant-[A-Za-z0-9_-]{20,}/ },
-  { nome: <span class="kw">"token GitHub"</span>,   regex: /\bgh[pousr]_[A-Za-z0-9]{30,}/ },
-  { nome: <span class="kw">"chiave privata"</span>, regex: /-----BEGIN .*PRIVATE KEY-----/ },
-];
-
-<span class="kw">if</span> (trovati.length > 0) {
-  console.error(<span class="kw">"COMMIT BLOCCATO"</span>);
-  process.exit(<span class="kw">2</span>);   <span class="cm">// 2 = ferma tutto e spiega perché</span>
-}</code></pre>
-          <p>
-            Trenta righe in tutto. Non è tecnologia sofisticata: è il fatto di averlo
-            messo nel punto giusto che lo rende efficace.
-          </p>
-        </div>
-      </details>
     </section>
 
-    <!-- ===================== 03 — LE SCELTE TECNICHE ===================== -->
-    <section class="sezione" id="stack" aria-labelledby="t-stack">
-      <p class="sezione__eyebrow">03 — Le scelte tecniche</p>
-      <h2 id="t-stack">Cosa abbiamo scelto, e perché</h2>
-
-      <p>
-        Ogni scelta è stata presa con un solo criterio: <strong>abbiamo cinque ore
-        e due persone</strong>. Non «qual è la tecnologia migliore», ma «quale ci
-        porta a qualcosa di dimostrabile entro stasera».
-      </p>
-
-      <table class="tabella">
-        <caption class="acn-sr-only">Scelte tecniche e motivazioni</caption>
-        <thead>
-          <tr><th scope="col">Strato</th><th scope="col">Scelta</th><th scope="col">Perché questa</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Interfaccia</td>
-            <td>React con TypeScript</td>
-            <td>Le modifiche si vedono nel browser all'istante. TypeScript segnala
-                gli errori mentre scrivi, non quando l'utente ci sbatte contro.</td>
-          </tr>
-          <tr>
-            <td>Aspetto</td>
-            <td>Tailwind</td>
-            <td>Gli stili si scrivono accanto al contenuto. Meno file da tenere
-                allineati in due persone che lavorano in parallelo.</td>
-          </tr>
-          <tr>
-            <td>Dati</td>
-            <td>Supabase sul nostro computer</td>
-            <td>Database, accessi e interfaccia di amministrazione già pronti,
-                senza creare account da nessuna parte.</td>
-          </tr>
-          <tr>
-            <td>Server</td>
-            <td>Non c'è</td>
-            <td>È la scelta più importante. Vedi qui sotto.</td>
-          </tr>
-          <tr>
-            <td>Presentazione</td>
-            <td>Pagine web nel brand Accenture</td>
-            <td>Nessun software di presentazione, nessun collegamento a internet
-                richiesto. Questa guida ne è l'esempio.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>La scelta che fa la differenza: nessun server da scrivere</h3>
-
-      <p>
-        Di solito, fra l'applicazione e il database si costruisce un programma
-        intermedio che decide chi può vedere cosa. È lavoro lungo e delicato.
-      </p>
-
-      <p>
-        Noi abbiamo spostato quelle regole <strong>dentro il database stesso</strong>.
-        Ogni tabella dichiara chi può leggerla e chi può modificarla. L'applicazione
-        parla direttamente al database, e il database si difende da solo.
-      </p>
-
-      <div class="confronto">
-        <div class="confronto__lato confronto__lato--prima">
-          <p class="confronto__titolo">Approccio consueto</p>
-          <p>
-            App → programma intermedio → database.<br>
-            Le regole di accesso stanno nel programma intermedio, che va scritto,
-            testato e mantenuto.
-          </p>
-        </div>
-        <div class="confronto__lato confronto__lato--dopo">
-          <p class="confronto__titolo">Il nostro</p>
-          <p>
-            App → database.<br>
-            Le regole stanno nel database. Meno codice da scrivere e un punto solo
-            in cui verificare chi vede cosa.
-          </p>
-        </div>
-      </div>
-
-      <p>
-        Il vantaggio non è solo la velocità: è che <strong>le regole di sicurezza
-        stanno in un posto solo</strong>. In un progetto vero, questo è un argomento
-        più forte del risparmio di tempo.
-      </p>
-
-      <details class="dettaglio">
-        <summary>Vedi come funziona davvero</summary>
-        <div class="dettaglio__corpo">
-          <p>
-            Una regola di accesso scritta nel database. Si legge quasi come una frase:
-            «ognuno può leggere solo i propri progressi».
-          </p>
-<pre><code><span class="kw">create policy</span> "ognuno legge i propri progressi"
-  <span class="kw">on</span> progressi <span class="kw">for select</span>
-  <span class="kw">using</span> (auth.uid() = utente_id);</code></pre>
-          <p>
-            Tre righe sostituiscono quello che altrimenti sarebbe un controllo scritto
-            a mano in ogni punto dell'applicazione che legge quei dati.
-          </p>
-          <p>
-            <strong>Il rovescio della medaglia:</strong> se dimentichi di scrivere la
-            regola, la tabella smette di rispondere e sembra vuota, senza messaggi di
-            errore. È la trappola numero uno di questo approccio, ed è documentata in
-            modo esplicito nelle istruzioni dell'agente che lavora sui dati.
-          </p>
-        </div>
-      </details>
-    </section>
-
-    <!-- ===================== 04 — LE COMPETENZE ===================== -->
-    <section class="sezione" id="skill" aria-labelledby="t-skill">
-      <p class="sezione__eyebrow">04 — Le competenze</p>
-      <h2 id="t-skill">Quindici manuali sullo scaffale</h2>
-
-      <p>
-        Una <em>competenza</em> è un documento che spiega come si fa una certa cosa
-        bene. L'agente lo apre quando incontra quel tipo di problema, esattamente
-        come un collega consulterebbe una procedura interna.
-      </p>
+    <!-- ===================== 07 — TUTTI I FILE ===================== -->
+    <section class="sezione" id="file">
+      <h2>Tutti i file</h2>
 
       <p class="occhiello">
-        Il valore non sta nel documento: sta nel fatto che venga aperto
-        al momento giusto, senza che nessuno debba ricordarsene.
-      </p>
-
-      <h3>Quelle che abbiamo scritto noi</h3>
-
-      <div class="schede">
-        <div class="scheda">
-          <span class="scheda__tag">Identità visiva</span>
-          <h4>Design system Accenture</h4>
-          <p>Colori, caratteri tipografici, componenti e animazioni, presi dal sito
-             ufficiale e misurati, non stimati.</p>
-        </div>
-        <div class="scheda">
-          <span class="scheda__tag">Accessibilità</span>
-          <h4>Verifica WCAG 2.2</h4>
-          <p>Criteri, esempi corretti e uno strumento che calcola se un testo
-             si legge davvero sul suo sfondo.</p>
-        </div>
-        <div class="scheda">
-          <span class="scheda__tag">Consegna</span>
-          <h4>Pronti per la demo</h4>
-          <p>Cosa verificare nell'ultima ora, come preparare un piano B, come
-             gestire il tempo della presentazione.</p>
-        </div>
-        <div class="scheda">
-          <span class="scheda__tag">Documentazione</span>
-          <h4>Scrittura del README</h4>
-          <p>Come si scrive la pagina introduttiva di un progetto perché sia
-             davvero utile a chi arriva.</p>
-        </div>
-      </div>
-
-      <h3>Quelle che abbiamo preso da fuori</h3>
-
-      <p>
-        Undici competenze vengono da una raccolta pubblica di
-        <a href="https://github.com/mattpocock/skills">Matt Pocock</a>, un ingegnere
-        noto nella comunità TypeScript, che ha reso pubblica la propria configurazione
-        di lavoro. Sono metodi collaudati sul suo lavoro quotidiano, non teoria.
-      </p>
-
-      <table class="tabella">
-        <caption class="acn-sr-only">Competenze esterne adottate</caption>
-        <thead>
-          <tr><th scope="col">Competenza</th><th scope="col">A cosa serve</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Diagnosi dei problemi</td><td>Quando qualcosa si rompe: impone di
-              riprodurre il guasto prima di formulare ipotesi</td></tr>
-          <tr><td>Progettazione dei moduli</td><td>Dove mettere i confini fra le parti
-              del programma perché restino comprensibili</td></tr>
-          <tr><td>Revisione del codice</td><td>Controlla il lavoro su due assi: rispetta
-              le convenzioni? fa quello che era stato chiesto?</td></tr>
-          <tr><td>Prototipo usa-e-getta</td><td>Quando una domanda si risolve solo
-              vedendo una cosa funzionare</td></tr>
-          <tr><td>Conflitti fra versioni</td><td>Quando due persone modificano lo stesso
-              file: come riconciliare senza perdere lavoro</td></tr>
-          <tr><td>Sviluppo guidato dai test</td><td>Per la logica delicata, scrivere
-              prima la verifica e poi il codice</td></tr>
-        </tbody>
-      </table>
-
-      <div class="nota">
-        <p class="nota__etichetta">Una cosa che abbiamo verificato, non dato per scontata</p>
-        <p>
-          Quattro di queste competenze sono configurate per <strong>non</strong>
-          attivarsi da sole: vanno richiamate da una persona. È una scelta deliberata
-          del loro autore, perché guidano procedure lunghe il cui avvio deve deciderlo
-          un essere umano. Ce ne siamo accorti leggendo la configurazione, e l'abbiamo
-          rispettata invece di forzarla.
-        </p>
-      </div>
-
-      <details class="dettaglio">
-        <summary>Vedi come funziona davvero</summary>
-        <div class="dettaglio__corpo">
-          <p>
-            Ogni competenza è un file di testo con un'intestazione che dice quando
-            va usata. È quella descrizione che permette all'agente di riconoscere
-            la situazione e aprire il documento giusto:
-          </p>
-<pre><code><span class="cm">---</span>
-<span class="kw">name</span>: diagnosing-bugs
-<span class="kw">description</span>: Diagnosis loop for hard bugs and performance
-  regressions. Use when the user says "diagnose"/"debug this",
-  or reports something broken/throwing/failing/slow.
-<span class="cm">---</span></code></pre>
-          <p>
-            Le quattro che non si auto-attivano hanno una riga in più:
-            <code>disable-model-invocation: true</code>.
-          </p>
-        </div>
-      </details>
-    </section>
-
-    <!-- ===================== 05 — GLI AGENTI ===================== -->
-    <section class="sezione" id="agenti" aria-labelledby="t-agenti">
-      <p class="sezione__eyebrow">05 — Gli agenti</p>
-      <h2 id="t-agenti">Sei mestieri, non un tuttofare</h2>
-
-      <p>
-        Un solo assistente generico dà risposte generiche. Sei assistenti con un
-        mestiere preciso danno risposte precise, perché ognuno porta con sé le
-        regole del proprio campo.
-      </p>
-
-      <table class="tabella">
-        <caption class="acn-sr-only">Gli agenti e le loro responsabilità</caption>
-        <thead>
-          <tr><th scope="col">Agente</th><th scope="col">Di cosa si occupa</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Sviluppo funzionalità</td>
-              <td>Prende una richiesta e la porta fino in fondo: dati, logica,
-                  interfaccia, verifica finale</td></tr>
-          <tr><td>Costruzione interfacce</td>
-              <td>Crea le schermate. Conosce a memoria le regole di accessibilità
-                  e i colori del brand</td></tr>
-          <tr><td>Dati e sicurezza</td>
-              <td>Progetta le tabelle e le regole su chi può vedere cosa</td></tr>
-          <tr><td>Controllo accessibilità</td>
-              <td>Esamina una schermata e riporta i problemi in ordine di gravità,
-                  con la correzione esatta</td></tr>
-          <tr><td>Testi</td>
-              <td>Scrive in italiano semplice, per chi parte da zero.
-                  Frasi corte, esempi concreti, niente gergo</td></tr>
-          <tr><td>Presentazione</td>
-              <td>Costruisce le slide e conosce la struttura narrativa
-                  che funziona davanti a una giuria</td></tr>
-        </tbody>
-      </table>
-
-      <h3>Perché la specializzazione funziona</h3>
-
-      <p>
-        L'agente che costruisce interfacce non «cerca di ricordarsi» le regole di
-        accessibilità: le ha scritte nelle proprie istruzioni. Non produce una
-        schermata da correggere dopo — la produce già corretta.
+        L'intero progetto, cartella per cartella. Premi su un file per leggerlo.
       </p>
 
       <p>
-        È la differenza fra dire a un collega «mi raccomando, fai attenzione
-        all'accessibilità» e assumere una persona che di mestiere fa accessibilità.
+        L'elenco è generato da <code>git ls-files</code>, quindi è sempre allineato al
+        repository vero: se un file esiste qui, esiste davvero. Si rigenera con
+        <code>npm run alberatura</code>, e <code>npm run guida</code> lo fa da solo prima
+        di aprire la pagina.
       </p>
 
-      <details class="dettaglio">
-        <summary>Vedi come funziona davvero</summary>
-        <div class="dettaglio__corpo">
-          <p>Un estratto dalle istruzioni dell'agente che costruisce interfacce:</p>
-<pre><code><span class="cm">## Regole non negoziabili</span>
-
-- Elemento cliccabile = &lt;button&gt; o &lt;a&gt;. <span class="kw">Mai</span> &lt;div onClick&gt;.
-- Focus sempre visibile
-- Target interattivi: almeno 44 pixel
-- Input sempre con etichetta collegata.
-  Il testo dentro il campo <span class="kw">non</span> è un'etichetta.
-- Icone decorative: nascoste ai lettori di schermo</code></pre>
-          <p>
-            Sono le stesse regole che un progettista esperto applicherebbe.
-            La differenza è che qui sono scritte una volta e valgono per sempre,
-            anche alle quattro del mattino di un hackathon.
-          </p>
-        </div>
-      </details>
-    </section>
-
-    <!-- ===================== 06 — I CONTROLLI ===================== -->
-    <section class="sezione" id="controlli" aria-labelledby="t-controlli">
-      <p class="sezione__eyebrow">06 — I controlli automatici</p>
-      <h2 id="t-controlli">La parte che non si può dimenticare</h2>
-
-      <p>
-        Competenze e agenti dipendono comunque da una decisione: qualcuno deve
-        sceglierli. I controlli automatici no. Sono collegati a momenti precisi
-        del lavoro e scattano sempre.
-      </p>
-
-      <p class="occhiello">
-        È l'unico livello che regge anche quando si è stanchi, di fretta,
-        o convinti che «tanto questa volta va bene lo stesso».
-      </p>
-
-      <table class="tabella">
-        <caption class="acn-sr-only">I tre controlli automatici</caption>
-        <thead>
-          <tr><th scope="col">Quando scatta</th><th scope="col">Che cosa impedisce</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Ogni volta che si salva una schermata</td>
-            <td>Cinque errori di accessibilità certi: pulsanti finti, immagini senza
-                descrizione, testo illeggibile sul suo sfondo</td>
-          </tr>
-          <tr>
-            <td>Prima di ogni salvataggio definitivo</td>
-            <td>Che una password o una chiave d'accesso finisca nel codice
-                condiviso</td>
-          </tr>
-          <tr>
-            <td>Alla fine di ogni sessione di lavoro</td>
-            <td>Che il lavoro si chiuda con errori di programmazione non risolti</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <h3>Verificati, non solo scritti</h3>
-
-      <p>
-        Ogni controllo è stato messo alla prova con un caso reale prima di essere
-        adottato. Abbiamo scritto apposta una schermata con cinque difetti: il
-        controllo ne ha trovati cinque su cinque, e non ha segnalato nulla sulle
-        schermate corrette.
-      </p>
-
-      <h3>Provalo: cosa vuol dire «misurato»</h3>
-
-      <p>
-        Questo è lo stesso calcolo che il sistema esegue automaticamente. Scegli due
-        colori e guarda il verdetto. I pulsanti caricano le combinazioni del brand
-        Accenture: due di esse <strong>non</strong> sono a norma, e non si direbbe
-        a occhio.
-      </p>
-
-      <div class="verificatore">
-        <div class="verificatore__preset">
-          <span class="verificatore__preset-titolo" id="titolo-preset">Combinazioni del brand:</span>
-          <div role="group" aria-labelledby="titolo-preset" class="verificatore__bottoni">
-            <button type="button" class="preset" data-testo="#7500C0" data-fondo="#FFFFFF">Viola testo su bianco</button>
-            <button type="button" class="preset" data-testo="#A100FF" data-fondo="#FFFFFF">Viola pieno su bianco</button>
-            <button type="button" class="preset" data-testo="#A100FF" data-fondo="#000000">Viola pieno su nero</button>
-            <button type="button" class="preset" data-testo="#BE82FF" data-fondo="#000000">Viola chiaro su nero</button>
-            <button type="button" class="preset" data-testo="#A2A2A0" data-fondo="#F1F1EF">Grigio su grigio caldo</button>
+      <div class="esplora">
+        <div class="esplora__albero">
+          <!-- Liste annidate di <button>, non role="tree": un treeview ARIA promette
+               la navigazione con le frecce, e prometterla senza implementarla è peggio
+               che non dichiararla. Così Tab funziona da solo. -->
+          <div id="albero" aria-label="File del progetto">
+            <p class="esplora__vuoto">Caricamento…</p>
           </div>
         </div>
 
-        <div class="verificatore__campi">
-          <div class="campo">
-            <label for="col-testo">Colore del testo</label>
-            <div class="campo__riga">
-              <input type="color" id="col-testo" value="#A100FF">
-              <input type="text" id="hex-testo" value="#A100FF" spellcheck="false"
-                     inputmode="text" aria-label="Colore del testo in formato esadecimale">
-            </div>
+        <div class="esplora__pannello">
+          <div class="esplora__intestazione">
+            <p class="esplora__percorso" id="percorso">Nessun file selezionato</p>
+            <p class="esplora__desc" id="descrizione">Scegli un file dall'elenco a sinistra.</p>
+            <p class="esplora__meta" id="meta"></p>
           </div>
-          <div class="campo">
-            <label for="col-fondo">Colore dello sfondo</label>
-            <div class="campo__riga">
-              <input type="color" id="col-fondo" value="#FFFFFF">
-              <input type="text" id="hex-fondo" value="#FFFFFF" spellcheck="false"
-                     inputmode="text" aria-label="Colore dello sfondo in formato esadecimale">
-            </div>
-          </div>
-        </div>
-
-        <div class="anteprima" id="anteprima">
-          <p class="anteprima__grande" id="anteprima-grande">Testo grande, 24 pixel</p>
-          <p class="anteprima__normale" id="anteprima-normale">Testo normale, la dimensione con cui si legge davvero.</p>
-        </div>
-
-        <!-- L'esito viene annunciato a chi usa un lettore di schermo -->
-        <div class="esito" id="esito" role="status" aria-live="polite">
-          <p class="esito__valore"><span id="rapporto">5.30</span><span class="esito__unita">:1</span></p>
-          <ul class="esito__lista">
-            <li><span class="esito__etichetta">Testo normale</span> <span id="v-normale" class="pallino">—</span></li>
-            <li><span class="esito__etichetta">Testo grande</span> <span id="v-grande" class="pallino">—</span></li>
-            <li><span class="esito__etichetta">Livello AAA</span> <span id="v-aaa" class="pallino">—</span></li>
-          </ul>
-          <p class="esito__commento" id="commento"></p>
+          <pre class="esplora__codice" tabindex="0" role="region" aria-label="Contenuto del file"
+               aria-live="polite"><code id="codice"></code></pre>
         </div>
       </div>
 
       <div class="nota">
-        <p class="nota__etichetta">Un errore che questo metodo ha fatto emergere</p>
+        <p class="nota__etichetta">Se l'elenco resta vuoto</p>
         <p>
-          Il controllo sugli errori di programmazione, alla prima stesura,
-          <strong>non funzionava</strong>: per un dettaglio di configurazione dava
-          sempre esito positivo, anche con errori evidenti. Ce ne siamo accorti
-          perché abbiamo introdotto un errore apposta per vedere se lo segnalava.
-        </p>
-        <p>
-          È esattamente il tipo di problema che un controllo mai verificato si porta
-          dietro per mesi, dando l'illusione che tutto sia a posto.
+          La pagina legge <code>alberatura.json</code>, che va servito via HTTP: aprendo
+          il file con un doppio clic il browser lo blocca. Usa <code>npm run guida</code>.
         </p>
       </div>
-
-      <details class="dettaglio">
-        <summary>Vedi come funziona davvero</summary>
-        <div class="dettaglio__corpo">
-          <p>La prova del controllo di accessibilità, su una schermata scritta apposta male:</p>
-<pre><code>Accessibilità — 5 problemi in Brutto.tsx:
-  riga 4: elemento non interattivo con onClick
-    → usa &lt;button type="button"&gt; o &lt;a href&gt;
-  riga 5: &lt;img&gt; senza attributo alt
-    → aggiungi alt="descrizione" oppure alt="" se decorativa
-  riga 6: testo grigio su fondo grigio = 4.09:1 (serve 4.5:1)
-    → usa il grigio più scuro (5.75:1)
-  riga 7: focus visivo rimosso
-  riga 7: ordine di tabulazione forzato</code></pre>
-          <p>
-            Il messaggio non dice solo cosa c'è che non va: dice come si corregge.
-            Un controllo che segnala senza spiegare viene aggirato.
-          </p>
-        </div>
-      </details>
-    </section>
-
-    <!-- ===================== 07 — UNA SESSIONE REALE ===================== -->
-    <section class="sezione" id="sessione" aria-labelledby="t-sessione">
-      <p class="sezione__eyebrow">07 — Una sessione reale</p>
-      <h2 id="t-sessione">Com'è andata davvero</h2>
-
-      <p>
-        Questo ambiente non è un esempio teorico: è stato costruito in una sessione
-        di lavoro con un agente. Ecco cosa è successo, compresi gli errori.
-      </p>
-
-      <ol class="passi">
-        <li>
-          <strong>Una decisione presa male, corretta da uno strumento</strong>
-          Nelle istruzioni sul brand era stato scritto che il viola Accenture su
-          fondo bianco non è leggibile abbastanza. Sembrava ragionevole, ed è
-          un'informazione che circola. Poi lo strumento di misura ha dato il numero
-          vero: <strong>è leggibile</strong>. In compenso ha rivelato due
-          combinazioni che nessuno sospettava e che <em>non</em> vanno bene.
-          Cinque file sono stati corretti di conseguenza.
-        </li>
-        <li>
-          <strong>Un controllo che non controllava</strong>
-          Il comando che verifica gli errori di programmazione era scritto in un
-          modo che lo faceva sempre riuscire. Nessuno se ne sarebbe accorto finché
-          un errore vero non fosse arrivato in produzione.
-        </li>
-        <li>
-          <strong>Una configurazione che avrebbe rotto il lavoro dell'altra persona</strong>
-          Un componente scaricato aveva creato un collegamento valido solo su un
-          computer. Sostituito con una copia vera prima che il compagno di team
-          ci sbattesse contro.
-        </li>
-        <li>
-          <strong>Una regola di sicurezza che ha funzionato subito</strong>
-          Durante il lavoro, l'agente ha provato a leggere un file con dentro
-          delle credenziali. La regola scritta poco prima lo ha bloccato.
-          Ha funzionato contro chi l'aveva scritta: è il modo migliore per
-          scoprire che funziona.
-        </li>
-      </ol>
-
-      <div class="nota">
-        <p class="nota__etichetta">Perché raccontiamo anche gli errori</p>
-        <p>
-          Tutti e quattro sono emersi perché qualcosa <strong>verificava</strong>
-          invece di fidarsi. Un ambiente che non verifica non produce meno errori:
-          produce gli stessi errori, senza accorgersene.
-        </p>
-      </div>
-
-      <h3>Il flusso di una giornata di lavoro</h3>
-
-      <table class="tabella">
-        <caption class="acn-sr-only">Comandi rapidi disponibili</caption>
-        <thead>
-          <tr><th scope="col">Comando</th><th scope="col">Cosa fa partire</th></tr>
-        </thead>
-        <tbody>
-          <tr><td>Avvio</td><td>Inquadra il lavoro, registra la decisione presa,
-              prepara lo spazio e divide i compiti fra le due persone</td></tr>
-          <tr><td>Controllo</td><td>Esamina tutte le schermate per l'accessibilità
-              e corregge i problemi bloccanti</td></tr>
-          <tr><td>Consegna</td><td>Verifica, controlla che non ci siano credenziali
-              esposte, salva e pubblica</td></tr>
-          <tr><td>Demo</td><td>La procedura dell'ultima ora prima di presentare</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- ===================== 08 — PORTARLO ALTROVE ===================== -->
-    <section class="sezione" id="replicare" aria-labelledby="t-replicare">
-      <p class="sezione__eyebrow">08 — Portarlo altrove</p>
-      <h2 id="t-replicare">Come si applica a un progetto vero</h2>
-
-      <p>
-        Il prototipo dell'hackathon è usa-e-getta. Il modo di lavorare no:
-        <strong>si sposta su un altro progetto copiando una cartella</strong>.
-      </p>
-
-      <p class="occhiello">
-        Tutta la configurazione vive dentro il progetto, in file di testo
-        versionati insieme al codice. Chi entra nel team la riceve automaticamente.
-      </p>
-
-      <h3>Cosa si porta e cosa si riscrive</h3>
-
-      <div class="confronto">
-        <div class="confronto__lato confronto__lato--dopo">
-          <p class="confronto__titolo">Si porta così com'è</p>
-          <p>
-            I controlli sulle credenziali e sull'accessibilità · Le competenze
-            esterne · Il design system Accenture · L'impostazione dei tre livelli
-          </p>
-        </div>
-        <div class="confronto__lato confronto__lato--prima">
-          <p class="confronto__titolo">Va riscritto ogni volta</p>
-          <p>
-            Le regole specifiche del dominio · Gli agenti legati al vostro modo di
-            lavorare · I vincoli del vostro settore · Le convenzioni del vostro
-            codice
-          </p>
-        </div>
-      </div>
-
-      <h3>Come partire, in quattro passi</h3>
-
-      <ol class="passi">
-        <li>
-          <strong>Scrivete le regole che già applicate</strong>
-          Ogni team ha convenzioni non scritte, quelle che si spiegano a voce ai
-          nuovi arrivati. Metterle in un file è il passo che rende tutto il resto
-          possibile, e vale anche senza agenti.
-        </li>
-        <li>
-          <strong>Automatizzate una cosa sola, quella che vi fa più male</strong>
-          Non tutto insieme. Scegliete il controllo che vi eviterebbe l'errore
-          che vi è costato di più nell'ultimo anno, e fate solo quello.
-        </li>
-        <li>
-          <strong>Specializzate un assistente sul vostro mestiere</strong>
-          Un agente che conosce il vostro dominio vale più di dieci generici.
-          Le istruzioni sono un file di testo: si scrive in un'ora e si migliora
-          ogni volta che sbaglia.
-        </li>
-        <li>
-          <strong>Verificate che i controlli controllino davvero</strong>
-          Rompete qualcosa apposta. Se il controllo non se ne accorge, non state
-          proteggendo niente — state solo aggiungendo tempo di attesa.
-        </li>
-      </ol>
-
-      <h3>Cosa serve per iniziare</h3>
-
-      <table class="tabella">
-        <caption class="acn-sr-only">Requisiti per adottare l'approccio</caption>
-        <tbody>
-          <tr><td>Tempo di avvio</td><td>Mezza giornata per la prima configurazione,
-              poi cresce da sola con l'uso</td></tr>
-          <tr><td>Competenze richieste</td><td>Saper scrivere in italiano cosa si
-              vuole. I controlli sono file da poche decine di righe</td></tr>
-          <tr><td>Infrastruttura</td><td>Nessuna. Sono file di testo dentro il
-              progetto, versionati con il codice</td></tr>
-          <tr><td>Dipendenza da fornitori</td><td>Le regole e le competenze restano
-              vostre: sono documenti, non un servizio in abbonamento</td></tr>
-        </tbody>
-      </table>
-    </section>
-
-    <!-- ===================== 09 — LIMITI ===================== -->
-    <section class="sezione" id="limiti" aria-labelledby="t-limiti">
-      <p class="sezione__eyebrow">09 — Limiti e rischi</p>
-      <h2 id="t-limiti">Quello che questo metodo non risolve</h2>
-
-      <p>
-        Una presentazione che elenca solo vantaggi non è credibile.
-        Questi sono i limiti reali, emersi costruendo l'ambiente.
-      </p>
-
-      <h3>I controlli automatici colgono solo l'evidente</h3>
-      <p>
-        Il controllo sull'accessibilità riconosce cinque errori certi. Una schermata
-        può superarlo ed essere comunque difficile da usare: l'ordine di navigazione
-        illogico, un testo alternativo che non descrive nulla, una procedura
-        incomprensibile. <strong>Servono ancora persone competenti</strong>: i
-        controlli tolgono di mezzo il lavoro ripetitivo, non il giudizio.
-      </p>
-
-      <h3>Le istruzioni invecchiano</h3>
-      <p>
-        Un'istruzione scritta oggi descrive il progetto di oggi. Fra sei mesi, se
-        nessuno la aggiorna, l'agente applicherà con diligenza una regola superata.
-        Vanno trattate come codice: si rivedono, si correggono, ogni tanto si
-        cancellano.
-      </p>
-
-      <h3>Il rischio di fidarsi troppo</h3>
-      <p>
-        Il pericolo maggiore non è che l'agente sbagli: è che sbagli in modo
-        plausibile, e che nessuno controlli perché «l'ha fatto il sistema».
-        In questa sessione il dato sbagliato sui colori era plausibilissimo.
-        Solo la misura l'ha smentito.
-      </p>
-
-      <h3>Su un progetto cliente servono risposte in più</h3>
-      <p>
-        Qui tutto gira sul computer di chi sviluppa: il database è locale, i dati
-        sono inventati, il codice sta in un repository privato. Su un progetto vero
-        cambiano tre cose, e vanno decise <strong>prima</strong> di iniziare: quali
-        dati possono essere visti da un agente, quale fornitore di intelligenza
-        artificiale è autorizzato dal cliente, e chi risponde di un errore introdotto
-        con l'assistenza dell'AI. Sono decisioni di governance, non tecniche, e
-        questo metodo non le prende al posto vostro — ma rende più facile
-        rispettarle, perché i vincoli si scrivono una volta e valgono per tutti.
-      </p>
-
-      <h3>Non sostituisce il lavoro di squadra</h3>
-      <p>
-        Decidere cosa costruire, capire cosa serve davvero a chi lo userà, scegliere
-        cosa lasciare fuori: sono decisioni che restano alle persone. L'ambiente
-        libera tempo per farle meglio, non le prende in carico.
-      </p>
-
-      <div class="nota">
-        <p class="nota__etichetta">In una frase</p>
-        <p>
-          Questo metodo alza il pavimento, non il soffitto. Rende molto difficile
-          consegnare qualcosa di scadente; non rende automatico consegnare qualcosa
-          di eccellente. Quello continua a dipendere dalle persone.
-        </p>
-      </div>
-    </section>
-
-    <!-- ===================== 10 — INIZIARE ===================== -->
-    <section class="sezione" id="iniziare" aria-labelledby="t-iniziare">
-      <p class="sezione__eyebrow">10 — Iniziare</p>
-      <h2 id="t-iniziare">Come provarci lunedì mattina</h2>
-
-      <p>
-        Non serve adottare tutto. Il metodo funziona anche se ne prendete un pezzo
-        solo, e il primo pezzo si mette in piedi in un pomeriggio.
-      </p>
-
-      <ol class="passi">
-        <li>
-          <strong>Scrivete le vostre regole in un file, e basta</strong>
-          Aprite un documento nel vostro progetto e scriveteci le convenzioni che
-          già spiegate a voce ai nuovi arrivati. Solo quelle vere, non quelle
-          ideali. Vale da subito, anche senza agenti: è la cosa che i nuovi
-          assunti chiedono sempre e che nessuno ha mai messo per iscritto.
-        </li>
-        <li>
-          <strong>Automatizzate l'errore che vi è costato di più</strong>
-          Uno solo. Pensate all'ultimo incidente serio: una credenziale finita
-          dove non doveva, un controllo saltato, una regressione arrivata in
-          produzione. Il controllo che l'avrebbe intercettato sono poche decine
-          di righe.
-        </li>
-        <li>
-          <strong>Rompete qualcosa per verificare che il controllo funzioni</strong>
-          Il passo che quasi tutti saltano. Introducete l'errore apposta: se il
-          controllo non lo vede, non state proteggendo niente. A noi è successo
-          proprio questo, ed è documentato nella sezione sui controlli.
-        </li>
-      </ol>
-
-      <div class="nota">
-        <p class="nota__etichetta">Il materiale è tutto qui</p>
-        <p>
-          Regole, agenti, competenze e controlli sono file di testo dentro il
-          repository del progetto. Si copiano in un altro progetto trascinando
-          una cartella, e da lì si adattano.
-        </p>
-      </div>
-
-      <p>
-        Se volete partire dal nostro, chiedeteci accesso al repository:
-        <code>DeBia12/hackathon-2026</code>. La cartella da cui cominciare è
-        <code>.claude/</code> — dentro ci sono le istruzioni, gli agenti e i
-        controlli descritti in questa guida.
-      </p>
     </section>
 
   </main>
@@ -1278,180 +613,135 @@
 
   var sezioni = voci
     .map(function (voce) {
-      var id = voce.getAttribute("href").slice(1);
-      var sezione = document.getElementById(id);
+      var sezione = document.getElementById(voce.getAttribute("href").slice(1));
       return sezione ? { voce: voce, sezione: sezione } : null;
     })
     .filter(Boolean);
 
-  function evidenzia(attiva) {
-    sezioni.forEach(function (coppia) {
-      if (coppia.voce === attiva) {
-        coppia.voce.setAttribute("aria-current", "true");
-      } else {
-        coppia.voce.removeAttribute("aria-current");
-      }
+  // Senza IntersectionObserver la pagina resta usabile: il menu funziona
+  // comunque, semplicemente non si evidenzia da solo.
+  if (!("IntersectionObserver" in window)) return;
+
+  var visibili = new Set();
+
+  var osservatore = new IntersectionObserver(function (voci) {
+    voci.forEach(function (v) {
+      if (v.isIntersecting) visibili.add(v.target);
+      else visibili.delete(v.target);
     });
-  }
 
-  // Senza IntersectionObserver la pagina resta perfettamente usabile:
-  // il menu funziona comunque, semplicemente non evidenzia da solo.
-  if (!("IntersectionObserver" in window)) {
-    voci.forEach(function (voce) {
-      voce.addEventListener("click", function () { evidenzia(voce); });
+    var prima = sezioni.find(function (c) { return visibili.has(c.sezione); });
+
+    sezioni.forEach(function (c) {
+      if (prima && c === prima) c.voce.setAttribute("aria-current", "true");
+      else c.voce.removeAttribute("aria-current");
     });
-    return;
-  }
-
-  var visibili = new Map();
-
-  var osservatore = new IntersectionObserver(
-    function (elementi) {
-      elementi.forEach(function (e) {
-        if (e.isIntersecting) {
-          visibili.set(e.target.id, e.boundingClientRect.top);
-        } else {
-          visibili.delete(e.target.id);
-        }
-      });
-
-      if (!visibili.size) return;
-
-      // Fra le sezioni visibili vince quella più in alto nella pagina.
-      var primo = null;
-      var minimo = Infinity;
-      visibili.forEach(function (top, id) {
-        if (top < minimo) { minimo = top; primo = id; }
-      });
-
-      var coppia = sezioni.find(function (c) { return c.sezione.id === primo; });
-      if (coppia) evidenzia(coppia.voce);
-    },
-    { rootMargin: "-10% 0px -70% 0px", threshold: 0 }
-  );
+  }, { rootMargin: "-10% 0px -70% 0px" });
 
   sezioni.forEach(function (c) { osservatore.observe(c.sezione); });
-
-  // ============================================================
-  //  Verificatore di contrasti — stessa formula WCAG 2.x usata
-  //  dallo script del progetto, eseguita qui nel browser.
-  // ============================================================
-  (function () {
-    var colTesto = document.getElementById("col-testo");
-    if (!colTesto) return;
-
-    var hexTesto = document.getElementById("hex-testo");
-    var colFondo = document.getElementById("col-fondo");
-    var hexFondo = document.getElementById("hex-fondo");
-    var anteprima = document.getElementById("anteprima");
-    var rapportoEl = document.getElementById("rapporto");
-    var commento = document.getElementById("commento");
-    var vNormale = document.getElementById("v-normale");
-    var vGrande = document.getElementById("v-grande");
-    var vAaa = document.getElementById("v-aaa");
-
-    function valido(hex) {
-      return /^#[0-9a-fA-F]{6}$/.test(hex);
-    }
-
-    function luminanza(hex) {
-      var canali = [1, 3, 5].map(function (i) {
-        var v = parseInt(hex.substr(i, 2), 16) / 255;
-        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
-      });
-      return 0.2126 * canali[0] + 0.7152 * canali[1] + 0.0722 * canali[2];
-    }
-
-    function rapporto(a, b) {
-      var l1 = luminanza(a);
-      var l2 = luminanza(b);
-      var chiaro = Math.max(l1, l2);
-      var scuro = Math.min(l1, l2);
-      return (chiaro + 0.05) / (scuro + 0.05);
-    }
-
-    function verdetto(el, passa) {
-      el.textContent = passa ? "conforme" : "non conforme";
-      el.setAttribute("data-esito", passa ? "si" : "no");
-    }
-
-    function aggiorna() {
-      var t = hexTesto.value.trim();
-      var f = hexFondo.value.trim();
-
-      hexTesto.setAttribute("aria-invalid", valido(t) ? "false" : "true");
-      hexFondo.setAttribute("aria-invalid", valido(f) ? "false" : "true");
-      if (!valido(t) || !valido(f)) return;
-
-      var r = rapporto(t, f);
-      var arrotondato = Math.round(r * 100) / 100;
-
-      anteprima.style.background = f;
-      anteprima.style.color = t;
-      rapportoEl.textContent = arrotondato.toFixed(2);
-
-      verdetto(vNormale, r >= 4.5);
-      verdetto(vGrande, r >= 3);
-      verdetto(vAaa, r >= 7);
-
-      if (r >= 7) {
-        commento.textContent = "Ottimo contrasto: leggibile anche in condizioni difficili.";
-      } else if (r >= 4.5) {
-        commento.textContent = "Va bene per qualsiasi testo. È la soglia che usiamo come standard.";
-      } else if (r >= 3) {
-        commento.textContent =
-          "Ammesso solo per testo grande (24 pixel, oppure 19 in grassetto) " +
-          "e per elementi grafici. Per il testo normale non basta.";
-      } else {
-        commento.textContent =
-          "Sotto ogni soglia. Molte persone non riuscirebbero a leggerlo, " +
-          "e chiunque farebbe fatica con poca luce.";
-      }
-    }
-
-    function imposta(t, f) {
-      hexTesto.value = t;
-      colTesto.value = t;
-      hexFondo.value = f;
-      colFondo.value = f;
-      aggiorna();
-    }
-
-    colTesto.addEventListener("input", function () { hexTesto.value = colTesto.value.toUpperCase(); aggiorna(); });
-    colFondo.addEventListener("input", function () { hexFondo.value = colFondo.value.toUpperCase(); aggiorna(); });
-
-    hexTesto.addEventListener("input", function () {
-      if (valido(hexTesto.value.trim())) colTesto.value = hexTesto.value.trim();
-      aggiorna();
-    });
-    hexFondo.addEventListener("input", function () {
-      if (valido(hexFondo.value.trim())) colFondo.value = hexFondo.value.trim();
-      aggiorna();
-    });
-
-    Array.prototype.forEach.call(document.querySelectorAll(".preset"), function (b) {
-      b.addEventListener("click", function () {
-        imposta(b.getAttribute("data-testo"), b.getAttribute("data-fondo"));
-      });
-    });
-
-    aggiorna();
-  })();
-
-  // Dopo un salto da menu, sposta il focus sulla sezione: chi naviga da
-  // tastiera deve ritrovarsi nel punto giusto, non a inizio pagina.
-  voci.forEach(function (voce) {
-    voce.addEventListener("click", function () {
-      var id = voce.getAttribute("href").slice(1);
-      var sezione = document.getElementById(id);
-      if (!sezione) return;
-      evidenzia(voce);
-      sezione.setAttribute("tabindex", "-1");
-      sezione.focus({ preventScroll: true });
-    });
-  });
 })();
 </script>
 
+<script>
+/* ============================================================
+   Esploratore dei file — legge alberatura.json e lo rende navigabile.
+   ============================================================ */
+(function () {
+  "use strict";
+
+  var albero = document.getElementById("albero");
+  if (!albero) return;
+
+  var elPercorso = document.getElementById("percorso");
+  var elDesc = document.getElementById("descrizione");
+  var elMeta = document.getElementById("meta");
+  var elCodice = document.getElementById("codice");
+  var selezionato = null;
+
+  var FRECCIA =
+    '<svg class="nodo__freccia" viewBox="0 0 32 32" aria-hidden="true" focusable="false">' +
+    '<path d="M0 22.6L17.66 16.03L0 9.13V0L30.24 12.18V19.75L0 32V22.6Z"/></svg>';
+
+  function peso(byte) {
+    return byte < 1024 ? byte + " B" : (byte / 1024).toFixed(1) + " KB";
+  }
+
+  function mostra(file, bottone) {
+    if (selezionato) selezionato.removeAttribute("aria-current");
+    bottone.setAttribute("aria-current", "true");
+    selezionato = bottone;
+
+    elPercorso.textContent = file.via;
+    elDesc.textContent = file.desc || "—";
+    elMeta.textContent =
+      file.righe + " righe · " + peso(file.peso) + (file.tagliato ? " · troncato nell'anteprima" : "");
+    // textContent, non innerHTML: il contenuto dei file non viene mai interpretato come markup
+    elCodice.textContent = file.contenuto;
+    elCodice.parentNode.scrollTop = 0;
+  }
+
+  var contatore = 0;
+
+  function disegna(figli, livello) {
+    var ul = document.createElement("ul");
+
+    figli.forEach(function (nodo) {
+      var li = document.createElement("li");
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "nodo";
+
+      if (nodo.tipo === "cartella") {
+        var aperta = livello === 0;
+        var id = "sotto-" + ++contatore;
+
+        // Il nome della cartella è testo; il resto è decorazione.
+        btn.innerHTML = FRECCIA + '<span class="nodo__nome"></span>';
+        btn.querySelector(".nodo__nome").textContent = nodo.nome + "/";
+        btn.setAttribute("aria-expanded", String(aperta));
+        btn.setAttribute("aria-controls", id);
+        li.appendChild(btn);
+
+        var sotto = disegna(nodo.figli, livello + 1);
+        sotto.id = id;
+        sotto.hidden = !aperta;
+        li.appendChild(sotto);
+
+        btn.addEventListener("click", function () {
+          var ora = btn.getAttribute("aria-expanded") === "true";
+          btn.setAttribute("aria-expanded", String(!ora));
+          sotto.hidden = ora;
+        });
+      } else {
+        btn.innerHTML = '<span class="nodo__spazio" aria-hidden="true"></span>' +
+                        '<span class="nodo__nome"></span>';
+        btn.querySelector(".nodo__nome").textContent = nodo.nome;
+        li.appendChild(btn);
+        btn.addEventListener("click", function () { mostra(nodo, btn); });
+      }
+
+      ul.appendChild(li);
+    });
+
+    return ul;
+  }
+
+  fetch("./alberatura.json")
+    .then(function (r) {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.json();
+    })
+    .then(function (dati) {
+      albero.textContent = "";
+      albero.appendChild(disegna(dati.figli, 0));
+    })
+    .catch(function () {
+      albero.innerHTML =
+        '<p class="esplora__vuoto">Elenco non disponibile.<br>Genera il file con ' +
+        "<code>npm run alberatura</code> e apri la guida con <code>npm run guida</code>.</p>";
+    });
+})();
+</script>
 </body>
 </html>

@@ -116,7 +116,7 @@ su `#F1F1EF` crolla a 2.26:1. Su fondo chiaro il testo attenuato è `#5F5F5F`.
 **3. Il viola di testo cambia con lo sfondo.** Su chiaro `#7500C0`, su scuro `#BE82FF`.
 Usare `#A100FF` per il testo funziona solo su bianco, e con poco margine.
 
-Verifica qualsiasi coppia: `node .claude/skills/a11y-check/contrast.mjs "#BE82FF" "#000000"`
+Verifica qualsiasi coppia: `node .claude/skills/accessibilita/contrast.mjs "#BE82FF" "#000000"`
 
 ## Tipografia
 
@@ -261,9 +261,9 @@ Le card sono `<a>` che contengono un `<h3>`. Il nome accessibile del link divent
 "Report di ricerca — Titolo", leggermente ridondante ma informativo, e tutta l'area resta
 cliccabile. È il compromesso scelto: l'alternativa (`<article>` + link con `aria-labelledby`)
 è più pulita per la navigazione per heading ma perde il target esteso. Se ti serve quella,
-il pattern è nel referto dell'`a11y-auditor`.
+il pattern è nel referto dell'`revisore-accessibilita`.
 
-Prima di dichiarare finita una UI, lancia l'agente `a11y-auditor`.
+Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 
 ## Da evitare
 

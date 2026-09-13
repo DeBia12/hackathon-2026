@@ -57,7 +57,7 @@ Ogni componente prodotto deve rispettare:
 - Rispetta `prefers-reduced-motion` per ogni animazione.
 - Testo ridimensionabile fino al 200% senza perdita di contenuto.
 
-Prima di dichiarare finita una UI, lancia l'agente `a11y-auditor`.
+Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 
 ## Brand Accenture (per UI e presentazione)
 
@@ -76,7 +76,7 @@ Prima di dichiarare finita una UI, lancia l'agente `a11y-auditor`.
 - **Movimento**: una sola curva, `cubic-bezier(0.85, 0, 0, 1)` a **550ms**.
 - **Forme**: squadrate, raggio **0**. Niente ombre. Molto spazio bianco.
 
-> **Contrasti misurati** (con `node .claude/skills/a11y-check/contrast.mjs`):
+> **Contrasti misurati** (con `node .claude/skills/accessibilita/contrast.mjs`):
 > `#A100FF` su bianco = 5.3:1 ✅ AA · `#7500C0` su bianco = 8.34:1 ✅ AAA
 > `#BE82FF` su nero = 7.83:1 ✅ AAA · `#5F5F5F` su bianco = 6.39:1 ✅ AA
 >
@@ -118,10 +118,9 @@ Codice in `.claude/hooks/`. Per disattivarne uno, togli la voce da `.claude/sett
 
 | Agente | Compito |
 |---|---|
-| `feature-dev` | Funzionalità end-to-end: dati, logica, interfaccia, commit |
 | `ui-builder` | Componenti React accessibili |
 | `supabase-dev` | Schema, policy RLS, migrazioni |
-| `a11y-auditor` | Audit WCAG 2.2 AA |
+| `revisore-accessibilita` | Audit WCAG 2.2 AA |
 | `edu-content` | Testi e microcopy in linguaggio semplice |
 | `deck-builder` | Slide della presentazione |
 | `matt-implementer` | Esegue **un** ticket in contesto fresco, con TDD dove serve |
@@ -131,7 +130,7 @@ Tutti possono invocare skill in autonomia.
 
 ### 3. Skill — conoscenza richiamabile
 
-Di progetto: `accenture-brand`, `a11y-check`, `demo-ready`, `create-readme`.
+Di progetto: `accenture-brand`, `accessibilita`, `demo-ready`, `create-readme`.
 
 Da [mattpocock/skills](https://github.com/mattpocock/skills), il flusso completo:
 `grill-with-docs`, `grilling`, `domain-modeling`, `to-spec`, `to-tickets`,
@@ -186,11 +185,11 @@ piccolo è il modo più veloce per far abbandonare un metodo.
 
 ```
 /kickoff <idea>        inquadra, decide, crea il branch e lo scheletro
-  → feature-dev        costruisce in autonomia fino al commit
+  → matt-implementer   costruisce in contesto separato fino al commit
      ├─ codebase-design   se la forma del modulo è in dubbio
      ├─ prototype         se serve vedere un comportamento girare
      ├─ diagnosing-bugs   se qualcosa si rompe
-     └─ code-review       prima di committare
+  → matt-reviewer      rivede senza aver scritto
 /audit                 audit di accessibilità e correzione dei bloccanti
 /demo                  checklist dell'ultima ora
 ```

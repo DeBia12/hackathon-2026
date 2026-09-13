@@ -12,7 +12,6 @@
     "typecheck": "npm --prefix app run typecheck",
     "check": "npm run typecheck && npm run lint && npm run build",
     "present": "npx --yes serve presentazione -l 8000",
-    "a11y": "node .claude/skills/a11y-check/contrast.mjs",
     "agents": "npm --prefix agents run start",
     "db:up": "bash backend/supabase/scripts/up.sh",
     "db:down": "bash backend/supabase/scripts/down.sh",
@@ -21,8 +20,10 @@
     "db:logs": "bash backend/supabase/scripts/logs.sh",
     "setup": "npm --prefix app install && npm --prefix agents install",
     "db:setup": "bash backend/supabase/scripts/setup.sh",
-    "guida": "npx --yes serve presentazione/guida -l 8001 --no-clipboard",
-    "frontiera": "node .claude/scripts/frontiera.mjs"
+    "guida": "npm run alberatura && npx --yes serve presentazione/guida -l 8001 --no-clipboard",
+    "alberatura": "node .claude/scripts/genera-alberatura.mjs",
+    "frontiera": "node .claude/scripts/frontiera.mjs",
+    "contrasto": "node .claude/skills/accessibilita/contrast.mjs"
   },
   "devDependencies": {
     "reveal.js": "^5.2.1"

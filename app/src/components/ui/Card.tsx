@@ -15,7 +15,6 @@ export function Card({ titolo, livello = 3, children, className }: CardProps) {
   return (
     <article className={cn("rounded-brand bg-surface p-6", className)}>
       <Heading className="text-xl font-semibold text-ink">{titolo}</Heading>
-      {/* dentro surface il grigio muted fallisce (4.09:1): serve muted-surface */}
       <div className="mt-3 text-base leading-relaxed text-muted-surface">{children}</div>
     </article>
   );

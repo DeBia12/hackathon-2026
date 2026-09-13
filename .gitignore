@@ -59,3 +59,7 @@ test-results/
 # Artefatti di Playwright
 .playwright-mcp/
 *.png.tmp
+
+# Indice dei file della guida: generato da `npm run alberatura`, contiene una
+# copia di tutto il repository. Committarlo lo duplicherebbe a ogni modifica.
+presentazione/guida/alberatura.json

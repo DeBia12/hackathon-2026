@@ -67,6 +67,6 @@ if (problemi.length === 0) process.exit(0);
 console.error(
   `Accessibilità — ${problemi.length} problem${problemi.length === 1 ? "a" : "i"} in ${percorso}:\n` +
     problemi.join("\n") +
-    `\n\nCorreggili prima di proseguire. Per un'analisi completa usa l'agente a11y-auditor.`,
+    `\n\nCorreggili prima di proseguire. Per un'analisi completa usa l'agente revisore-accessibilita.`,
 );
 process.exit(2);

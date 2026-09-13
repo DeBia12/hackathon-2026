@@ -6,7 +6,7 @@
 
 L'accessibilità non è una checklist finale: è un vincolo incorporato negli agenti che
 scrivono il codice. L'agente `ui-builder` produce componenti conformi WCAG 2.2 AA per
-costruzione; l'agente `a11y-auditor` verifica; lo script `contrast.mjs` calcola i
+costruzione; l'agente `revisore-accessibilita` verifica; lo script `contrast.mjs` calcola i
 contrasti invece di stimarli.
 
 ## Verifiche eseguite

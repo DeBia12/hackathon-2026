@@ -1,5 +1,5 @@
 ---
-name: a11y-check
+name: accessibilita
 description: Strumenti e criteri per verificare l'accessibilità WCAG 2.2 AA - calcolo contrasti, checklist per tipo di componente, test da tastiera, pattern ARIA corretti. Usala quando scrivi o rivedi interfacce, slide o qualsiasi output visivo.
 ---
 
@@ -8,7 +8,7 @@ description: Strumenti e criteri per verificare l'accessibilità WCAG 2.2 AA - c
 ## Calcolo contrasti
 
 ```bash
-node .claude/skills/a11y-check/contrast.mjs "#A100FF" "#FFFFFF"
+node .claude/skills/accessibilita/contrast.mjs "#A100FF" "#FFFFFF"
 ```
 
 Restituisce il rapporto e il verdetto per ogni livello. Exit code 0 se passa AA per

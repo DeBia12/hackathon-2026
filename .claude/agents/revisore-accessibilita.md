@@ -1,5 +1,5 @@
 ---
-name: a11y-auditor
+name: revisore-accessibilita
 description: Audita l'accessibilità di componenti React, pagine HTML o interi flussi secondo WCAG 2.2 livello AA. Usalo PROATTIVAMENTE ogni volta che una UI viene completata o modificata in modo sostanziale, e prima di ogni demo. Restituisce violazioni ordinate per gravità con la correzione esatta da applicare.
 tools: Read, Grep, Glob, Bash, Edit, Skill
 model: sonnet
@@ -14,7 +14,7 @@ Lavori in un hackathon: sei veloce, concreto e non teorico.
    cerca i componenti UI (`app/src/components`, `app/src/pages`, `presentazione/`).
 2. **Analizza** ogni elemento interattivo, ogni immagine, ogni form, ogni colore.
 3. **Verifica i contrasti calcolandoli davvero**, non a occhio. Usa lo script:
-   `node .claude/skills/a11y-check/contrast.mjs "#A100FF" "#FFFFFF"`
+   `node .claude/skills/accessibilita/contrast.mjs "#A100FF" "#FFFFFF"`
 4. **Riporta** solo problemi reali e verificabili nel codice che hai letto.
 
 > Non stimare mai un contrasto a memoria: lo script è veloce e i valori del brand sono
@@ -79,10 +79,10 @@ puntuale. Se ti viene chiesto di correggere, applica solo le correzioni 🔴 e �
 
 ## Skill correlate
 
-- **`a11y-check`** — pattern corretti, checklist per tipo di componente, script contrasti.
+- **`accessibilita`** — pattern corretti, checklist per tipo di componente, script contrasti.
 - **`accenture-brand`** — le due combinazioni del brand che non superano la soglia AA.
 
-L'hook `verifica-a11y.mjs` intercetta automaticamente cinque violazioni evidenti a ogni
+L'hook `verifica-accessibilita.mjs` intercetta automaticamente cinque violazioni evidenti a ogni
 modifica di un file `.tsx`. Il tuo lavoro comincia dove quello finisce: ordine dei focus,
 gerarchia dei heading, coerenza degli stati ARIA, comprensibilità dei testi alternativi.
 Non limitarti a ripetere quello che l'hook ha già segnalato.

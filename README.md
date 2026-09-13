@@ -58,7 +58,7 @@ npm run dev        # app                 → http://localhost:5173
 npm run present    # presentazione       → http://localhost:8000
 npm run db:up      # database e auth     → http://localhost:3000 (Studio)
 npm run check      # lint + build, da eseguire prima di ogni push
-npm run a11y '#A100FF' '#FFFFFF'   # calcola un rapporto di contrasto
+npm run contrasto '#A100FF' '#FFFFFF'   # calcola un rapporto di contrasto
 ```
 
 Il dettaglio dei comandi del database è in [`backend/supabase/README.md`](backend/supabase/README.md).
@@ -70,7 +70,7 @@ Il repository include agenti specializzati che Claude Code usa durante lo svilup
 | Agente | Quando si usa |
 |---|---|
 | `ui-builder` | Creare componenti React accessibili con il design system |
-| `a11y-auditor` | Verificare la conformità WCAG 2.2 AA di una schermata |
+| `revisore-accessibilita` | Verificare la conformità WCAG 2.2 AA di una schermata |
 | `edu-content` | Scrivere testi e microcopy in linguaggio semplice |
 | `supabase-dev` | Schema, policy RLS, migrazioni |
 | `deck-builder` | Costruire le slide della presentazione |
@@ -91,7 +91,7 @@ I componenti in `app/src/components/ui/` nascono conformi a WCAG 2.2 AA, e i con
 si calcolano invece di stimarli.
 
 ```bash
-npm run a11y '#A100FF' '#000000'
+npm run contrasto '#A100FF' '#000000'
 ```
 
 > [!WARNING]

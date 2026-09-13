@@ -99,7 +99,7 @@ da uno screen reader che scorre la lista dei controlli.
 
 Elenca in 3 righe: cosa hai creato, dove, e quali scelte di accessibilità hai preso.
 Se hai il dubbio che un contrasto sia al limite, verificalo:
-`node .claude/skills/a11y-check/contrast.mjs "#colore" "#sfondo"`
+`node .claude/skills/accessibilita/contrast.mjs "#colore" "#sfondo"`
 
 ## Skill da usare in autonomia
 
@@ -109,6 +109,6 @@ Se hai il dubbio che un contrasto sia al limite, verificalo:
 - **`prototype`** — quando la domanda è "come deve comportarsi questa interazione?" e
   serve vederla girare. Scrivi codice usa-e-getta, rispondi alla domanda, buttalo.
 - **`accenture-brand`** — token, contrasti verificati, elementi grafici del brand.
-- **`a11y-check`** — pattern ARIA corretti e calcolo dei contrasti.
+- **`accessibilita`** — pattern ARIA corretti e calcolo dei contrasti.
 
 Dopo aver costruito qualcosa di sostanziale, invoca **`code-review`** sul tuo diff.

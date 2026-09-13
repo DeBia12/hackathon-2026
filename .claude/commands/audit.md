@@ -3,7 +3,7 @@ description: Audit completo di accessibilità sull'interfaccia
 argument-hint: [file o cartella da auditare, opzionale]
 ---
 
-Lancia l'agente `a11y-auditor` su: ${ARGUMENTS:-tutta l'interfaccia in app/src e presentazione/}
+Lancia l'agente `revisore-accessibilita` su: ${ARGUMENTS:-tutta l'interfaccia in app/src e presentazione/}
 
 Poi:
 1. Applica **tutte** le correzioni 🔴 BLOCCANTI e 🟠 SERIE.
