@@ -105,6 +105,10 @@
     font-family: ui-monospace, "Cascadia Code", Consolas, monospace;
     font-size: 14px; line-height: 1.6; margin: 0 0 16px;
   }
+
+  /* Il diagramma del flusso è largo 82 colonne: a 14px sborda di poco e
+     costringerebbe a scorrere. A 12.5px entra intero. */
+  pre.diagramma { font-size: 12.5px; line-height: 1.5; }
   pre .cm { color: var(--acn-grey); }          /* #A2A2A0 — 8.21:1 su nero */
   pre .kw { color: var(--acn-purple-light); }  /* #BE82FF — 7.83:1 su nero */
   code:not(pre code) {
@@ -276,7 +280,8 @@
       <li><a class="menu__voce" href="#agenti"><span class="menu__num" aria-hidden="true">04</span> Gli agenti</a></li>
       <li><a class="menu__voce" href="#hook"><span class="menu__num" aria-hidden="true">05</span> Gli hook</a></li>
       <li><a class="menu__voce" href="#giornata"><span class="menu__num" aria-hidden="true">06</span> Una giornata tipo</a></li>
-      <li><a class="menu__voce" href="#file"><span class="menu__num" aria-hidden="true">07</span> Tutti i file</a></li>
+      <li><a class="menu__voce" href="#orchestratore"><span class="menu__num" aria-hidden="true">07</span> L'orchestratore</a></li>
+      <li><a class="menu__voce" href="#file"><span class="menu__num" aria-hidden="true">08</span> Tutti i file</a></li>
     </ul>
   </nav>
 
@@ -525,20 +530,23 @@ npm run check</code></pre>
 
       <p>
         I comandi con lo slash stanno in <code>.claude/commands/</code> e mettono in fila
-        più passaggi. Questo è il giro completo, dall'inizio alla consegna.
+        più passaggi. Sono <strong>scorciatoie facoltative</strong> per sequenze che
+        faresti comunque a mano: se non li usi non succede niente, gli
+        <a href="#hook">hook</a> continuano a proteggerti lo stesso.
       </p>
 
       <ol class="passi">
         <li>
           <strong><code>/kickoff</code> — si parte</strong>
           Crea il branch, scrive il brief e registra la decisione architetturale
-          in <code>docs/decisioni.md</code>.
+          in <code>docs/decisioni.md</code>. Divide anche i task in due colonne che
+          non si sovrappongono: in due, sullo stesso file, si finisce per litigare.
         </li>
         <li>
           <strong>Si costruisce</strong>
           Chiedi quello che ti serve in italiano. Claude sceglie skill e agenti da solo.
-          Se il lavoro è grosso e poco chiaro, <code>/buildmatt</code> lo spacca in
-          ticket e li distribuisce.
+          Se il lavoro è grosso o poco chiaro, <code>/buildmatt</code> lo spacca in
+          ticket e li distribuisce — vedi <a href="#orchestratore">l'orchestratore</a>.
         </li>
         <li>
           <strong><code>/audit</code> — si verifica</strong>
@@ -557,11 +565,212 @@ npm run check</code></pre>
       </ol>
 
       <div class="nota">
+        <p class="nota__etichetta">Perché esistono sia questi che <code>/buildmatt</code></p>
+        <p>
+          <code>/buildmatt</code> incorpora i primi quattro passaggi, ma non li
+          sostituisce: hanno una <strong>granularità diversa</strong>. <code>/ship</code>
+          lo lanci dieci volte al giorno, l'orchestratore una volta per funzionalità.
+          Se per un commit veloce dovessi rilanciare tutta la macchina, smetteresti di
+          committare spesso — che è il contrario di quello che serve.
+        </p>
+        <p>
+          <code>/demo</code> invece resta <strong>fuori</strong> dall'orchestratore, ed è
+          voluto: si esegue una volta sola, a fine giornata, su tutto il lavoro. Non ha
+          senso prepararla alla fine di ogni funzionalità.
+        </p>
+      </div>
+
+      <div class="nota">
         <p class="nota__etichetta">La regola del progetto</p>
         <p>
           Ogni decisione non ovvia va in <code>docs/decisioni.md</code>: una riga con cosa,
           perché, e cosa hai scartato. In questo hackathon la giuria guarda il processo
           più del risultato — quel file è il processo.
+        </p>
+      </div>
+    </section>
+
+    <section class="sezione" id="orchestratore">
+      <h2>L'orchestratore</h2>
+
+      <p class="occhiello">
+        <code>/buildmatt</code> porta un lavoro dall'idea alla consegna: apre il branch,
+        affila il requisito con te, lo spezza in ticket, li distribuisce ad agenti che
+        lavorano in parallelo, fa verificare il risultato da chi non l'ha scritto,
+        e pubblica.
+      </p>
+
+      <p>
+        Segue il flusso di <a href="https://github.com/mattpocock/skills">Matt Pocock</a>
+        nell'ordine previsto dall'autore. Serve quando il lavoro è grosso o poco chiaro;
+        per mezz'ora di lavoro c'è <code>--rapido</code>, che salta le fasi di
+        chiarimento.
+      </p>
+
+      <h3>I sette passi</h3>
+
+<pre class="diagramma"><code>  <span class="cm">👤 = decidi tu    🎯 = orchestratore    🤖 = subagent</span>
+
+  0  AVVIO            🎯   branch · brief in 3 righe · decisione architetturale
+                           👤 se ci sono modifiche estranee, chiede cosa farne
+
+  1  AFFILARE       👤+🎯  skill: grill-with-docs — intervista serrata
+                           ├ domanda che si risolve solo vedendo codice girare?
+                           │    └→ skill: prototype (usa-e-getta)
+                           └ servono fatti esterni?
+                                └→ skill: research (in background)
+
+                           <span class="kw">⚠ NON delegabile: le decisioni sono tue</span>
+
+  2  BIVIO             👤   sta in una sessione, o va spezzato?
+                           ├ sta in una  →  salta il passo 3
+                           └ va spezzato →  passo 3
+
+  3  PIANO           🎯+👤  skill: to-spec    conversazione → specifica
+                           skill: to-tickets specifica → ticket
+                              · fetta verticale, dimostrabile da sola
+                              · sta in una finestra di contesto fresca
+                              · dichiara i suoi bloccanti
+                           👤 conferma il taglio e le dipendenze
+
+  4  COSTRUIRE         🎯   ┌─ CICLO finché restano ticket ──────────────┐
+                           │ npm run frontiera                          │
+                           │    → pronti · in attesa · bloccanti finti ⚠ │
+                           │                                            │
+                           │ file disgiunti  → 🤖 in parallelo          │
+                           │ si sovrappongono → 🤖 in sequenza          │
+                           │                                            │
+                           │ 🤖 matt-implementer × N (uno per ticket)   │
+                           │    riceve solo: ticket · branch ·          │
+                           │                 file da non toccare        │
+                           │    contesto fresco = come un /clear        │
+                           │    <span class="kw">⚠ non rivede il proprio lavoro</span>          │
+                           │                                            │
+                           │ esiti:  completato    → ricalcola          │
+                           │         con riserve   → registra           │
+                           │         bloccato      → diagnosing-bugs    │
+                           │         serve una decisione → 👤 chiede    │
+                           └────────────────────────────────────────────┘
+
+  5  VERIFICARE         🤖   due agenti in parallelo, nessuno ha scritto il codice
+                           ├ matt-reviewer           convenzioni + aderenza
+                           └ revisore-accessibilita  WCAG 2.2 AA
+
+                           🔴 bloccanti → corretti subito
+                           🟠 seri      → se c'è tempo
+                           🟡 minori    → solo elencati
+
+  6  CONSEGNARE         🎯   npm run check → se rosso, NON consegna
+                           cerca credenziali nel diff
+                           commit + push
+                           <span class="kw">⚠ le operazioni git non vanno a un subagent</span></code></pre>
+
+      <h3>Chi decide che cosa</h3>
+
+      <p>
+        È la distinzione che regge tutto: <strong>tu decidi cosa va costruito e perché,
+        gli agenti decidono come scriverlo</strong>. L'orchestratore si ferma nei punti
+        in cui la scelta non è sua.
+      </p>
+
+      <table class="tabella">
+        <caption class="acn-sr-only">Punti in cui serve una decisione dell'utente</caption>
+        <thead>
+          <tr><th scope="col">Dove</th><th scope="col">Cosa decidi</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Passo 0</td><td>Che fare delle modifiche non committate che non c'entrano</td></tr>
+          <tr><td><strong>Passo 1</strong></td><td><strong>Tutto il chiarimento dell'idea</strong> — il punto in cui il metodo mette te al centro</td></tr>
+          <tr><td>Passo 2</td><td>Se il lavoro sta in una sessione o va spezzato</td></tr>
+          <tr><td>Passo 3</td><td>Conferma del taglio dei ticket e delle dipendenze</td></tr>
+          <tr><td>In qualsiasi momento</td><td>Ogni scelta che non è dell'orchestratore — vedi sotto</td></tr>
+        </tbody>
+      </table>
+
+      <h3>Quando si ferma a chiederti qualcosa</h3>
+
+      <p>
+        Oltre ai punti fissi, l'orchestratore può interrompersi in qualsiasi momento.
+        Il criterio è scritto nel comando, perché uno che chiede troppo è inutile quanto
+        uno che non chiede mai.
+      </p>
+
+      <table class="tabella">
+        <caption class="acn-sr-only">Criterio per fermarsi e chiedere</caption>
+        <thead>
+          <tr><th scope="col">Ti chiede quando…</th><th scope="col">Decide da solo quando…</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              È difficile tornare indietro (cancellare dati, cambiare una tabella già
+              piena, pubblicare all'esterno)
+            </td>
+            <td>
+              La scelta è reversibile e interna al codice: come nominare le cose,
+              dove mettere un file
+            </td>
+          </tr>
+          <tr>
+            <td>Cambia <em>cosa</em> si consegna: tagliare una funzionalità, cambiare le priorità</td>
+            <td>Che forma dare a un componente, se serve un test</td>
+          </tr>
+          <tr>
+            <td>La richiesta regge due letture, e costano entrambe più di mezz'ora</td>
+            <td>Come scrivere un messaggio d'errore</td>
+          </tr>
+          <tr>
+            <td>Serve una dipendenza nuova, un servizio esterno, una credenziale</td>
+            <td>Come organizzare il codice dentro il perimetro assegnato</td>
+          </tr>
+          <tr>
+            <td>Il tempo rimasto non basta più per il piano</td>
+            <td>— <em>le fa, le dichiara nel rapporto, va avanti</em></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="nota">
+        <p class="nota__etichetta">Come te lo chiede</p>
+        <p>
+          Una domanda sola, con la raccomandazione in testa e il costo di ogni opzione.
+          Per esempio:
+        </p>
+        <p>
+          «<em>I ticket 04 e 05 richiedono l'autenticazione, che non era nel piano.
+          Restano ~2 ore. Io consegnerei senza login, con un utente fisso per la demo
+          (30 min); l'alternativa è implementarlo davvero (~90 min) e rinunciare al
+          ticket 06. Come preferisci?</em>»
+        </p>
+        <p>
+          I subagent invece <strong>non possono chiederti niente</strong>: girano isolati,
+          senza un modo per raggiungerti. Quando uno incontra una scelta che non gli
+          compete, riporta «serve una decisione» con le opzioni, e l'orchestratore la
+          porta a te. Intanto fa avanzare gli altri ticket che non dipendono da quella
+          risposta.
+        </p>
+      </div>
+
+      <h3>Quanti agenti girano</h3>
+
+      <p>
+        Per un lavoro da cinque ticket con due coppie parallelizzabili:
+        <strong>cinque implementatori più due verificatori</strong>, in quattro ondate.
+        L'orchestratore resta uno solo e non scrive codice — legge i rapporti, ricalcola
+        cosa può partire e decide chi va dopo.
+      </p>
+
+      <div class="nota">
+        <p class="nota__etichetta">Perché tanti contesti separati</p>
+        <p>
+          Oltre una certa quantità di testo un modello resta scorrevole ma smette di
+          ragionare bene, e non lo dichiara. Dare a ogni ticket un contesto pulito è il
+          modo di restare sempre dentro la soglia in cui ragiona ancora bene.
+        </p>
+        <p>
+          Vale anche per la verifica: chi ha appena scritto del codice tende ad
+          approvarlo, perché ricorda perché ogni scelta gli sembrava giusta. Per questo
+          la rilettura la fa un agente che quel codice non l'ha mai visto scrivere.
         </p>
       </div>
     </section>
