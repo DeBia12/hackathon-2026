@@ -21,7 +21,8 @@
     "db:logs": "bash backend/supabase/scripts/logs.sh",
     "setup": "npm --prefix app install && npm --prefix agents install",
     "db:setup": "bash backend/supabase/scripts/setup.sh",
-    "guida": "npx --yes serve presentazione/guida -l 8001 --no-clipboard"
+    "guida": "npx --yes serve presentazione/guida -l 8001 --no-clipboard",
+    "frontiera": "node .claude/scripts/frontiera.mjs"
   },
   "devDependencies": {
     "reveal.js": "^5.2.1"

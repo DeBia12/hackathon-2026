@@ -124,6 +124,8 @@ Codice in `.claude/hooks/`. Per disattivarne uno, togli la voce da `.claude/sett
 | `a11y-auditor` | Audit WCAG 2.2 AA |
 | `edu-content` | Testi e microcopy in linguaggio semplice |
 | `deck-builder` | Slide della presentazione |
+| `matt-implementer` | Esegue **un** ticket in contesto fresco, con TDD dove serve |
+| `matt-reviewer` | Rivede codice che non ha scritto |
 
 Tutti possono invocare skill in autonomia.
 
@@ -131,9 +133,11 @@ Tutti possono invocare skill in autonomia.
 
 Di progetto: `accenture-brand`, `a11y-check`, `demo-ready`, `create-readme`.
 
-Da [mattpocock/skills](https://github.com/mattpocock/skills): `codebase-design`,
-`diagnosing-bugs`, `code-review`, `prototype`, `research`, `tdd`,
-`resolving-merge-conflicts`, più `implement`, `triage`, `handoff`, `ask-matt`.
+Da [mattpocock/skills](https://github.com/mattpocock/skills), il flusso completo:
+`grill-with-docs`, `grilling`, `domain-modeling`, `to-spec`, `to-tickets`,
+`implement`, `tdd`, `code-review`, `codebase-design`, `prototype`,
+`diagnosing-bugs`, `research`, `triage`, `handoff`, `resolving-merge-conflicts`,
+`ask-matt`, `setup-matt-pocock-skills`.
 
 > Le ultime quattro hanno `disable-model-invocation: true`: sono **comandi manuali**,
 > non si auto-invocano. È una scelta deliberata dell'autore — guidano flussi lunghi il
@@ -141,6 +145,42 @@ Da [mattpocock/skills](https://github.com/mattpocock/skills): `codebase-design`,
 > `/ask-matt`. Le altre il modello le sceglie da sé.
 
 `/ask-matt` è il router: se non sai quale skill serve, chiedilo a lui.
+
+### `/buildmatt` — l'orchestratore
+
+Percorre il flusso principale di Matt Pocock e distribuisce l'implementazione.
+
+```
+/buildmatt <cosa costruire>     flusso completo: grilling → spec → ticket → build → review
+/buildmatt <cosa> --rapido      salta grilling e specifica, per lavori già chiari
+/buildmatt --solo-piano         si ferma ai ticket
+/buildmatt --solo-build         parte da ticket che esistono già
+```
+
+Due regole strutturali, che vengono dal metodo e non sono negoziabili:
+
+1. **La pianificazione sta in una finestra sola.** Grilling, specifica e ticket si
+   costruiscono l'uno sull'altro: non compattare il contesto prima che i ticket esistano.
+2. **Ogni ticket parte da zero**, in un `matt-implementer` dedicato. Il contesto fresco
+   è l'equivalente di un `/clear`. La revisione gira in un agente separato: chi ha
+   appena scritto del codice tende ad approvarlo.
+
+La frontiera dei ticket si calcola, non si deduce a occhio:
+
+```bash
+npm run frontiera
+```
+
+Mostra quali ticket possono partire subito (un subagent ciascuno), quali aspettano e
+quali dichiarano bloccanti inesistenti.
+
+Due limiti da conoscere:
+- **Il grilling non è delegabile.** È un'intervista in cui le decisioni sono dell'utente.
+- **Subagent in parallelo solo su file disgiunti**, altrimenti si sovrascrivono.
+  Nel dubbio, sequenza.
+
+Per mezz'ora di lavoro usa `--rapido`: imporre la cerimonia completa a un lavoro
+piccolo è il modo più veloce per far abbandonare un metodo.
 
 ### Come si lavora, in pratica
 
