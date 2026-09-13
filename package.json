@@ -19,7 +19,8 @@
     "db:reset": "bash backend/supabase/scripts/reset.sh",
     "db:psql": "bash backend/supabase/scripts/psql.sh",
     "db:logs": "bash backend/supabase/scripts/logs.sh",
-    "setup": "npm --prefix app install && npm --prefix agents install"
+    "setup": "npm --prefix app install && npm --prefix agents install",
+    "db:setup": "bash backend/supabase/scripts/setup.sh"
   },
   "devDependencies": {
     "reveal.js": "^5.2.1"

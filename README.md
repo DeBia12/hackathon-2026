@@ -38,12 +38,14 @@ node backend/supabase/scripts/genera-chiavi.mjs    # crea i file .env
 
 Poi inserisci la tua `ANTHROPIC_API_KEY` in `.env`.
 
-Per il database, una volta sola:
+Per il database, una volta sola — installa Podman dentro WSL e pre-scarica le
+immagini dei container:
 
 ```bash
-wsl -d Ubuntu
-sudo apt update && sudo apt install -y podman podman-compose
+npm run db:setup
 ```
+
+Ti chiederà la password di Ubuntu.
 
 > [!IMPORTANT]
 > Fai il primo `npm run db:up` **prima** dell'hackathon: scarica circa 1,5 GB di

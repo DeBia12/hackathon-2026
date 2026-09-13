@@ -20,14 +20,19 @@ Se durante l'hackathon serve lo storage, si aggiunge al `docker-compose.yml`.
 
 ## Prerequisito: installare Podman
 
-Podman gira **dentro WSL**, non su Windows. Apri un terminale ed esegui:
+Podman gira **dentro WSL**, non su Windows. Un solo comando fa tutto —
+installazione e pre-download delle immagini:
+
+```bash
+npm run db:setup
+```
+
+Ti verrà chiesta la password di Ubuntu. Se preferisci procedere a mano:
 
 ```bash
 wsl -d Ubuntu
 sudo apt update && sudo apt install -y podman podman-compose
 ```
-
-Ti verrà chiesta la password di Ubuntu. Verifica con `podman --version`.
 
 Non serve altro: gli script rilevano da soli di essere su Windows e si rilanciano
 dentro WSL.
