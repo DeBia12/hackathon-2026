@@ -1,22 +1,73 @@
 @import "tailwindcss";
 
 /* ============================================================
+   Font del brand — file reali presi da accenture.com
+   Proprietari (Commercial Type, Grilli Type): uso interno Accenture.
+   ============================================================ */
+@font-face {
+  font-family: "Graphik";
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: local("Graphik-Regular-Web"), url("/fonts/graphik-regular-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Graphik";
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  src: local("Graphik-Medium-Web"), url("/fonts/graphik-medium-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Graphik";
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+  src: local("Graphik-Semibold-Web"), url("/fonts/graphik-semibold-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "GT Sectra Fine";
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: local("GT-Sectra-Fine-Book"), url("/fonts/GT-Sectra-Fine-Book.woff2") format("woff2");
+}
+
+/* ============================================================
    Design token — brand Accenture
+   Valori misurati dal sito reale, non stimati. Riferimento completo:
+   .claude/skills/accenture-brand/SKILL.md
    Contrasti verificati con .claude/skills/a11y-check/contrast.mjs
    ============================================================ */
 @theme {
-  --color-accent: #a100ff;        /* su bianco 5.3:1 — AA. Su nero 3.96:1 — solo testo grande */
-  --color-accent-text: #7500c0;   /* su bianco 8.34:1 — AAA */
-  --color-accent-deep: #460073;   /* bianco sopra 13.93:1 — AAA */
+  /* Viola */
+  --color-accent: #a100ff;         /* riempimenti e grafica. Su bianco 5.3:1 — AA */
+  --color-accent-text: #7500c0;    /* testo viola su CHIARO — su bianco 8.34:1 — AAA */
+  --color-accent-deep: #460073;    /* fondi profondi — bianco sopra 13.93:1 — AAA */
+  --color-accent-active: #57008f;  /* stato :active dei bottoni */
+  --color-accent-deepest: #39005e; /* fondo card viola — bianco sopra 15.72:1 */
+  --color-accent-light: #be82ff;   /* testo viola su SCURO — su nero 7.83:1 — AAA */
+  --color-accent-focus: #dcafff;   /* anello di focus su scuro — su nero 11.62:1 */
+
+  /* Neutri */
   --color-ink: #000000;
   --color-paper: #ffffff;
-  --color-surface: #f3f3f3;
-  --color-muted: #767676;         /* su bianco 4.54:1 — AA */
-  --color-muted-surface: #5f5f5f; /* su #F3F3F3 5.75:1 — AA */
+  --color-surface: #f1f1ef;        /* grigio CALDO del brand, non il neutro #F3F3F3 */
+  --color-surface-dark: #202020;   /* superficie scura */
+  --color-line: #e3e3df;           /* bordi e divisori su chiaro */
 
-  --font-sans: "Graphik", "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  /* Grigi di testo: uno per i fondi chiari, uno per quelli scuri.
+     #5F5F5F regge sia bianco (6.39:1) sia #F1F1EF (5.65:1): un solo token
+     copre entrambi e sparisce la vecchia trappola "grigio su grigio". */
+  --color-muted: #5f5f5f;
+  --color-muted-surface: #5f5f5f;  /* alias storico, stesso valore */
+  --color-muted-dark: #a2a2a0;     /* SOLO su fondo scuro — su nero 8.21:1 */
 
-  --radius-brand: 2px;
+  --font-sans: "Graphik", Arial, Helvetica, sans-serif;
+  --font-serif: "GT Sectra Fine", Palatino, "Times New Roman", serif;
+
+  /* Il brand è squadrato: il sito reale usa 0 ovunque. */
+  --radius-brand: 0px;
 }
 
 /* ============================================================

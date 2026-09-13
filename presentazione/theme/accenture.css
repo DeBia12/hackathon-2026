@@ -3,17 +3,44 @@
    Contrasti verificati con .claude/skills/a11y-check/contrast.mjs
    ============================================================ */
 
+/* Font reali del brand. Proprietari: uso interno Accenture. */
+@font-face {
+  font-family: "Graphik"; font-weight: 400; font-style: normal; font-display: swap;
+  src: local("Graphik-Regular-Web"), url("./fonts/graphik-regular-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Graphik"; font-weight: 500; font-style: normal; font-display: swap;
+  src: local("Graphik-Medium-Web"), url("./fonts/graphik-medium-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Graphik"; font-weight: 600; font-style: normal; font-display: swap;
+  src: local("Graphik-Semibold-Web"), url("./fonts/graphik-semibold-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "GT Sectra Fine"; font-weight: 300; font-style: normal; font-display: swap;
+  src: local("GT-Sectra-Fine-Book"), url("./fonts/GT-Sectra-Fine-Book.woff2") format("woff2");
+}
+
 :root {
   --acn-viola: #a100ff;
-  --acn-viola-testo: #7500c0;
+  --acn-viola-testo: #7500c0;      /* viola di testo su fondo CHIARO */
+  --acn-viola-chiaro: #be82ff;     /* viola di testo su fondo SCURO — 7.83:1 su nero */
   --acn-viola-scuro: #460073;
+  --acn-viola-profondo: #39005e;
   --acn-nero: #000000;
   --acn-bianco: #ffffff;
-  --acn-superficie: #f3f3f3;
-  --acn-grigio: #5f5f5f;
+  --acn-superficie: #f1f1ef;       /* grigio CALDO del brand, non il neutro #f3f3f3 */
+  --acn-bordo: #e3e3df;
+  --acn-grigio: #5f5f5f;           /* testo attenuato su chiaro */
+  --acn-grigio-scuro: #a2a2a0;     /* testo attenuato su SCURO — 8.21:1 su nero */
 
-  --r-main-font: "Graphik", "Inter", -apple-system, "Segoe UI", system-ui, sans-serif;
+  /* Graphik per tutto; il serif è la voce editoriale delle slide di manifesto. */
+  --r-main-font: "Graphik", Arial, Helvetica, sans-serif;
   --r-heading-font: var(--r-main-font);
+  --acn-font-serif: "GT Sectra Fine", Palatino, "Times New Roman", serif;
+
+  /* La curva del brand: parte veloce, frena a lungo. */
+  --acn-ease: cubic-bezier(0.85, 0, 0, 1);
 }
 
 .reveal-viewport {
@@ -100,8 +127,10 @@
 }
 
 /* --- Slide a fondo scuro ---
-   Sul nero il viola pieno dà 3.96:1: ammesso solo per i titoli grandi,
-   mai per il testo di lettura, che resta bianco. */
+   Sul nero il viola pieno #a100ff dà 3.96:1. Non serve più accontentarsi:
+   il brand ha un viola dedicato al fondo scuro, #be82ff, che dà 7.83:1 e
+   passa AAA anche per il testo normale. Il viola pieno resta per riempimenti
+   e grafica, dove il contrasto del testo non si applica. */
 .reveal section.slide-dark {
   color: var(--acn-bianco);
 }
@@ -115,11 +144,11 @@
 }
 
 .reveal section.slide-dark .big-number {
-  color: var(--acn-viola);
+  color: var(--acn-viola-chiaro); /* 7.83:1 su nero */
 }
 
 .reveal section.slide-dark .caption {
-  color: #d0d0d0; /* 12.6:1 su nero */
+  color: var(--acn-grigio-scuro); /* 8.21:1 su nero, ed è il grigio del brand */
 }
 
 /* --- Layout --- */

@@ -95,8 +95,9 @@ npm run a11y '#A100FF' '#000000'
 ```
 
 > [!WARNING]
-> Due combinazioni del brand **non** sono conformi e sono facili da usare per sbaglio:
-> `#A100FF` su nero (3.96:1) e `#767676` su `#F3F3F3` (4.09:1).
+> Il brand ha **due viola e due grigi**, e usarli sul fondo sbagliato è l'errore più facile:
+> `#A100FF` su nero dà 3.96:1 (su scuro il testo viola è `#BE82FF`, 7.83:1) e `#A2A2A0`
+> su bianco dà 2.56:1 (su chiaro il grigio è `#5F5F5F`, 6.39:1).
 > I dettagli sono in [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md).
 
 ## Convenzioni

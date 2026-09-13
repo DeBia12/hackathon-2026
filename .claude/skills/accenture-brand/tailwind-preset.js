@@ -1,9 +1,13 @@
 /**
  * Preset Tailwind con i token Accenture misurati da accenture.com.
  *
- * Uso in app/tailwind.config.ts:
+ * ATTENZIONE — questo preset è per Tailwind v3:
  *   import accenture from "../.claude/skills/accenture-brand/tailwind-preset.js";
  *   export default { presets: [accenture], content: [...] };
+ *
+ * Su Tailwind v4 i preset non si usano: i token si dichiarano in un blocco `@theme`
+ * dentro il CSS di ingresso. Questo progetto è su v4 — l'implementazione viva è in
+ * `app/src/index.css`, che è anche l'esempio migliore da copiare.
  *
  * I font vanno caricati a parte: importa assets/fonts.css nel CSS di ingresso.
  */

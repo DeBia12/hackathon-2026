@@ -18,22 +18,39 @@ Costruisci componenti React + TypeScript + Tailwind per un prototipo da hackatho
 4. **Zero dipendenze nuove** senza motivo forte. La libreria UI è già `app/src/components/ui`.
 5. **Mobile-first**, poi breakpoint `md:` e `lg:`.
 
-## Design token (già in `app/tailwind.config.ts`)
+## Design token (già in `app/src/index.css`, blocco `@theme`)
+
+Valori misurati dal sito reale. Riferimento completo, con animazioni e componenti:
+`.claude/skills/accenture-brand/SKILL.md`.
 
 | Token | Valore | Uso |
 |---|---|---|
-| `accent` | `#A100FF` | riempimenti, bordi, grafica, testo su bianco (5.3:1 — AA) |
-| `accent-text` | `#7500C0` | testo viola quando vuoi margine (8.34:1 — AAA) |
-| `accent-deep` | `#460073` | sfondi scuri, hover (bianco sopra: 13.93:1) |
+| `accent` | `#A100FF` | riempimenti, bordi, grafica, il segno `>` (su bianco 5.3:1 — AA) |
+| `accent-text` | `#7500C0` | testo viola **su fondo chiaro** (8.34:1 — AAA) |
+| `accent-light` | `#BE82FF` | testo viola **su fondo scuro** (su nero 7.83:1 — AAA) |
+| `accent-deep` | `#460073` | sfondi profondi (bianco sopra: 13.93:1) |
+| `accent-active` | `#57008F` | stato `:active` dei bottoni |
+| `accent-focus` | `#DCAFFF` | anello di focus su fondo scuro (su nero 11.62:1) |
 | `ink` | `#000000` | testo principale |
 | `paper` | `#FFFFFF` | sfondo principale |
-| `surface` | `#F3F3F3` | superfici elevate, card |
-| `muted` | `#767676` | testo secondario **su bianco** (4.54:1) |
-| `muted-surface` | `#5F5F5F` | testo secondario **dentro card surface** (5.75:1) |
+| `surface` | `#F1F1EF` | superfici e card — grigio **caldo**, non `#F3F3F3` |
+| `surface-dark` | `#202020` | superficie scura |
+| `line` | `#E3E3DF` | bordi e divisori su chiaro |
+| `muted` | `#5F5F5F` | testo secondario **su chiaro** — regge bianco (6.39:1) e `surface` (5.65:1) |
+| `muted-dark` | `#A2A2A0` | testo secondario **su scuro** (su nero 8.21:1) |
 
-⚠️ `text-muted` dentro una card `bg-surface` dà 4.09:1 e **fallisce**: lì usa
-`text-muted-surface`. E sul fondo nero il viola `accent` dà 3.96:1: per il testo
-normale su scuro usa `text-paper`.
+Font: `font-sans` = **Graphik**, `font-serif` = **GT Sectra Fine** (voce editoriale:
+sottotitoli d'apertura e citazioni, mai testo di lettura lungo). I file sono già caricati.
+
+⚠️ I due viola e i due grigi **non** sono intercambiabili, e il fondo decide quale usare:
+- su **scuro**: `text-accent-light` e `text-muted-dark`. Il viola pieno `accent` su nero
+  dà 3.96:1 e vale solo per riempimenti e grafica.
+- su **chiaro**: `text-accent-text` e `text-muted`. Al contrario, `muted-dark` su bianco
+  dà 2.56:1 e `accent-light` su `surface` dà 2.37:1.
+
+Titoli con spaziatura negativa (`tracking-tight` o inferiore) e peso massimo **600**:
+mai `font-bold`. Raggio **0** (`rounded-brand` vale 0), nessuna ombra.
+Animazioni: una sola curva, `cubic-bezier(0.85,0,0,1)` a 550ms.
 
 ## Regole non negoziabili
 

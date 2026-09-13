@@ -60,21 +60,31 @@ Ogni componente prodotto deve rispettare:
 Prima di dichiarare finita una UI, lancia l'agente `a11y-auditor`.
 
 ## Brand Accenture (per UI e presentazione)
-- **Viola primario** `#A100FF` — colore d'accento, mai per testo piccolo su bianco
-- **Nero** `#000000` — testo e sfondi
-- **Bianco** `#FFFFFF` — sfondi e testo su scuro
-- **Viola scuro** `#7500C0` — hover/stati attivi, contrasto AA su bianco
-- **Grigi**: `#F3F3F3` (superfici), `#767676` (testo secondario su bianco), `#5F5F5F` (testo secondario su superficie grigia)
-- Tipografia: sans-serif pulita (Graphik → fallback Inter / system-ui)
-- Stile: molto spazio bianco, forme squadrate, accento viola usato con parsimonia
+
+> Riferimento completo, con font, animazioni e componenti:
+> [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md).
+> I valori sono **misurati dal sito reale**, non stimati.
+
+- **Viola primario** `#A100FF` — riempimenti, grafica, il segno `>`
+- **Viola di testo** `#7500C0` su fondo **chiaro** · `#BE82FF` su fondo **scuro**
+- **Nero** `#000000` e **Bianco** `#FFFFFF`
+- **Grigi**: `#F1F1EF` (superfici, **caldo**), `#5F5F5F` (testo secondario su chiaro),
+  `#A2A2A0` (testo secondario su scuro), `#E3E3DF` (bordi)
+- **Tipografia**: **due** famiglie — **Graphik** (400/500/600) per tutto, **GT Sectra Fine**
+  (300, serif) per la voce editoriale. I file sono in `app/public/fonts/`.
+- **Titoli**: spaziatura negativa (da −0.02em in giù), peso massimo **600**. Mai `700`.
+- **Movimento**: una sola curva, `cubic-bezier(0.85, 0, 0, 1)` a **550ms**.
+- **Forme**: squadrate, raggio **0**. Niente ombre. Molto spazio bianco.
 
 > **Contrasti misurati** (con `node .claude/skills/a11y-check/contrast.mjs`):
 > `#A100FF` su bianco = 5.3:1 ✅ AA · `#7500C0` su bianco = 8.34:1 ✅ AAA
+> `#BE82FF` su nero = 7.83:1 ✅ AAA · `#5F5F5F` su bianco = 6.39:1 ✅ AA
 >
 > Le due combinazioni da evitare:
-> - `#A100FF` su **nero** = 3.96:1 ❌ — sul fondo scuro il testo di lettura va bianco,
->   il viola solo per titoli grandi ed elementi grafici
-> - `#767676` su `#F3F3F3` = 4.09:1 ❌ — dentro le card usa `#5F5F5F` (5.75:1)
+> - `#A100FF` su **nero** = 3.96:1 ❌ — per il testo su scuro usa `#BE82FF`,
+>   il viola pieno solo per riempimenti e grafica
+> - `#A2A2A0` su **bianco** = 2.56:1 ❌ — è il grigio dei fondi scuri;
+>   su chiaro usa `#5F5F5F`, che regge sia bianco sia `#F1F1EF`
 
 ## Workflow git (team da 2)
 - Branch: `feat/<nome-breve>`, `fix/<nome-breve>`

@@ -233,6 +233,113 @@
   .confronto__lato--dopo .confronto__titolo { color: var(--acn-purple-light); }
   .confronto p { font-size: 16px; margin: 0; line-height: 1.55; }
 
+  /* ============================================================
+     Verificatore di contrasti
+     ============================================================ */
+  .verificatore {
+    border: 1px solid var(--acn-border-light);
+    padding: 28px;
+    margin: 32px 0;
+  }
+
+  .verificatore__preset-titolo {
+    display: block;
+    font-size: 13px; font-weight: 500; letter-spacing: .02em;
+    text-transform: uppercase; color: var(--acn-grey-on-light);
+    margin-bottom: 12px;
+  }
+  .verificatore__bottoni { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+
+  .preset {
+    min-height: 44px;
+    padding: 8px 16px;
+    font: inherit; font-size: 14px;
+    background: var(--acn-white);
+    color: var(--acn-black);
+    border: 1px solid var(--acn-border-light);
+    cursor: pointer;
+    transition: background-color 550ms cubic-bezier(.85,0,0,1),
+                border-color 550ms cubic-bezier(.85,0,0,1);
+  }
+  .preset:hover { background: var(--acn-surface-light); border-color: var(--acn-purple); }
+  .preset:focus-visible { outline: 2px solid var(--acn-purple); outline-offset: 4px; }
+
+  .verificatore__campi {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 20px;
+    margin-bottom: 24px;
+  }
+  .campo label {
+    display: block;
+    font-size: 15px; font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .campo__riga { display: flex; gap: 8px; align-items: center; }
+  .campo input[type="color"] {
+    width: 48px; height: 44px;
+    padding: 2px;
+    border: 1px solid var(--acn-border-light);
+    background: var(--acn-white);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .campo input[type="text"] {
+    flex: 1; min-width: 0;
+    min-height: 44px;
+    padding: 8px 12px;
+    font-family: ui-monospace, Consolas, monospace;
+    font-size: 15px;
+    border: 1px solid var(--acn-border-light);
+    background: var(--acn-white);
+    color: var(--acn-black);
+  }
+  .campo input:focus-visible { outline: 2px solid var(--acn-purple); outline-offset: 2px; }
+  .campo input[aria-invalid="true"] { border-color: #B3261E; border-width: 2px; }
+
+  .anteprima {
+    padding: 28px 24px;
+    margin-bottom: 20px;
+    border: 1px solid var(--acn-border-light);
+    transition: background-color 550ms cubic-bezier(.85,0,0,1),
+                color 550ms cubic-bezier(.85,0,0,1);
+  }
+  .anteprima__grande { font-size: 24px; font-weight: 500; margin: 0 0 8px; line-height: 1.3; }
+  .anteprima__normale { font-size: 16px; margin: 0; line-height: 1.6; }
+
+  .esito {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 28px;
+    align-items: start;
+    padding: 20px 24px;
+    background: var(--acn-surface-light);
+  }
+  .esito__valore {
+    font-size: 44px; font-weight: 500; line-height: 1;
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -.02em;
+  }
+  .esito__unita { font-size: 20px; color: var(--acn-grey-on-light); }
+  .esito__lista { list-style: none; margin: 0; padding: 0; font-size: 15px; }
+  .esito__lista li {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 6px;
+  }
+  .esito__etichetta { min-width: 120px; }
+
+  /* Il verdetto non è affidato al solo colore: c'è sempre la parola */
+  .pallino { font-weight: 500; }
+  .pallino[data-esito="si"] { color: #1B6B2F; }
+  .pallino[data-esito="no"] { color: #B3261E; }
+
+  .esito__commento {
+    grid-column: 1 / -1;
+    margin: 8px 0 0;
+    font-size: 15px; line-height: 1.5;
+    color: var(--acn-grey-on-light);
+  }
+  .esito__commento:empty { display: none; }
+
   /* --- Responsive --- */
   @media (max-width: 1024px) {
     .guida { grid-template-columns: 1fr; }
@@ -287,6 +394,7 @@
       <li><a class="menu__voce" href="#sessione"><span class="menu__num" aria-hidden="true">07</span> Una sessione reale</a></li>
       <li><a class="menu__voce" href="#replicare"><span class="menu__num" aria-hidden="true">08</span> Portarlo altrove</a></li>
       <li><a class="menu__voce" href="#limiti"><span class="menu__num" aria-hidden="true">09</span> Limiti e rischi</a></li>
+      <li><a class="menu__voce" href="#iniziare"><span class="menu__num" aria-hidden="true">10</span> Iniziare</a></li>
     </ul>
   </nav>
 
@@ -803,6 +911,63 @@
         schermate corrette.
       </p>
 
+      <h3>Provalo: cosa vuol dire «misurato»</h3>
+
+      <p>
+        Questo è lo stesso calcolo che il sistema esegue automaticamente. Scegli due
+        colori e guarda il verdetto. I pulsanti caricano le combinazioni del brand
+        Accenture: due di esse <strong>non</strong> sono a norma, e non si direbbe
+        a occhio.
+      </p>
+
+      <div class="verificatore">
+        <div class="verificatore__preset">
+          <span class="verificatore__preset-titolo" id="titolo-preset">Combinazioni del brand:</span>
+          <div role="group" aria-labelledby="titolo-preset" class="verificatore__bottoni">
+            <button type="button" class="preset" data-testo="#7500C0" data-fondo="#FFFFFF">Viola testo su bianco</button>
+            <button type="button" class="preset" data-testo="#A100FF" data-fondo="#FFFFFF">Viola pieno su bianco</button>
+            <button type="button" class="preset" data-testo="#A100FF" data-fondo="#000000">Viola pieno su nero</button>
+            <button type="button" class="preset" data-testo="#BE82FF" data-fondo="#000000">Viola chiaro su nero</button>
+            <button type="button" class="preset" data-testo="#A2A2A0" data-fondo="#F1F1EF">Grigio su grigio caldo</button>
+          </div>
+        </div>
+
+        <div class="verificatore__campi">
+          <div class="campo">
+            <label for="col-testo">Colore del testo</label>
+            <div class="campo__riga">
+              <input type="color" id="col-testo" value="#A100FF">
+              <input type="text" id="hex-testo" value="#A100FF" spellcheck="false"
+                     inputmode="text" aria-label="Colore del testo in formato esadecimale">
+            </div>
+          </div>
+          <div class="campo">
+            <label for="col-fondo">Colore dello sfondo</label>
+            <div class="campo__riga">
+              <input type="color" id="col-fondo" value="#FFFFFF">
+              <input type="text" id="hex-fondo" value="#FFFFFF" spellcheck="false"
+                     inputmode="text" aria-label="Colore dello sfondo in formato esadecimale">
+            </div>
+          </div>
+        </div>
+
+        <div class="anteprima" id="anteprima">
+          <p class="anteprima__grande" id="anteprima-grande">Testo grande, 24 pixel</p>
+          <p class="anteprima__normale" id="anteprima-normale">Testo normale, la dimensione con cui si legge davvero.</p>
+        </div>
+
+        <!-- L'esito viene annunciato a chi usa un lettore di schermo -->
+        <div class="esito" id="esito" role="status" aria-live="polite">
+          <p class="esito__valore"><span id="rapporto">5.30</span><span class="esito__unita">:1</span></p>
+          <ul class="esito__lista">
+            <li><span class="esito__etichetta">Testo normale</span> <span id="v-normale" class="pallino">—</span></li>
+            <li><span class="esito__etichetta">Testo grande</span> <span id="v-grande" class="pallino">—</span></li>
+            <li><span class="esito__etichetta">Livello AAA</span> <span id="v-aaa" class="pallino">—</span></li>
+          </ul>
+          <p class="esito__commento" id="commento"></p>
+        </div>
+      </div>
+
       <div class="nota">
         <p class="nota__etichetta">Un errore che questo metodo ha fatto emergere</p>
         <p>
@@ -1021,6 +1186,18 @@
         Solo la misura l'ha smentito.
       </p>
 
+      <h3>Su un progetto cliente servono risposte in più</h3>
+      <p>
+        Qui tutto gira sul computer di chi sviluppa: il database è locale, i dati
+        sono inventati, il codice sta in un repository privato. Su un progetto vero
+        cambiano tre cose, e vanno decise <strong>prima</strong> di iniziare: quali
+        dati possono essere visti da un agente, quale fornitore di intelligenza
+        artificiale è autorizzato dal cliente, e chi risponde di un errore introdotto
+        con l'assistenza dell'AI. Sono decisioni di governance, non tecniche, e
+        questo metodo non le prende al posto vostro — ma rende più facile
+        rispettarle, perché i vincoli si scrivono una volta e valgono per tutti.
+      </p>
+
       <h3>Non sostituisce il lavoro di squadra</h3>
       <p>
         Decidere cosa costruire, capire cosa serve davvero a chi lo userà, scegliere
@@ -1036,6 +1213,56 @@
           di eccellente. Quello continua a dipendere dalle persone.
         </p>
       </div>
+    </section>
+
+    <!-- ===================== 10 — INIZIARE ===================== -->
+    <section class="sezione" id="iniziare" aria-labelledby="t-iniziare">
+      <p class="sezione__eyebrow">10 — Iniziare</p>
+      <h2 id="t-iniziare">Come provarci lunedì mattina</h2>
+
+      <p>
+        Non serve adottare tutto. Il metodo funziona anche se ne prendete un pezzo
+        solo, e il primo pezzo si mette in piedi in un pomeriggio.
+      </p>
+
+      <ol class="passi">
+        <li>
+          <strong>Scrivete le vostre regole in un file, e basta</strong>
+          Aprite un documento nel vostro progetto e scriveteci le convenzioni che
+          già spiegate a voce ai nuovi arrivati. Solo quelle vere, non quelle
+          ideali. Vale da subito, anche senza agenti: è la cosa che i nuovi
+          assunti chiedono sempre e che nessuno ha mai messo per iscritto.
+        </li>
+        <li>
+          <strong>Automatizzate l'errore che vi è costato di più</strong>
+          Uno solo. Pensate all'ultimo incidente serio: una credenziale finita
+          dove non doveva, un controllo saltato, una regressione arrivata in
+          produzione. Il controllo che l'avrebbe intercettato sono poche decine
+          di righe.
+        </li>
+        <li>
+          <strong>Rompete qualcosa per verificare che il controllo funzioni</strong>
+          Il passo che quasi tutti saltano. Introducete l'errore apposta: se il
+          controllo non lo vede, non state proteggendo niente. A noi è successo
+          proprio questo, ed è documentato nella sezione sui controlli.
+        </li>
+      </ol>
+
+      <div class="nota">
+        <p class="nota__etichetta">Il materiale è tutto qui</p>
+        <p>
+          Regole, agenti, competenze e controlli sono file di testo dentro il
+          repository del progetto. Si copiano in un altro progetto trascinando
+          una cartella, e da lì si adattano.
+        </p>
+      </div>
+
+      <p>
+        Se volete partire dal nostro, chiedeteci accesso al repository:
+        <code>DeBia12/hackathon-2026</code>. La cartella da cui cominciare è
+        <code>.claude/</code> — dentro ci sono le istruzioni, gli agenti e i
+        controlli descritti in questa guida.
+      </p>
     </section>
 
   </main>
@@ -1103,6 +1330,112 @@
   );
 
   sezioni.forEach(function (c) { osservatore.observe(c.sezione); });
+
+  // ============================================================
+  //  Verificatore di contrasti — stessa formula WCAG 2.x usata
+  //  dallo script del progetto, eseguita qui nel browser.
+  // ============================================================
+  (function () {
+    var colTesto = document.getElementById("col-testo");
+    if (!colTesto) return;
+
+    var hexTesto = document.getElementById("hex-testo");
+    var colFondo = document.getElementById("col-fondo");
+    var hexFondo = document.getElementById("hex-fondo");
+    var anteprima = document.getElementById("anteprima");
+    var rapportoEl = document.getElementById("rapporto");
+    var commento = document.getElementById("commento");
+    var vNormale = document.getElementById("v-normale");
+    var vGrande = document.getElementById("v-grande");
+    var vAaa = document.getElementById("v-aaa");
+
+    function valido(hex) {
+      return /^#[0-9a-fA-F]{6}$/.test(hex);
+    }
+
+    function luminanza(hex) {
+      var canali = [1, 3, 5].map(function (i) {
+        var v = parseInt(hex.substr(i, 2), 16) / 255;
+        return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4);
+      });
+      return 0.2126 * canali[0] + 0.7152 * canali[1] + 0.0722 * canali[2];
+    }
+
+    function rapporto(a, b) {
+      var l1 = luminanza(a);
+      var l2 = luminanza(b);
+      var chiaro = Math.max(l1, l2);
+      var scuro = Math.min(l1, l2);
+      return (chiaro + 0.05) / (scuro + 0.05);
+    }
+
+    function verdetto(el, passa) {
+      el.textContent = passa ? "conforme" : "non conforme";
+      el.setAttribute("data-esito", passa ? "si" : "no");
+    }
+
+    function aggiorna() {
+      var t = hexTesto.value.trim();
+      var f = hexFondo.value.trim();
+
+      hexTesto.setAttribute("aria-invalid", valido(t) ? "false" : "true");
+      hexFondo.setAttribute("aria-invalid", valido(f) ? "false" : "true");
+      if (!valido(t) || !valido(f)) return;
+
+      var r = rapporto(t, f);
+      var arrotondato = Math.round(r * 100) / 100;
+
+      anteprima.style.background = f;
+      anteprima.style.color = t;
+      rapportoEl.textContent = arrotondato.toFixed(2);
+
+      verdetto(vNormale, r >= 4.5);
+      verdetto(vGrande, r >= 3);
+      verdetto(vAaa, r >= 7);
+
+      if (r >= 7) {
+        commento.textContent = "Ottimo contrasto: leggibile anche in condizioni difficili.";
+      } else if (r >= 4.5) {
+        commento.textContent = "Va bene per qualsiasi testo. È la soglia che usiamo come standard.";
+      } else if (r >= 3) {
+        commento.textContent =
+          "Ammesso solo per testo grande (24 pixel, oppure 19 in grassetto) " +
+          "e per elementi grafici. Per il testo normale non basta.";
+      } else {
+        commento.textContent =
+          "Sotto ogni soglia. Molte persone non riuscirebbero a leggerlo, " +
+          "e chiunque farebbe fatica con poca luce.";
+      }
+    }
+
+    function imposta(t, f) {
+      hexTesto.value = t;
+      colTesto.value = t;
+      hexFondo.value = f;
+      colFondo.value = f;
+      aggiorna();
+    }
+
+    colTesto.addEventListener("input", function () { hexTesto.value = colTesto.value.toUpperCase(); aggiorna(); });
+    colFondo.addEventListener("input", function () { hexFondo.value = colFondo.value.toUpperCase(); aggiorna(); });
+
+    hexTesto.addEventListener("input", function () {
+      if (valido(hexTesto.value.trim())) colTesto.value = hexTesto.value.trim();
+      aggiorna();
+    });
+    hexFondo.addEventListener("input", function () {
+      if (valido(hexFondo.value.trim())) colFondo.value = hexFondo.value.trim();
+      aggiorna();
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll(".preset"), function (b) {
+      b.addEventListener("click", function () {
+        imposta(b.getAttribute("data-testo"), b.getAttribute("data-fondo"));
+      });
+    });
+
+    aggiorna();
+  })();
 
   // Dopo un salto da menu, sposta il focus sulla sezione: chi naviga da
   // tastiera deve ritrovarsi nel punto giusto, non a inizio pagina.

@@ -65,8 +65,8 @@ Raggruppa per gravità. Per ogni problema, **esattamente** questo formato:
 ```
 🔴 BLOCCANTE — app/src/components/Card.tsx:42
 Criterio: WCAG 2.2 — 1.4.3 Contrasto (minimo)
-Problema: testo #767676 su sfondo card #F3F3F3 = 4.09:1, sotto la soglia 4.5:1.
-Correzione: sostituisci text-muted con text-muted-surface (#5F5F5F, 5.75:1).
+Problema: testo #A2A2A0 su sfondo card #F1F1EF = 2.26:1, sotto la soglia 4.5:1.
+Correzione: sostituisci text-muted-dark con text-muted (#5F5F5F, 5.65:1).
 ```
 
 Gravità: 🔴 BLOCCANTE (impedisce l'uso) · 🟠 SERIO (ostacola) · 🟡 MINORE (rifinitura).

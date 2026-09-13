@@ -26,8 +26,10 @@ non stimati: token CSS, curve di animazione, dimensioni dei componenti, file dei
 <link rel="stylesheet" href="path/to/accenture-brand/accenture.css">
 ```
 
-Con Tailwind: importa il preset in `tailwind.config.ts` **e** `assets/fonts.css` nel CSS di ingresso.
-Il preset porta i colori e le curve, non i font.
+Con **Tailwind v3**: importa `tailwind-preset.js` in `tailwind.config.ts`.
+Con **Tailwind v4** (questo progetto): i preset non si usano, i token vanno in un blocco
+`@theme` nel CSS di ingresso — l'implementazione viva è in `app/src/index.css`.
+In entrambi i casi i font si caricano a parte: il preset porta colori e curve, non i font.
 
 > I font sono **proprietari** (Commercial Type, Grilli Type). Uso interno Accenture: non
 > ridistribuirli e non pubblicarli su un repository aperto. Senza i file, il fallback
