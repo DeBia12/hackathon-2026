@@ -147,14 +147,32 @@ Da [mattpocock/skills](https://github.com/mattpocock/skills), il flusso completo
 
 ### `/buildmatt` — l'orchestratore
 
-Percorre il flusso principale di Matt Pocock e distribuisce l'implementazione.
+Porta il lavoro dall'idea alla consegna, seguendo il flusso di Matt Pocock.
 
 ```
-/buildmatt <cosa costruire>     flusso completo: grilling → spec → ticket → build → review
+0. avvio       branch, brief, decisione architetturale        ← come /kickoff
+1. grilling    intervista per affilare l'idea  (con l'utente)
+2. bivio       sta in una sessione, o va spezzato?
+3. piano       specifica → ticket con le loro dipendenze
+4. build       un subagent per ticket, sulla frontiera
+5. verifica    revisione + audit accessibilità, in parallelo  ← come /audit
+6. consegna    check, controllo segreti, commit, push         ← come /ship
+```
+
+```
+/buildmatt <cosa costruire>     ciclo completo
 /buildmatt <cosa> --rapido      salta grilling e specifica, per lavori già chiari
 /buildmatt --solo-piano         si ferma ai ticket
 /buildmatt --solo-build         parte da ticket che esistono già
+/buildmatt --senza-consegna     costruisce e verifica, non pubblica
 ```
+
+`/kickoff`, `/audit` e `/ship` **restano usabili da soli**: dentro `/buildmatt` sono
+incorporati perché sono passaggi naturali del ciclo, non perché siano stati assorbiti.
+Per un commit veloce a metà lavoro usi `/ship`, non rilanci l'orchestratore.
+
+`/demo` resta **fuori**: è la procedura dell'ultima ora, si esegue una volta sola su
+tutto il lavoro della giornata, non alla fine di ogni feature.
 
 Due regole strutturali, che vengono dal metodo e non sono negoziabili:
 

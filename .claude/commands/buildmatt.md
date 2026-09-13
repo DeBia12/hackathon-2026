@@ -1,12 +1,32 @@
 ---
-description: Orchestratore dal requisito al codice — segue il flusso di Matt Pocock e distribuisce i ticket a subagent con contesto fresco
-argument-hint: [cosa vuoi costruire] [--rapido | --solo-piano | --solo-build]
+description: Orchestratore completo — dall'idea alla consegna. Segue il flusso di Matt Pocock, distribuisce i ticket a subagent con contesto fresco, verifica e pubblica
+argument-hint: [cosa vuoi costruire] [--rapido | --solo-piano | --solo-build | --senza-consegna]
 ---
 
 Devi costruire: **$ARGUMENTS**
 
-Sei l'orchestratore. Segui il flusso principale delle skill di Matt Pocock
-nell'ordine previsto, e distribuisci l'implementazione a subagent, uno per ticket.
+Sei l'orchestratore. Porti il lavoro dall'idea alla consegna: apri il branch, affili
+il requisito, lo spezzi in ticket, li distribuisci a subagent con contesto fresco,
+fai verificare il risultato da agenti che non l'hanno scritto, e pubblichi.
+
+Il ciclo completo è:
+
+```
+0. avvio       branch, brief, decisione architetturale        ← come /kickoff
+1. grilling    intervista per affilare l'idea  (con l'utente)
+2. bivio       sta in una sessione, o va spezzato?
+3. piano       specifica → ticket con le loro dipendenze
+4. build       un subagent per ticket, sulla frontiera
+5. verifica    revisione + audit accessibilità, in parallelo  ← come /audit
+6. consegna    check, controllo segreti, commit, push         ← come /ship
+```
+
+I comandi `/kickoff`, `/audit` e `/ship` **restano invocabili da soli**: qui sono
+incorporati perché sono passaggi naturali di questo ciclo, non perché siano stati
+assorbiti. Per un commit veloce a metà lavoro usi `/ship`, non rilanci tutto questo.
+
+`/demo` invece **non** è qui dentro, e non deve esserci: è la procedura dell'ultima
+ora, si esegue una volta sola su tutto il lavoro della giornata, non a ogni feature.
 
 ## Il principio che governa tutto
 
@@ -26,10 +46,11 @@ Da qui discendono le due regole strutturali:
 
 | Argomento | Comportamento |
 |---|---|
-| *(nessuno)* | Flusso completo: grilling → specifica → ticket → implementazione → revisione |
+| *(nessuno)* | Ciclo completo, dall'avvio alla consegna |
 | `--rapido` | Salta grilling e specifica. Per lavori piccoli e già chiari |
 | `--solo-piano` | Si ferma dopo i ticket, non implementa |
 | `--solo-build` | Parte da ticket che esistono già |
+| `--senza-consegna` | Costruisce e verifica, ma non committa né pubblica |
 
 Matt stesso prevede la scorciatoia: se il lavoro sta in una sessione e non c'è niente
 da chiarire, si va dritti all'implementazione. **Non imporre la cerimonia completa a
@@ -48,11 +69,27 @@ dove scrivere. Dillo all'utente e proponi `/setup-matt-pocock-skills` (una volta
 repository). Se preferisce partire subito, usa i file locali sotto
 `.scratch/<nome-lavoro>/issues/` e segnalalo.
 
-Verifica anche di essere su un branch di lavoro, non sul principale:
+### Avvio del lavoro (quello che fa `/kickoff`)
+
 ```bash
 git branch --show-current
+git status --short
 ```
-Se sei su `main`, crea `feat/<nome-breve>` prima di toccare qualsiasi cosa.
+
+1. **Branch.** Se sei su `main`, crea `feat/<nome-breve>`. Se ci sono modifiche non
+   committate che non c'entrano con questo lavoro, fermati e chiedi cosa farne:
+   trascinarle dentro un branch nuovo le mischia a lavoro non correlato.
+
+2. **Brief in tre righe.** Cosa costruiamo, per chi, e qual è **la singola cosa che
+   deve funzionare** nella demo. Se il lavoro è più grande del tempo che resta,
+   proponi la versione ridotta che resta dimostrabile e dillo esplicitamente.
+
+3. **Decisione architetturale.** Aggiungi una riga a `docs/decisioni.md` — cosa
+   abbiamo scelto, perché, cosa abbiamo scartato. È il materiale della slide
+   «Il nostro processo»: la giuria valuta il come.
+
+4. **Divisione del lavoro.** Il team è di due persone: quando arrivi ai ticket
+   (Passo 3), assegnali in modo che i due non tocchino gli stessi file.
 
 ---
 
@@ -182,38 +219,82 @@ riga sola: quali ticket sono chiusi e quali restano.
 
 ---
 
-## Passo 5 — Revisione a contesto pulito
+## Passo 5 — Verifica, in due subagent paralleli
 
-Quando i ticket sono finiti, lancia **un solo** `matt-reviewer`, passandogli il punto
-di partenza del confronto (il commit da cui sei partito) e dove stanno i ticket.
+Quando i ticket sono finiti, lancia **due** agenti **in un unico messaggio**, così
+girano insieme. Sono letture indipendenti dello stesso codice: non si disturbano.
 
-**Questo agente non deve essere uno di quelli che ha scritto il codice.** È il motivo
-per cui la revisione gira separata: chi ha appena scritto qualcosa tende ad
-approvarla, perché ricorda perché ogni scelta gli sembrava giusta.
+| Agente | Cosa guarda |
+|---|---|
+| `matt-reviewer` | Convenzioni del progetto e aderenza a quanto i ticket chiedevano |
+| `revisore-accessibilita` | Conformità WCAG 2.2 AA — quello che fa `/audit` |
 
-Con i rilievi che tornano:
+A entrambi passa il punto di partenza del confronto (il commit da cui sei partito).
+Al primo indica anche dove stanno i ticket: senza sapere cosa era stato chiesto non
+può giudicare l'aderenza.
+
+**Nessuno dei due deve essere un agente che ha scritto il codice.** È il motivo per
+cui la verifica gira separata: chi ha appena scritto qualcosa tende ad approvarla,
+perché ricorda perché ogni scelta gli sembrava giusta.
+
+Salta `revisore-accessibilita` solo se il lavoro non ha toccato interfaccia.
+
+Con i rilievi che tornano da entrambi:
 - 🔴 **bloccanti** → correggili subito, qui
 - 🟠 **seri** → correggili se il tempo lo consente, altrimenti elencali all'utente
 - 🟡 **minori** → riportali e basta, non correggerli
 
+Poi aggiorna `docs/accessibilita.md` con il verdetto e la data: serve per la slide
+«Accessibilità by design».
+
 ---
 
-## Passo 6 — Chiusura
+## Passo 6 — Consegna (quello che fa `/ship`)
 
-1. `npm run check`
-2. Aggiungi una riga a `docs/decisioni.md` per ogni decisione architetturale presa
-3. Riporta all'utente:
+Queste operazioni le fai **tu**, non un subagent: sono comandi su questo repository,
+e delegarli aggiungerebbe un passaggio di consegne senza guadagnare niente.
+
+**1. Verifica.**
+```bash
+npm run check
+```
+Se fallisce, **non consegnare**: correggi prima. Il compagno di team parte dal tuo
+`main`, e un `main` rotto blocca due persone invece di una.
+
+**2. Cerca credenziali fra le modifiche in stage.**
+```bash
+git add -A
+git diff --cached -U0 | grep -nE "sk-ant-|service_role|eyJhbGciOi" && echo "SEGRETO" || echo "pulito"
+```
+L'hook `blocca-segreti` interviene comunque al commit, ma accorgersene ora costa meno
+che scoprirlo a commit rifiutato.
+
+**3. Committa e pubblica.**
+Messaggio in italiano, all'imperativo, che dice **cosa cambia per chi usa il prodotto**
+— non quali file hai toccato.
+```bash
+git push -u origin HEAD
+```
+
+**4. Registra le decisioni.** Una riga in `docs/decisioni.md` per ogni scelta
+architetturale presa strada facendo, se non l'hai già fatto al Passo 0.
+
+**5. Riporta.**
 
 ```
 COSTRUITO: <cosa funziona ora, in una riga di comportamento osservabile>
 
 Ticket: <N> completati, <N> bloccati
-Subagent usati: <N> implementatori + 1 revisore
-Revisione: <N> bloccanti corretti, <N> seri, <N> minori aperti
+Subagent usati: <N> implementatori + <N> verificatori
+Verifica: <N> bloccanti corretti, <N> seri, <N> minori aperti
+Consegnato: <hash> su <branch>
 
 Da decidere: <cosa resta in sospeso, o "niente">
 Per vederlo: <comando esatto>
 ```
+
+Se mancano meno di ~90 minuti alla presentazione, chiudi suggerendo `/demo`:
+è la procedura dell'ultima ora e non fa parte del ciclo di costruzione.
 
 ---
 
@@ -223,6 +304,10 @@ Per vederlo: <comando esatto>
 - **Non compattare il contesto prima che i ticket esistano.** Perderesti il
   ragionamento proprio dove serve intatto.
 - **Non far rivedere il codice a chi l'ha scritto.**
+- **Non pubblicare con il check rosso.** Il compagno di team parte dal tuo `main`.
+- **Non usare un subagent per le operazioni git.** Commit e push sono azioni su questo
+  repository: delegarle aggiunge un passaggio di consegne e non isola niente. Il
+  subagent serve quando il contesto va isolato, o quando serve un giudizio indipendente.
 - **Non lanciare subagent in parallelo sugli stessi file.**
 - **Non imporre il flusso completo a un lavoro piccolo.** La cerimonia sproporzionata
   è il modo più veloce per far abbandonare un metodo.

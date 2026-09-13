@@ -42,7 +42,7 @@
   }
   .menu__voce:hover { background: var(--acn-surface-light); }
   /* Lo stato attivo non è affidato al solo colore: bordo + sfondo + peso */
-  .menu__voce[aria-current="true"] {
+  .menu__voce[aria-current] {
     border-left-color: var(--acn-purple);
     background: var(--acn-surface-light);
     font-weight: 500;
@@ -51,7 +51,7 @@
     font-size: 13px; color: var(--acn-grey-on-light);
     font-variant-numeric: tabular-nums; flex-shrink: 0;
   }
-  .menu__voce[aria-current="true"] .menu__num { color: var(--acn-purple-2); }
+  .menu__voce[aria-current] .menu__num { color: var(--acn-purple-2); }
 
   /* --- Contenuto --- */
   .contenuto { padding: 0 64px 120px; min-width: 0; }
@@ -194,6 +194,11 @@
     margin: 8px 0 0; font-size: 15px; line-height: 1.5;
     color: var(--acn-grey-on-light);
   }
+  /* Una descrizione mancante si vede: meglio un TODO evidente di una riga inventata */
+  .esplora__desc--todo {
+    color: var(--acn-purple-2);
+    font-weight: 500;
+  }
   .esplora__meta {
     margin: 8px 0 0; font-size: 13px;
     color: var(--acn-grey-on-light);
@@ -226,7 +231,7 @@
     }
     .menu__lista { display: flex; flex-wrap: wrap; gap: 4px; }
     .menu__voce { border-left: 0; border-bottom: 3px solid transparent; }
-    .menu__voce[aria-current="true"] { border-left: 0; border-bottom-color: var(--acn-purple); }
+    .menu__voce[aria-current] { border-left: 0; border-bottom-color: var(--acn-purple); }
     .contenuto { padding: 0 24px 80px; }
   }
 
@@ -239,7 +244,10 @@
   }
 </style>
 </head>
-<body>
+<!-- .acn-light non è decorativa: è la classe che accenture.css usa per scegliere
+     il colore dell'anello di focus. Senza, resta quello per fondi scuri (#DCAFFF),
+     che su questa pagina bianca dà 1.81:1 ed è praticamente invisibile. -->
+<body class="acn-light">
 
 <a href="#contenuto" class="acn-skip-link">Vai al contenuto principale</a>
 
@@ -250,9 +258,11 @@
       <path class="acn-logo__mark" d="M0 28.75L22.07 20.54L0 11.92V0.5L37.8 15.72V25.19L0 40.5V28.75Z"/>
     </svg>
   </span>
-  <span style="margin-left:20px;padding-left:20px;border-left:1px solid var(--acn-border-light);font-size:15px;color:var(--acn-grey-on-light)">
+  <!-- Il titolo della pagina è anche il suo h1: senza, la gerarchia partirebbe
+       da h2 e chi naviga per intestazioni non riceverebbe mai il titolo. -->
+  <h1 style="margin:0 0 0 20px;padding-left:20px;border-left:1px solid var(--acn-border-light);font-size:15px;font-weight:400;color:var(--acn-grey-on-light)">
     Hackathon 2026 — Guida pratica
-  </span>
+  </h1>
 </header>
 
 <div class="guida">
@@ -576,19 +586,25 @@ npm run check</code></pre>
           <!-- Liste annidate di <button>, non role="tree": un treeview ARIA promette
                la navigazione con le frecce, e prometterla senza implementarla è peggio
                che non dichiararla. Così Tab funziona da solo. -->
-          <div id="albero" aria-label="File del progetto">
+          <!-- role="group" serve perché aria-label venga esposto: su un <div>
+               generico l'etichetta non arriva ai lettori di schermo. -->
+          <div id="albero" role="group" aria-label="File del progetto"
+               aria-live="polite" aria-atomic="true">
             <p class="esplora__vuoto">Caricamento…</p>
           </div>
         </div>
 
         <div class="esplora__pannello">
-          <div class="esplora__intestazione">
+          <!-- L'annuncio va qui, non sul <pre>: a chi apre un file interessa sapere
+               QUALE file ha aperto, non sentirsi leggere trecento righe di codice.
+               Il contenuto resta raggiungibile con Tab e si legge su richiesta. -->
+          <div class="esplora__intestazione" aria-live="polite" aria-atomic="true">
             <p class="esplora__percorso" id="percorso">Nessun file selezionato</p>
             <p class="esplora__desc" id="descrizione">Scegli un file dall'elenco a sinistra.</p>
             <p class="esplora__meta" id="meta"></p>
           </div>
-          <pre class="esplora__codice" tabindex="0" role="region" aria-label="Contenuto del file"
-               aria-live="polite"><code id="codice"></code></pre>
+          <pre class="esplora__codice" tabindex="0" role="region"
+               aria-label="Contenuto del file"><code id="codice"></code></pre>
         </div>
       </div>
 
@@ -633,7 +649,9 @@ npm run check</code></pre>
     var prima = sezioni.find(function (c) { return visibili.has(c.sezione); });
 
     sezioni.forEach(function (c) {
-      if (prima && c === prima) c.voce.setAttribute("aria-current", "true");
+      // "location" e non "true": indica la posizione dentro il documento,
+      // che è esattamente ciò che questo menu segue.
+      if (prima && c === prima) c.voce.setAttribute("aria-current", "location");
       else c.voce.removeAttribute("aria-current");
     });
   }, { rootMargin: "-10% 0px -70% 0px" });
@@ -666,17 +684,32 @@ npm run check</code></pre>
     return byte < 1024 ? byte + " B" : (byte / 1024).toFixed(1) + " KB";
   }
 
-  function mostra(file, bottone) {
+  function mostra(nodo, bottone) {
     if (selezionato) selezionato.removeAttribute("aria-current");
     bottone.setAttribute("aria-current", "true");
     selezionato = bottone;
 
-    elPercorso.textContent = file.via;
-    elDesc.textContent = file.desc || "—";
+    elPercorso.textContent = nodo.via;
+    elDesc.textContent = nodo.desc || "TODO: descrizione da scrivere in .claude/scripts/descrizioni.mjs";
+    elDesc.classList.toggle("esplora__desc--todo", !!nodo.manca);
+
+    if (nodo.tipo === "cartella") {
+      var cartelle = nodo.figli.filter(function (f) { return f.tipo === "cartella"; }).length;
+      var file = nodo.figli.length - cartelle;
+      elMeta.textContent =
+        (cartelle ? cartelle + (cartelle === 1 ? " cartella" : " cartelle") : "") +
+        (cartelle && file ? " · " : "") +
+        (file ? file + (file === 1 ? " file" : " file") : "");
+      elCodice.textContent = "";
+      elCodice.parentNode.hidden = true;
+      return;
+    }
+
+    elCodice.parentNode.hidden = false;
     elMeta.textContent =
-      file.righe + " righe · " + peso(file.peso) + (file.tagliato ? " · troncato nell'anteprima" : "");
+      nodo.righe + " righe · " + peso(nodo.peso) + (nodo.tagliato ? " · troncato nell'anteprima" : "");
     // textContent, non innerHTML: il contenuto dei file non viene mai interpretato come markup
-    elCodice.textContent = file.contenuto;
+    elCodice.textContent = nodo.contenuto;
     elCodice.parentNode.scrollTop = 0;
   }
 
@@ -708,10 +741,14 @@ npm run check</code></pre>
         sotto.hidden = !aperta;
         li.appendChild(sotto);
 
+        // Un click sulla cartella fa due cose: apre l'elenco e ne mostra la
+        // descrizione a destra. Le cartelle spiegano perché esistono, e quella
+        // spiegazione è la metà del valore di questa alberatura.
         btn.addEventListener("click", function () {
           var ora = btn.getAttribute("aria-expanded") === "true";
           btn.setAttribute("aria-expanded", String(!ora));
           sotto.hidden = ora;
+          mostra(nodo, btn);
         });
       } else {
         btn.innerHTML = '<span class="nodo__spazio" aria-hidden="true"></span>' +
