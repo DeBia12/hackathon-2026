@@ -42,6 +42,45 @@ Da qui discendono le due regole strutturali:
 2. **Ogni ticket parte da zero.** Un subagent per ticket: il suo contesto fresco è
    l'equivalente di un `/clear`, e il ticket è scritto apposta per bastare da solo.
 
+## Quando fermarti e chiedere
+
+I passi qui sotto segnano i punti in cui l'utente decide per forza. Ma **non sono gli
+unici**: in qualsiasi momento, se incontri una decisione che non è tua, fermati e
+chiedi. Vale più di una domanda in mezzo al lavoro che un'ora costruita nella
+direzione sbagliata.
+
+**Chiedi quando** la decisione ha almeno una di queste caratteristiche:
+
+- **È difficile da tornare indietro.** Cancellare dati, cambiare la forma di una
+  tabella già popolata, riscrivere qualcosa che un'altra persona sta usando, pubblicare
+  all'esterno.
+- **Cambia cosa si consegna.** Tagliare una funzionalità, rimandare un pezzo, cambiare
+  l'ordine di priorità dei ticket: è una scelta di prodotto, non tecnica.
+- **Due letture della richiesta portano a lavori diversi.** Se la specifica regge due
+  interpretazioni e costano entrambe più di mezz'ora, non tirare a indovinare.
+- **Esce dal perimetro concordato.** Serve una dipendenza nuova, un servizio esterno,
+  una credenziale, un cambio di architettura che i ticket non prevedevano.
+- **Il tempo non basta più.** Se ti accorgi che il piano non entra nel tempo rimasto,
+  dillo subito con le opzioni, invece di consegnare metà lavoro alla scadenza.
+
+**Decidi tu, senza chiedere, quando** la scelta è reversibile e interna al codice:
+come nominare le cose, dove mettere un file, quale forma dare a un componente, se
+serve un test, come scrivere un messaggio d'errore. Falle, dille nel rapporto, vai
+avanti. Chiedere su queste rallenta e basta.
+
+**Come chiedere.** Una domanda sola, con la tua raccomandazione in testa e il costo
+di ciascuna opzione:
+
+> I ticket 04 e 05 richiedono l'autenticazione, che non era nel piano. Restano
+> ~2 ore. Io consegnerei senza login, con un utente fisso per la demo (30 min);
+> l'alternativa è implementarlo davvero (~90 min) e rinunciare al ticket 06.
+> Come preferisci?
+
+**I subagent non possono chiederti niente**: girano senza interfaccia verso di te.
+Quando uno di loro incontra una decisione del genere, la riporta all'orchestratore —
+cioè a te che stai leggendo — e **tu** la porti all'utente. Non decidere al posto suo
+solo perché il rapporto è arrivato da un agente.
+
 ## Modalità
 
 | Argomento | Comportamento |
@@ -208,11 +247,17 @@ non una mancanza.
 **4e. Raccogli, aggiorna, ripeti.**
 
 Quando un subagent riporta:
+
 - `completato` → segna il ticket come fatto, ricalcola la frontiera
 - `completato con riserve` → registra la riserva, prosegui
 - `bloccato` → **non rilanciarlo uguale**. Leggi cosa ha osservato. Se è un difetto
   nel codice, invoca la skill `diagnosing-bugs` qui, nel contesto principale. Se è
   un difetto nel ticket, correggi il ticket e rilancia.
+- `serve una decisione` → **portala all'utente**, con le opzioni e la raccomandazione
+  che il subagent ha già formulato. Non deciderla tu solo perché ti è arrivata da un
+  agente: il subagent si è fermato proprio perché la scelta non era sua, e non lo è
+  nemmeno tua. Mentre aspetti, fai avanzare gli altri ticket della frontiera che non
+  dipendono da quella decisione — non lasciare fermo tutto per una domanda sola.
 
 Continua finché la frontiera è vuota. Fra un giro e l'altro riporta all'utente una
 riga sola: quali ticket sono chiusi e quali restano.
