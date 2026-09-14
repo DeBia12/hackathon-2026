@@ -92,12 +92,16 @@ export function RigaModulo({
   // ── Corpo visivo condiviso tra le due varianti di rendering ────────────────
 
   const corpo = (
-    <div className="flex items-start gap-4">
+    <div className="flex items-start gap-3 sm:gap-4">
       {tesseraIcona}
 
       <div className="min-w-0 flex-1">
         {/* Riga principale: titolo + etichetta stato */}
-        <div className="flex items-start justify-between gap-4">
+        {/*
+         * Titolo e stato affiancati solo da sm in su: sotto, la colonna del
+         * titolo si ridurrebbe a due parole per riga.
+         */}
+        <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
           <div>
             <p
               className={cn(
@@ -162,7 +166,7 @@ export function RigaModulo({
           onClick={onClick}
           aria-label={nomeAccessibile}
           className={cn(
-            "w-full rounded-brand bg-paper p-6 text-left shadow-riposo",
+            "w-full rounded-brand bg-paper p-4 text-left shadow-riposo sm:p-6",
             "motion-safe:transition-shadow motion-safe:duration-[550ms]",
             "motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]",
             "motion-safe:hover:shadow-sollevata",
@@ -186,7 +190,7 @@ export function RigaModulo({
    */
   return (
     <li>
-      <div className="rounded-brand bg-surface p-6">
+      <div className="rounded-brand bg-surface p-4 sm:p-6">
         {corpo}
       </div>
     </li>

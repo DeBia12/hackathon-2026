@@ -12,8 +12,8 @@ interface PropsPiePagina {
  */
 export function PiePagina({ onVaiATrasparenza }: PropsPiePagina): ReactElement {
   return (
-    <footer className="mt-20 border-t border-line bg-fondo">
-      <div className="mx-auto max-w-6xl px-6 py-8 text-sm text-muted">
+    <footer className="mt-12 border-t border-line bg-fondo sm:mt-20">
+      <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-muted sm:px-6">
         <p>
           <strong className="font-semibold text-ink">Capitolo Zero</strong> è
           uno strumento didattico. Spiega e calcola: non dà consigli di

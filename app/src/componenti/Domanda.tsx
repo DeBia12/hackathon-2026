@@ -71,7 +71,7 @@ export function Domanda({
   }, [scelta, esito]);
 
   return (
-    <div className="w-full bg-paper rounded-brand shadow-riposo p-6 md:p-8">
+    <div className="w-full bg-paper rounded-brand shadow-riposo p-5 sm:p-6 md:p-8">
       {/*
        * Il contatore è aria-hidden: è già incluso nella <legend> (sr-only)
        * per evitare che gli screen reader lo leggano due volte.
@@ -90,7 +90,7 @@ export function Domanda({
        * Dà frecce, Home/End e annuncio corretto SENZA role="radio" fatto a mano.
        */}
       <fieldset className="m-0 border-0 p-0">
-        <legend className="mb-6 text-xl font-semibold leading-snug tracking-tight text-ink">
+        <legend className="mb-6 text-lg font-semibold leading-snug tracking-tight text-ink sm:text-xl">
           {posizione !== undefined && (
             <span className="sr-only">
               Domanda {posizione.corrente} di {posizione.totale}:{" "}

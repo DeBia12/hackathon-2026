@@ -89,7 +89,7 @@ export function Valutazione({
         <h1
           ref={titoloRef}
           tabIndex={-1}
-          className="text-3xl font-semibold tracking-tight text-ink outline-none"
+          className="text-2xl font-semibold tracking-tight text-ink outline-none sm:text-3xl"
         >
           Ecco da dove partiamo
         </h1>
@@ -104,7 +104,7 @@ export function Valutazione({
          * Card bianca su fondo lavanda: i dati del profilo hanno più respiro
          * e sono visivamente separati dall'intestazione.
          */}
-        <div className="mt-8 bg-paper rounded-brand shadow-riposo p-6 space-y-8">
+        <div className="mt-8 bg-paper rounded-brand shadow-riposo p-5 space-y-8 sm:p-6">
           {/* Punteggio complessivo */}
           <div>
             <p
@@ -187,7 +187,7 @@ export function Valutazione({
       <h1
         ref={titoloRef}
         tabIndex={-1}
-        className="text-3xl font-semibold tracking-tight text-ink outline-none"
+        className="text-2xl font-semibold tracking-tight text-ink outline-none sm:text-3xl"
       >
         {titolo}
       </h1>

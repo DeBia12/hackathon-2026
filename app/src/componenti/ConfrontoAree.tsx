@@ -27,8 +27,19 @@ function formatDelta(delta: number): DeltaFormattato {
  * Il delta è trasmesso da segno + testo sr-only, mai solo dal colore.
  */
 export function ConfrontoAree({ esito }: PropsConfrontoAree): ReactElement {
+  /*
+   * Sotto i ~340px di larghezza la tabella non ci sta piu' nemmeno con le
+   * colonne fluide e scorre di lato: il contenitore e' quindi un region con
+   * tabIndex={0}, perche' una zona scorrevole va raggiunta anche da tastiera
+   * (WCAG 2.1.1). Da 375px in su non scorre affatto.
+   */
   return (
-    <div className="overflow-x-auto">
+    <div
+      role="region"
+      aria-label="Confronto dei punteggi per area, prima e dopo"
+      tabIndex={0}
+      className="overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text"
+    >
       <table
         className="w-full border-collapse text-sm"
         aria-label="Confronto dei punteggi per area di competenza — prima e dopo il percorso"
@@ -37,25 +48,25 @@ export function ConfrontoAree({ esito }: PropsConfrontoAree): ReactElement {
           <tr className="border-b border-line">
             <th
               scope="col"
-              className="pb-3 pr-6 text-left text-xs font-semibold uppercase tracking-widest text-muted"
+              className="pb-3 pr-3 text-left text-xs font-semibold uppercase tracking-wide text-muted sm:pr-6 sm:tracking-widest"
             >
               Area
             </th>
             <th
               scope="col"
-              className="w-20 pb-3 pr-4 text-right text-xs font-semibold uppercase tracking-widest text-muted"
+              className="pb-3 pr-2 text-right text-xs font-semibold uppercase tracking-wide text-muted sm:w-20 sm:pr-4 sm:tracking-widest"
             >
               Prima
             </th>
             <th
               scope="col"
-              className="w-20 pb-3 pr-4 text-right text-xs font-semibold uppercase tracking-widest text-ink"
+              className="pb-3 pr-2 text-right text-xs font-semibold uppercase tracking-wide text-ink sm:w-20 sm:pr-4 sm:tracking-widest"
             >
               Dopo
             </th>
             <th
               scope="col"
-              className="w-28 pb-3 text-right text-xs font-semibold uppercase tracking-widest text-ink"
+              className="pb-3 text-right text-xs font-semibold uppercase tracking-wide text-ink sm:w-28 sm:tracking-widest"
             >
               Variazione
             </th>
@@ -79,7 +90,7 @@ export function ConfrontoAree({ esito }: PropsConfrontoAree): ReactElement {
                 {/* th scope="row": ogni riga ha un'intestazione → la tabella è navigabile */}
                 <th
                   scope="row"
-                  className="py-5 pr-6 text-left font-medium text-ink align-top"
+                  className="py-4 pr-3 text-left font-medium text-ink align-top sm:py-5 sm:pr-6"
                 >
                   <span>{area.nome}</span>
 
@@ -105,20 +116,20 @@ export function ConfrontoAree({ esito }: PropsConfrontoAree): ReactElement {
                   </div>
                 </th>
 
-                <td className="py-5 pr-4 text-right tabular-nums text-muted align-top">
+                <td className="py-4 pr-2 text-right tabular-nums text-muted align-top sm:py-5 sm:pr-4">
                   {valPrima}%
                 </td>
 
-                <td className="py-5 pr-4 text-right tabular-nums font-medium text-ink align-top">
+                <td className="py-4 pr-2 text-right tabular-nums font-medium text-ink align-top sm:py-5 sm:pr-4">
                   {valDopo}%
                 </td>
 
-                <td className="py-5 align-top">
+                <td className="py-4 align-top sm:py-5">
                   {/* sr-only porta il testo completo; il visivo ha il segno ma l'assistente legge sr-only */}
                   <span className="sr-only">{srOnly}</span>
                   <div className="flex justify-end" aria-hidden="true">
                     <span
-                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${classiPastiglia}`}
+                      className={`inline-flex items-center rounded-full px-2 py-1 text-xs font-semibold sm:px-3 ${classiPastiglia}`}
                     >
                       {visivo}
                     </span>
