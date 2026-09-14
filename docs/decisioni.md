@@ -80,4 +80,60 @@ riferimento e la profondità di `RADICE` in `genera-alberatura.mjs`.
 subagent, skill, hook e comandi slash di progetto non si caricano più automaticamente.
 ~`.claude/` a radice scartata su richiesta esplicita, pur essendo l'unica posizione funzionante.~
 
+**2026-09-14 — Persistenza su `localStorage`, Supabase abbandonato in corsa**
+Alle 11:24, con la consegna alle 14:45, la verifica dell'ambiente ha mostrato che Podman
+non è installato né su Windows né in WSL: servivano `apt install podman` più ~1.5 GB di
+immagini (postgres, gotrue, postgrest, postgres-meta, studio, kong) sul wifi della sede.
+Un terzo del tempo residuo, con esito incerto, per un requisito che la wiki mette in
+STRETCH — chiede solo «persistent state during the user session». Scelta dell'utente
+dopo aver visto il costo.
+~Supabase self-hosted scartato: il download non entra nel tempo. Doppio binario
+(interfaccia astratta + pull in background) scartato: il piano B costava comunque
+20 minuti di adapter per un valore che la consegna non richiede.~
+
+**2026-09-14 — Il fraintendimento sta nell'opzione, non in una tabella di regole**
+Ogni risposta sbagliata dichiara nel dato quale lacuna rivela (`Opzione.lacuna`).
+Il motore adattivo legge quel campo, risale i prerequisiti fino al primo concetto non
+acquisito e apre la micro-lezione di *quello*, non del concetto di superficie. La
+capability adattiva è quindi un grafo di 12 concetti più una funzione pura, non una
+catena di `if` sul contenuto.
+~Regole di remediation codificate a parte scartate: si sarebbero disallineate dal
+contenuto al primo cambio di domanda.~
+
+**2026-09-14 — La padronanza si assegna solo dopo una verifica superata**
+Un concetto diventa `acquisito` solo se l'ultima risposta è corretta e, quando era già
+stato sbagliato, solo al momento `riverifica`. Le risposte della valutazione iniziale non
+rendono mai acquisito nulla: quella misura, non insegna. Livelli e XP contano i concetti
+acquisiti, mai le lezioni viste — la wiki lo chiede esplicitamente.
+~Progresso per pagine completate scartato: misurerebbe il consumo di contenuto, che è
+proprio ciò che il prodotto dichiara di non misurare.~
+
+**2026-09-14 — Credito parziale a tre livelli invece di esito binario**
+Con 5 domande, una per area, un esito binario darebbe punteggi per area di soli 0% o 100%
+e la tabella PRIMA/DOPO — il momento centrale della demo — sembrerebbe finta. Un campo
+`credito: 0.5` sulle opzioni imprecise ma non scorrette porta le aree a 0/50/100 e il
+complessivo a passi del 10%. Emendamento inviato al ticket 01 mentre era già in corso.
+~Aumentare il numero di domande scartato: la wiki fissa cinque domande.~
+
+**2026-09-14 — Il dominio non conosce React, il riduttore non conosce il contenuto**
+`dominio/` è dato e logica pura, testabile senza DOM. Il riduttore riceve l'esito già
+calcolato dentro l'azione invece di importare il motore: così le fondamenta (ticket 01)
+non dipendono da domande e motore, e cinque agenti hanno potuto lavorare in parallelo su
+file disgiunti fin dalla seconda onda.
+~Riduttore che calcola l'esito da sé scartato: avrebbe serializzato tutti i ticket.~
+
+**2026-09-14 — Ticket scritti a mano invece di `to-spec` + `to-tickets`**
+La wiki è già l'esito di un grilling: scenario scelto, journey definito, MUST/SHOULD/CUT
+e criteri di accettazione espliciti. Con 3h10 al traguardo i due giri di conferma delle
+skill costavano più di quanto rendessero. Conservate le proprietà che reggono
+l'orchestrazione: fette verticali, bloccanti dichiarati, un contesto fresco per ticket.
+~Flusso completo scartato per tempo, non per merito.~
+
+**2026-09-14 — Guscio con stub in seconda onda per evitare una quarta onda**
+Il ticket 05 crea `App.tsx`, i componenti presentazionali condivisi e cinque stub di
+schermata con firme vincolanti. Le cinque schermate vere sostituiscono il corpo degli
+stub nella terza onda, su file disgiunti. Senza gli stub, il guscio avrebbe dovuto
+aspettare le schermate e le schermate il guscio.
+~Guscio in terza onda scartato: avrebbe richiesto una quarta onda che non entra nel tempo.~
+
 ---
