@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 /* ============================================================
-   Font del brand — file reali presi da accenture.com
+   Font — i file locali del progetto
    Proprietari (Commercial Type, Grilli Type): uso interno Accenture.
    ============================================================ */
 @font-face {
@@ -34,66 +34,87 @@
 }
 
 /* ============================================================
-   Design token — fintech didattico, morbido e accogliente
+   Design token — stile Brilliant
 
-   Il pubblico è 18-30 anni con zero conoscenze finanziarie e un po' di
-   soggezione verso l'argomento: forme arrotondate, ombre leggere e colori
-   chiari abbassano la barriera più di quanto farebbe un'estetica istituzionale.
+   Riferimento: .claude/skills/brilliant-style/SKILL.md, valori estratti da
+   brilliant.org. Le tre firme: fondo avena con griglia romboidale a 45 gradi,
+   bottoni con uno SPESSORE inset invece di un'ombra, display in grazie col
+   concetto in corsivo.
 
-   Ogni valore è MISURATO con .claude/skills/accessibilita/contrast.mjs,
-   non stimato. Dove la referenza visiva falliva il contrasto, ha vinto il
-   contrasto: il verde #059669 con testo bianco sopra dà 3.77:1, sotto la
-   soglia di 4.5:1, quindi le azioni usano #047857 (5.48:1) e il verde vivo
-   resta ai soli riempimenti e grafiche, dove bastano 3:1.
+   Una modifica voluta rispetto al riferimento: l'accento e' VERDE, non blu.
+
+   Ogni valore e' MISURATO con .claude/skills/accessibilita/contrast.mjs.
+   Dove il sito sta sotto WCAG AA, ha vinto il contrasto: brilliant.org usa
+   bianco su verde #29CC57 (2.13:1) e su blu #456DFF (4.3:1), entrambi sotto
+   soglia. Qui i riempimenti che portano testo bianco sono scuriti.
    ============================================================ */
 @theme {
-  /* Verde d'azione — il colore che dice "premi qui" */
-  --color-accent: #059669;         /* riempimenti e grafica — su bianco 3.77:1, OK per UI (3:1) */
-  --color-accent-text: #047857;    /* TESTO e fondo dei bottoni — bianco sopra 5.48:1 — AA */
-  --color-accent-deep: #065f46;    /* hover dei bottoni */
-  --color-accent-active: #064e3b;  /* stato :active */
-  --color-accent-deepest: #022c22; /* fondi profondi */
-  --color-accent-light: #6ee7b7;   /* verde su fondo SCURO */
-  --color-accent-focus: #34d399;   /* anello di focus su scuro */
-  --color-accent-tenue: #ecfdf5;   /* tessera chiara: fondo delle icone verdi */
+  /* Verde d'azione. Scelta esplicita dell'utente: il dettaglio e' verde, non blu.
+     Il verde acceso #29CC57 del sito da 2.13:1 su bianco: sotto la soglia di 3:1
+     anche per un semplice riempimento percepibile, quindi i riempimenti usano
+     #00A83A (3.15:1) e tutto cio' che porta testo bianco usa #007C23 (5.37:1). */
+  --color-accent: #00a83a;         /* riempimenti e grafica — 3.15:1 */
+  --color-accent-text: #007c23;    /* TESTO e fondo dei bottoni — bianco sopra 5.37:1 */
+  --color-accent-deep: #004e16;    /* hover — 9.99:1 su bianco */
+  --color-accent-active: #004e16;
+  --color-accent-deepest: #004e16;
+  --color-accent-light: #9fe8b3;   /* verde su fondo SCURO — su #141414 12.87:1 */
+  --color-accent-focus: #9fe8b3;
+  --color-accent-tenue: #eafaee;   /* fondo tenue delle tessere verdi */
 
-  /* Colori di categoria — distinguono le aree, mai da soli: sempre con
-     un'etichetta testuale accanto. Tutti verificati sopra 4.5:1 su bianco. */
-  --color-blu: #2563eb;            /* 5.17:1 */
-  --color-blu-tenue: #eff6ff;
-  --color-viola: #7c3aed;          /* 5.7:1  */
-  --color-viola-tenue: #f5f3ff;
-  --color-ambra: #b45309;          /* 5.02:1 */
-  --color-ambra-tenue: #fffbeb;
+  /* Colori di categoria. I gialli e i verdi accesi del sito reggono solo con
+     testo NERO sopra: come testo su bianco servono le varianti scure. */
+  --color-blu: #007c23;            /* alias: il verde, per non lasciare blu in giro */
+  --color-blu-tenue: #eafaee;
+  --color-viola: #7139cc;          /* 6.65:1 */
+  --color-viola-tenue: #f4edff;
+  --color-ambra: #926d00;          /* 4.76:1 */
+  --color-ambra-tenue: #fef9e9;
+  --color-verde: #007c23;          /* 5.37:1 — esito corretto */
+  --color-verde-tenue: #eafaee;
+  --color-rosso: #9c2e2e;          /* 7.38:1 — esito da rivedere */
+  --color-rosso-tenue: #ffefef;
 
-  /* Neutri freddi */
-  --color-ink: #0f172a;            /* titoli — su bianco 17.85:1 */
+  /* Neutri caldi. Mai nero puro: il testo primario è #141414. */
+  --color-ink: #141414;            /* su avena 16.64:1 */
   --color-paper: #ffffff;
-  --color-fondo: #f7f7fb;          /* fondo pagina, appena tinto di lavanda */
-  --color-surface: #f5f5fa;        /* superfici sollevate e tessere */
-  --color-surface-dark: #1e293b;
-  --color-line: #e2e8f0;           /* divisori DECORATIVI — 1.48:1, mai per bordi interattivi */
+  --color-fondo: #f5f3f1;          /* avena: il fondo pagina, non bianco */
+  --color-surface: #f2f2f2;
+  --color-surface-dark: #141414;
+  --color-line: #e4e4e4;           /* bordo di ogni card: tiene la composizione
+                                      insieme al posto dell'ombra */
 
-  /* Testo secondario. #475569 regge bianco (7.58:1) e il fondo (7.09:1).
-     #64748B (4.76:1) è la soglia minima: serve anche ai bordi dei componenti
-     interattivi, che devono superare 3:1 per WCAG 1.4.11. */
-  --color-muted: #475569;
-  --color-muted-surface: #475569;
-  --color-muted-dark: #cbd5e1;     /* SOLO su fondo scuro */
-  --color-bordo-ui: #64748b;       /* bordi di elementi con cui si interagisce */
+  /* #4C4C4C regge l'avena (7.76:1). #666666 è il minimo sui fondi chiari
+     (5.74:1 su bianco) e serve ai bordi degli elementi interattivi.
+     #999999 su avena dà 2.57:1: è un grigio da fondo scuro, mai su chiaro. */
+  --color-muted: #4c4c4c;
+  --color-muted-surface: #4c4c4c;
+  --color-muted-dark: #999999;
+  --color-bordo-ui: #666666;
 
-  --font-sans: "Graphik", "Inter", system-ui, -apple-system, sans-serif;
-  --font-serif: "GT Sectra Fine", Georgia, serif;
+  --font-sans: "Figtree", "Graphik", "Inter", system-ui, sans-serif;
+  /* Georgia prima di GT Sectra: ha un corsivo vero, e il corsivo è la firma
+     del display. Un corsivo sintetizzato dal browser si vede. */
+  --font-serif: Georgia, "GT Sectra Fine", "Times New Roman", serif;
 
-  /* Angoli morbidi. `rounded-brand` è il raggio predefinito dei contenitori;
-     i bottoni usano `rounded-full`. */
-  --radius-brand: 16px;
-  --radius-tessera: 12px;
-  --radius-grande: 24px;
+  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.02em;
 
-  /* Ombre diffuse e basse: suggeriscono profondità senza sporcare il bianco. */
-  --shadow-riposo: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 12px rgb(15 23 42 / 0.05);
-  --shadow-sollevata: 0 2px 4px rgb(15 23 42 / 0.05), 0 12px 28px rgb(15 23 42 / 0.09);
+  --radius-brand: 1rem;
+  --radius-tessera: 0.75rem;
+  --radius-grande: 2rem;
+
+  /* Le ombre sono diffuse e senza scostamento verticale: il sollevamento lo fa
+     il bianco della card sull'avena, non l'ombra. */
+  --shadow-riposo: 0 1px 3px rgb(0 0 0 / 0.04);
+  --shadow-sollevata: 0 0 25px rgb(0 0 0 / 0.08);
+  /* Lo spessore del bottone: un inset, non un'ombra. Premendolo ci scende dentro. */
+  --shadow-spessore: inset 0 -4px rgb(0 78 22 / 0.35);
+  --shadow-spessore-premuto: inset 0 -2px rgb(0 78 22 / 0.35);
+
+  /* Una molla che supera e rientra. */
+  --ease-molla: cubic-bezier(0.2, 1.1, 0.36, 1);
 }
 
 /* ============================================================
@@ -120,8 +141,16 @@
 
   body {
     @apply bg-fondo text-ink font-sans antialiased;
-    font-size: 1rem;
+    font-size: 1.0625rem;
     line-height: 1.6;
+
+    /* La griglia romboidale a 45 gradi: dà l'aria del quaderno a quadretti
+       senza sembrarlo. L'opacità non va alzata sopra 0a — appena la griglia
+       si vede davvero, la pagina diventa rumorosa e il testo perde leggibilità. */
+    background-image:
+      repeating-linear-gradient(45deg, rgb(0 0 0 / 0.04) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(-45deg, rgb(0 0 0 / 0.04) 0 1px, transparent 1px 64px);
+    background-attachment: fixed;
   }
 
   /* Focus visibile ovunque, anche se un componente dimentica di dichiararlo */
