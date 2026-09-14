@@ -56,70 +56,67 @@ export function Mappa(): ReactElement {
   }
 
   return (
-    <div
-      className="mx-auto max-w-2xl px-4 py-12"
-    >
-      {/* ── Sezione: dove sei ─────────────────────────────────────────────── */}
-      <section aria-labelledby="titolo-percorso" className="mb-14">
-        <h1
-          id="titolo-percorso"
-          className="mb-8 text-3xl font-semibold tracking-tight text-ink"
-        >
-          <span aria-hidden="true" className="text-accent">
-            &gt;
-          </span>{" "}
-          Il tuo percorso
-        </h1>
+    <div className="mx-auto max-w-2xl px-4 py-12">
+      {/* ── Sezione: dove sei — card bianca su fondo lavanda ─────────────── */}
+      <section aria-labelledby="titolo-percorso" className="mb-10">
+        <div className="rounded-brand bg-paper p-6 shadow-riposo">
+          <h1
+            id="titolo-percorso"
+            className="mb-6 text-3xl font-semibold tracking-tight text-ink"
+          >
+            Il tuo percorso
+          </h1>
 
-        {/* Livello e XP */}
-        <div className="mb-6 flex flex-wrap items-center gap-4">
-          <DistintivoLivello
-            livello={av.livello}
-            concettiAcquisiti={av.concettiAcquisiti}
-            concettiTotali={av.concettiTotali}
+          {/* Livello e XP */}
+          <div className="mb-5 flex flex-wrap items-center gap-4">
+            <DistintivoLivello
+              livello={av.livello}
+              concettiAcquisiti={av.concettiAcquisiti}
+              concettiTotali={av.concettiTotali}
+            />
+            <p className="text-sm text-muted">
+              {av.xp}&thinsp;XP
+            </p>
+          </div>
+
+          {/* Barra di progresso estesa */}
+          <BarraProgresso
+            valore={av.percentuale}
+            etichetta="Concetti acquisiti"
           />
-          <p className="text-sm text-muted">
-            {av.xp}&thinsp;XP
+
+          {/*
+           * Spiega come funziona il progresso — è un principio del prodotto:
+           * contiamo la comprensione dimostrata, non le pagine lette.
+           */}
+          <p className="mt-3 text-sm text-muted">
+            La percentuale misura i concetti che hai dimostrato di aver capito,
+            non quante pagine hai letto.
           </p>
+
+          {/* Quanti concetti mancano al livello successivo */}
+          {av.prossimoLivello !== undefined && (
+            <p className="mt-2 text-sm text-muted">
+              Mancano{" "}
+              <strong className="font-medium text-ink">
+                {av.concettiAlProssimoLivello}
+              </strong>{" "}
+              {av.concettiAlProssimoLivello === 1 ? "concetto" : "concetti"} per
+              raggiungere il livello{" "}
+              <strong className="font-medium text-ink">
+                {av.prossimoLivello}
+              </strong>
+              .
+            </p>
+          )}
         </div>
-
-        {/* Barra di progresso estesa */}
-        <BarraProgresso
-          valore={av.percentuale}
-          etichetta="Concetti acquisiti"
-        />
-
-        {/*
-         * Spiega come funziona il progresso — è un principio del prodotto:
-         * contiamo la comprensione dimostrata, non le pagine lette.
-         */}
-        <p className="mt-3 text-sm text-muted">
-          La percentuale misura i concetti che hai dimostrato di aver capito,
-          non quante pagine hai letto.
-        </p>
-
-        {/* Quanti concetti mancano al livello successivo */}
-        {av.prossimoLivello !== undefined && (
-          <p className="mt-2 text-sm text-muted">
-            Mancano{" "}
-            <strong className="font-medium text-ink">
-              {av.concettiAlProssimoLivello}
-            </strong>{" "}
-            {av.concettiAlProssimoLivello === 1 ? "concetto" : "concetti"} per
-            raggiungere il livello{" "}
-            <strong className="font-medium text-ink">
-              {av.prossimoLivello}
-            </strong>
-            .
-          </p>
-        )}
       </section>
 
       {/* ── Sezione: i sei moduli ─────────────────────────────────────────── */}
-      <section aria-labelledby="titolo-moduli" className="mb-14">
+      <section aria-labelledby="titolo-moduli" className="mb-10">
         <h2
           id="titolo-moduli"
-          className="mb-6 text-xs font-semibold uppercase tracking-widest text-muted"
+          className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted"
         >
           Moduli
         </h2>
@@ -127,8 +124,9 @@ export function Mappa(): ReactElement {
         {/*
          * <ol> perché l'ordine è semanticamente rilevante:
          * ogni modulo si sblocca solo dopo il precedente.
+         * Le card sono distanziate con gap invece dei divisori a linea.
          */}
-        <ol className="border-b border-t border-line divide-y divide-line">
+        <ol className="flex flex-col gap-3">
           {MODULI.map((modulo, idx) => {
             const statoModulo = statiModuli[modulo.id];
             const moduloPrecedente = idx > 0 ? MODULI[idx - 1] : undefined;
@@ -163,7 +161,7 @@ export function Mappa(): ReactElement {
       </section>
 
       {/* ── Sezione: valutazione finale ──────────────────────────────────── */}
-      <section aria-labelledby="titolo-valutazione" className="mb-14">
+      <section aria-labelledby="titolo-valutazione" className="mb-10">
         <h2
           id="titolo-valutazione"
           className="mb-4 text-xs font-semibold uppercase tracking-widest text-muted"
@@ -175,7 +173,7 @@ export function Mappa(): ReactElement {
           /*
            * Tutti i moduli completati: CTA principale in evidenza.
            */
-          <div className="border border-accent-text p-6">
+          <div className="rounded-brand bg-paper p-6 shadow-riposo">
             <p className="mb-2 font-semibold text-ink">
               Hai completato tutti i moduli.
             </p>
@@ -196,7 +194,7 @@ export function Mappa(): ReactElement {
            * Moduli non ancora completati: il blocco è visibile ma spiega dove
            * si va a finire. Sapere la destinazione aiuta a proseguire.
            */
-          <div className="border border-line p-6">
+          <div className="rounded-brand bg-surface p-6">
             <p className="text-sm text-muted">
               La valutazione finale si sblocca dopo aver completato tutti e
               sei i moduli.{" "}

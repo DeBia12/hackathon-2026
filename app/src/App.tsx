@@ -88,7 +88,7 @@ export function App(): ReactElement {
         ref={mainRef}
         tabIndex={-1}
         aria-label={etichettaSchermata(stato.schermata)}
-        className="mx-auto max-w-5xl px-6 py-16 focus:outline-none"
+        className="mx-auto max-w-6xl px-4 py-10 focus:outline-none sm:px-6 sm:py-14"
       >
         {renderSchermata()}
       </main>

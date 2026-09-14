@@ -122,16 +122,21 @@ export function Remediation({
       </div>
 
       {/* ── Intestazione remediation ──────────────────────────────── */}
-      <div className="border-2 border-accent bg-surface p-6">
+      {/*
+       * Fondo ambra-tenue: colore caldo, non punitivo, diverso dal verde d'azione.
+       * text-ink per il titolo (0F172A su #fffbeb = altissimo contrasto).
+       * Il nome del concetto è in text-ambra (4.84:1 su #fffbeb, AA).
+       */}
+      <div className="bg-ambra-tenue rounded-brand p-6">
         <h2
           ref={titoloRef}
           tabIndex={-1}
           className="text-xl font-semibold leading-snug tracking-tight text-ink focus:outline-none"
         >
-          Qui manca un passaggio:{" "}
-          <strong className="text-accent-text">{concettoNome}</strong>.
+          Fermiamoci un momento:{" "}
+          <strong className="text-ambra">{concettoNome}</strong>.
         </h2>
-        <p className="mt-2 text-base leading-relaxed text-muted">
+        <p className="mt-2 max-w-prose text-base leading-relaxed text-muted">
           Non è un errore tuo — è un concetto che non abbiamo ancora visto insieme.
           Prima di tornare alla domanda, guardiamo cosa vuol dire.
         </p>

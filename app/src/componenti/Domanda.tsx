@@ -37,7 +37,7 @@ export function Domanda({
   const giàRisposte = scelta !== undefined;
 
   return (
-    <div className="w-full">
+    <div className="w-full bg-paper rounded-brand shadow-riposo p-6 md:p-8">
       {/*
        * Il contatore è aria-hidden: è già incluso nella <legend> (sr-only)
        * per evitare che gli screen reader lo leggano due volte.
@@ -74,16 +74,23 @@ export function Domanda({
               /*
                * La <label> avvolge tutta la riga: il target touch è l'intera
                * area, non solo il cerchio del radio. Soddisfa WCAG 2.2 target 24×24.
+               * rounded-tessera e border-bordo-ui rispettano il contrasto 3:1 sui bordi UI.
+               * Lo stato selezionato aggiunge bg-accent-tenue + border-accent-text:
+               * non è veicolato dal solo colore — il radio nativo resta selezionato.
                */
               <label
                 key={opzione.id}
                 htmlFor={opzioneId}
                 className={cn(
-                  "flex cursor-pointer items-start gap-3 border-2 px-4 py-3",
+                  "flex cursor-pointer items-start gap-3 rounded-tessera border-2 px-4 py-3 min-h-11",
                   "motion-safe:transition-colors motion-safe:duration-[550ms]",
                   "motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]",
-                  giàRisposte ? "cursor-default" : "hover:border-accent-text",
-                  selezionata ? "border-accent" : "border-muted",
+                  giàRisposte
+                    ? "cursor-default"
+                    : "hover:border-accent-text hover:bg-accent-tenue",
+                  selezionata
+                    ? "border-accent-text bg-accent-tenue"
+                    : "border-bordo-ui",
                 )}
               >
                 {/*
@@ -119,20 +126,32 @@ export function Domanda({
        * role="status" + aria-live="polite": annuncia l'esito senza spostare il
        * focus. aria-atomic="true" garantisce che la frase sia letta per intero.
        * L'esito non è veicolato dal solo colore: c'è anche il simbolo (aria-hidden)
-       * e la parola "Corretto" / "Non ancora".
+       * e la parola "Corretto" / "Non ancora" in testo visibile.
+       * Contrasti verificati: text-accent-text su bg-accent-tenue = 5.21:1 AA;
+       * text-ambra su bg-ambra-tenue = 4.84:1 AA.
        */}
       {mostraEsito && esito !== undefined && (
         <div
           role="status"
           aria-live="polite"
           aria-atomic="true"
-          className="mt-6 border-2 border-line bg-surface p-4"
+          className={cn(
+            "mt-6 rounded-tessera p-4",
+            esito.corretta ? "bg-accent-tenue" : "bg-ambra-tenue",
+          )}
         >
-          <p className="font-semibold text-ink">
+          <p
+            className={cn(
+              "font-semibold",
+              esito.corretta ? "text-accent-text" : "text-ambra",
+            )}
+          >
             <span aria-hidden="true">{esito.corretta ? "✓" : "✗"}</span>{" "}
             {esito.corretta ? "Corretto" : "Non ancora"}
           </p>
-          <p className="mt-2 text-muted">{esito.spiegazione}</p>
+          <p className="mt-2 text-base leading-relaxed text-muted">
+            {esito.spiegazione}
+          </p>
         </div>
       )}
 

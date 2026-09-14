@@ -3,7 +3,7 @@ import { useApprendimento } from "@/stato/ApprendimentoContext";
 import { calcolaProfilo, confronta } from "@/dominio/punteggio";
 import { CONCETTI, AREE } from "@/dominio/concetti";
 import { avanzamento } from "@/dominio/percorso";
-import type { ConcettoId, Concetto } from "@/dominio/tipi";
+import type { ConcettoId, Concetto, AreaId } from "@/dominio/tipi";
 import { ConfrontoAree } from "@/componenti/ConfrontoAree";
 import { DistintivoLivello } from "@/componenti/DistintivoLivello";
 import { PastigliaConcetto } from "@/componenti/PastigliaConcetto";
@@ -22,6 +22,16 @@ function deltaSrOnly(delta: number): string {
   const parola = delta > 0 ? "più" : "meno";
   return `${parola} ${Math.abs(delta)} punti percentuali rispetto alla valutazione iniziale`;
 }
+
+// ─── Tessere-icona per area — colori e glifi senza librerie esterne ──────────
+
+const ICONA_AREA: Record<AreaId, { glifo: string; sfondo: string; testo: string }> = {
+  basi: { glifo: "B", sfondo: "bg-blu-tenue", testo: "text-blu" },
+  inflazione: { glifo: "%", sfondo: "bg-ambra-tenue", testo: "text-ambra" },
+  "rischio-rendimento": { glifo: "R", sfondo: "bg-viola-tenue", testo: "text-viola" },
+  diversificazione: { glifo: "D", sfondo: "bg-accent-tenue", testo: "text-accent-text" },
+  strumenti: { glifo: "S", sfondo: "bg-blu-tenue", testo: "text-blu" },
+};
 
 // ─── Componente ──────────────────────────────────────────────────────────────
 
@@ -113,10 +123,10 @@ export function Risultato(): ReactElement {
                       aria-valuemin={0}
                       aria-valuemax={100}
                       aria-label={`${area.nome}: ${val}%`}
-                      className="h-2 flex-1 overflow-hidden bg-line"
+                      className="h-2 flex-1 overflow-hidden rounded-full bg-surface"
                     >
                       <div
-                        className="h-full bg-accent"
+                        className="h-full rounded-full bg-accent"
                         style={{ width: `${val}%` }}
                         aria-hidden="true"
                       />
@@ -140,13 +150,24 @@ export function Risultato(): ReactElement {
             >
               Cosa sai già dire
             </h2>
-            <ul className="mt-4 space-y-4" role="list">
-              {concettiAcquisiti.map((c) => (
-                <li key={c.id} className="flex flex-col items-start gap-1.5">
-                  <PastigliaConcetto nome={c.nome} stato="acquisito" />
-                  <p className="text-sm text-muted">{c.inUnaRiga}</p>
-                </li>
-              ))}
+            <ul className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2" role="list">
+              {concettiAcquisiti.map((c) => {
+                const icona = ICONA_AREA[c.area];
+                return (
+                  <li key={c.id} className="rounded-brand bg-paper p-4 shadow-riposo">
+                    <div className="flex items-center gap-3">
+                      <span
+                        aria-hidden="true"
+                        className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-tessera text-sm font-bold ${icona.sfondo} ${icona.testo}`}
+                      >
+                        {icona.glifo}
+                      </span>
+                      <PastigliaConcetto nome={c.nome} stato="acquisito" />
+                    </div>
+                    <p className="mt-3 text-sm leading-relaxed text-muted">{c.inUnaRiga}</p>
+                  </li>
+                );
+              })}
             </ul>
           </section>
         )}
@@ -184,44 +205,52 @@ export function Risultato(): ReactElement {
           Punteggio complessivo di alfabetizzazione finanziaria
         </h2>
 
-        <div className="mt-6 flex flex-wrap items-end gap-4 sm:gap-8">
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-              Prima
-            </p>
-            {/* Testo enorme: l'elemento più grande della pagina */}
-            <p className="text-[clamp(4rem,12vw,7rem)] font-semibold leading-none tracking-tight text-ink">
-              {prima.complessivo}%
-            </p>
+        {/* Card ampia con ombra: il confronto PRIMA → DOPO tutto insieme */}
+        <div className="mt-6 rounded-brand bg-paper p-8 shadow-sollevata">
+          <div className="flex flex-wrap items-end gap-4 sm:gap-8">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted">
+                Prima
+              </p>
+              {/* Testo enorme: PRIMA in muted per far risaltare il DOPO */}
+              <p className="text-[clamp(4rem,12vw,7rem)] font-semibold leading-none tracking-tight text-muted">
+                {prima.complessivo}%
+              </p>
+            </div>
+
+            {/* Freccia decorativa */}
+            <span
+              aria-hidden="true"
+              className="pb-2 text-[clamp(2rem,6vw,3.5rem)] font-semibold leading-none text-accent"
+            >
+              →
+            </span>
+
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-widest text-muted">
+                Dopo
+              </p>
+              <p className="text-[clamp(4rem,12vw,7rem)] font-semibold leading-none tracking-tight text-accent-text">
+                {dopo.complessivo}%
+              </p>
+            </div>
           </div>
 
-          {/* Freccia decorativa */}
-          <span
-            aria-hidden="true"
-            className="pb-2 text-[clamp(2rem,6vw,3.5rem)] font-semibold leading-none text-accent"
+          {/* Delta come pastiglia verde — mai solo colore: il segno e il sr-only portano il significato */}
+          <p
+            className="mt-6"
+            aria-live="polite"
+            aria-atomic="true"
           >
-            →
-          </span>
-
-          <div>
-            <p className="text-xs font-semibold uppercase tracking-widest text-muted">
-              Dopo
-            </p>
-            <p className="text-[clamp(4rem,12vw,7rem)] font-semibold leading-none tracking-tight text-accent-text">
-              {dopo.complessivo}%
-            </p>
-          </div>
+            <span className="sr-only">{deltaSrOnly(esito.deltaComplessivo)}</span>
+            <span
+              aria-hidden="true"
+              className="inline-flex items-center rounded-full bg-accent-tenue px-4 py-2 text-base font-semibold text-accent-text"
+            >
+              {deltaTestoVisivo(esito.deltaComplessivo)}
+            </span>
+          </p>
         </div>
-
-        {/* Delta in evidenza — mai solo colore: c'è sempre il segno e il testo sr-only */}
-        <p
-          className="mt-5 text-2xl font-medium text-ink"
-          aria-live="polite"
-          aria-atomic="true"
-        >
-          <span className="sr-only">{deltaSrOnly(esito.deltaComplessivo)}</span>
-          <span aria-hidden="true">{deltaTestoVisivo(esito.deltaComplessivo)}</span>
-        </p>
       </section>
 
       {/* ── Blocco 2: confronto per area ── */}
@@ -258,13 +287,24 @@ export function Risultato(): ReactElement {
             rifai la valutazione finale.
           </p>
         ) : (
-          <ul className="mt-6 space-y-5" role="list">
-            {concettiAcquisiti.map((c) => (
-              <li key={c.id} className="flex flex-col items-start gap-1.5">
-                <PastigliaConcetto nome={c.nome} stato="acquisito" />
-                <p className="text-sm text-muted">{c.inUnaRiga}</p>
-              </li>
-            ))}
+          <ul className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2" role="list">
+            {concettiAcquisiti.map((c) => {
+              const icona = ICONA_AREA[c.area];
+              return (
+                <li key={c.id} className="rounded-brand bg-paper p-4 shadow-riposo">
+                  <div className="flex items-center gap-3">
+                    <span
+                      aria-hidden="true"
+                      className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-tessera text-sm font-bold ${icona.sfondo} ${icona.testo}`}
+                    >
+                      {icona.glifo}
+                    </span>
+                    <PastigliaConcetto nome={c.nome} stato="acquisito" />
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-muted">{c.inUnaRiga}</p>
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

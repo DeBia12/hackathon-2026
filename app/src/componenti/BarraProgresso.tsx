@@ -16,7 +16,7 @@ export function BarraProgresso({
   const val = Math.max(0, Math.min(100, Math.round(valore)));
 
   return (
-    <div className={cn("flex flex-col gap-1", compatta ? "w-28" : "w-full")}>
+    <div className={cn("flex flex-col gap-1.5", compatta ? "w-28" : "w-full")}>
       {!compatta && (
         <div className="flex items-center justify-between text-sm font-medium text-ink">
           <span>{etichetta}</span>
@@ -33,14 +33,14 @@ export function BarraProgresso({
         aria-valuemax={100}
         aria-label={`${etichetta}: ${val}%`}
         className={cn(
-          "overflow-hidden bg-line",
-          compatta ? "h-1.5" : "h-3",
+          "overflow-hidden rounded-full bg-surface",
+          compatta ? "h-2" : "h-4",
         )}
       >
         {/* La larghezza è un dato dinamico: inline style è l'unico modo corretto
             senza generare migliaia di classi Tailwind a build time */}
         <div
-          className="h-full bg-accent motion-safe:transition-[width] motion-safe:duration-[550ms] motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]"
+          className="h-full rounded-full bg-accent motion-safe:transition-[width] motion-safe:duration-[550ms] motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]"
           style={{ width: `${val}%` }}
           aria-hidden="true"
         />

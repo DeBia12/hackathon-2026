@@ -85,25 +85,26 @@ export function Valutazione({
     const profilo = calcolaProfilo(risposteLocali, CONCETTI);
 
     return (
-      <div className="py-8">
+      <div className="py-8 max-w-2xl">
         <h1
           ref={titoloRef}
           tabIndex={-1}
           className="text-3xl font-semibold tracking-tight text-ink outline-none"
         >
-          <span aria-hidden="true" className="text-accent">
-            &gt;
-          </span>{" "}
           Ecco da dove partiamo
         </h1>
 
-        <p className="mt-4 max-w-xl text-lg text-muted">
+        <p className="mt-4 max-w-prose text-lg leading-relaxed text-muted">
           Un punteggio basso qui è del tutto normale: è esattamente per questo
           che il percorso esiste. Queste cinque domande ci indicano dove
           concentrare l'attenzione.
         </p>
 
-        <div className="mt-10 max-w-lg space-y-8">
+        {/*
+         * Card bianca su fondo lavanda: i dati del profilo hanno più respiro
+         * e sono visivamente separati dall'intestazione.
+         */}
+        <div className="mt-8 bg-paper rounded-brand shadow-riposo p-6 space-y-8">
           {/* Punteggio complessivo */}
           <div>
             <p
@@ -138,7 +139,7 @@ export function Valutazione({
           </div>
         </div>
 
-        <div className="mt-10">
+        <div className="mt-8">
           <Button
             onClick={() =>
               invia({ tipo: "vai-a", schermata: { nome: "mappa" } })
@@ -173,7 +174,7 @@ export function Valutazione({
         : "Concludi la valutazione";
 
   return (
-    <div className="py-8">
+    <div className="py-8 max-w-2xl">
       {/*
        * Regione aria-live: annuncia il cambio di domanda agli screen reader
        * senza spostare il focus. aria-atomic garantisce che la frase sia letta
@@ -188,13 +189,10 @@ export function Valutazione({
         tabIndex={-1}
         className="text-3xl font-semibold tracking-tight text-ink outline-none"
       >
-        <span aria-hidden="true" className="text-accent">
-          &gt;
-        </span>{" "}
         {titolo}
       </h1>
 
-      {/* Barra di avanzamento — label include la posizione per gli screen reader */}
+      {/* Barra di avanzamento a pillola — label include la posizione per gli screen reader */}
       <div className="mt-6">
         <BarraProgresso
           valore={progressoPercent}
@@ -202,7 +200,7 @@ export function Valutazione({
         />
       </div>
 
-      <div className="mt-10 max-w-2xl">
+      <div className="mt-10">
         {/*
          * key={indiceDomanda}: forza il rimontaggio del componente a ogni
          * avanzamento, assicurando che il fieldset/legend vengano re-annunciati
