@@ -32,7 +32,9 @@ export function Card({ titolo, livello = 3, children, className, tessera }: Card
   return (
     <article
       className={cn(
-        "rounded-brand bg-paper shadow-riposo p-6",
+        // Il bordo è quello che tiene insieme la composizione quando l'ombra
+        // quasi non c'è: il sollevamento lo fa il bianco sull'avena.
+        "rounded-brand border border-line bg-paper shadow-riposo p-6",
         "motion-safe:transition-shadow motion-safe:duration-200",
         "motion-safe:hover:shadow-sollevata",
         className,

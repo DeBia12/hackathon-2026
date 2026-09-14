@@ -18,10 +18,8 @@ export function Benvenuto(): ReactElement {
             Educazione finanziaria di base
           </p>
 
-          <h1 className="mt-4 text-5xl font-bold leading-tight tracking-tight text-ink md:text-6xl">
-            Impara.<br />
-            Capisci.<br />
-            Decidi tu.
+          <h1 className="mt-4 font-serif font-semibold text-display text-ink">
+            Capire i tuoi soldi, <em>un passo alla volta</em>
           </h1>
 
           <p className="mt-6 max-w-sm text-lg leading-relaxed text-muted">
@@ -75,7 +73,7 @@ export function Benvenuto(): ReactElement {
            */}
           <div
             aria-hidden="true"
-            className="relative overflow-visible rounded-grande bg-paper p-6 shadow-sollevata"
+            className="relative overflow-visible rounded-grande border border-line bg-paper p-6 shadow-sollevata"
           >
             <p className="mb-4 text-sm font-medium text-muted">
               Esempio di progressione
@@ -110,7 +108,7 @@ export function Benvenuto(): ReactElement {
             </div>
 
             {/* Card flottante — valore esemplificativo */}
-            <div className="absolute -right-4 -top-6 rounded-brand bg-paper p-4 shadow-sollevata">
+            <div className="absolute -right-4 -top-6 rounded-brand border border-line bg-paper p-4 shadow-sollevata">
               <p className="text-3xl font-bold text-accent-text">+80%</p>
               <p className="mt-1 text-xs leading-snug text-muted">
                 miglioramento medio
@@ -146,7 +144,7 @@ export function Benvenuto(): ReactElement {
         <div className="mt-8 grid gap-6 sm:grid-cols-3">
 
           {/* PRIMA — tessera verde */}
-          <div className="rounded-brand bg-paper p-6 shadow-riposo motion-safe:transition-shadow motion-safe:duration-300 motion-safe:hover:shadow-sollevata">
+          <div className="rounded-brand border border-line bg-paper p-6 shadow-riposo motion-safe:transition-shadow motion-safe:duration-300 motion-safe:hover:shadow-sollevata">
             <div className="flex h-11 w-11 items-center justify-center rounded-tessera bg-accent-tenue">
               {/* Glifo decorativo: aria-hidden perché il titolo h3 porta il significato */}
               <span aria-hidden="true" className="text-lg font-bold text-accent-text">
@@ -160,7 +158,7 @@ export function Benvenuto(): ReactElement {
           </div>
 
           {/* APPRENDI — tessera blu */}
-          <div className="rounded-brand bg-paper p-6 shadow-riposo motion-safe:transition-shadow motion-safe:duration-300 motion-safe:hover:shadow-sollevata">
+          <div className="rounded-brand border border-line bg-paper p-6 shadow-riposo motion-safe:transition-shadow motion-safe:duration-300 motion-safe:hover:shadow-sollevata">
             <div className="flex h-11 w-11 items-center justify-center rounded-tessera bg-blu-tenue">
               <span aria-hidden="true" className="text-lg font-bold text-blu">
                 ◈
@@ -174,7 +172,7 @@ export function Benvenuto(): ReactElement {
           </div>
 
           {/* DOPO — tessera viola */}
-          <div className="rounded-brand bg-paper p-6 shadow-riposo motion-safe:transition-shadow motion-safe:duration-300 motion-safe:hover:shadow-sollevata">
+          <div className="rounded-brand border border-line bg-paper p-6 shadow-riposo motion-safe:transition-shadow motion-safe:duration-300 motion-safe:hover:shadow-sollevata">
             <div className="flex h-11 w-11 items-center justify-center rounded-tessera bg-viola-tenue">
               <span aria-hidden="true" className="text-lg font-bold text-viola">
                 ◇

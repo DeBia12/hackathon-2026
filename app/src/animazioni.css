@@ -1,0 +1,35 @@
+/* Keyframe delle risposte: pop (corretto) e vibrazione (da rivedere).
+ *
+ * Niente `@layer utilities` qui dentro. Questo foglio veniva importato da un
+ * componente, quindi finiva PRIMA di Tailwind nel bundle: dichiarare lì il
+ * livello `utilities` lo registrava come primo livello del documento, cioè
+ * quello a priorità più bassa, e il reset di `@layer base` sovrascriveva ogni
+ * utility di spaziatura e larghezza. Fuori dai livelli le regole vincono
+ * comunque, ed è quello che serve a un'animazione.
+ *
+ * Le animazioni vivono dentro `prefers-reduced-motion: no-preference`: chi le
+ * ha disattivate capisce l'esito dall'icona e dal testo, non dal gesto.
+ */
+
+@keyframes pop {
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.04); }
+}
+
+@keyframes vibra {
+  0%, 100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .animate-pop {
+    animation: pop 0.35s cubic-bezier(0.2, 1.1, 0.36, 1);
+  }
+
+  .animate-shake {
+    animation: vibra 0.4s ease-in-out;
+  }
+}
