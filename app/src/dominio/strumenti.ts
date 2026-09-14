@@ -126,6 +126,7 @@ const _strumentiInterne: Record<TipoStrumento, SchedaStrumento> = {
       {
         etichetta: "Cedola",
         valore: "Non esiste",
+        assente: true,
         spiegazione:
           "L'azione non ha una cedola. Non c'è un pagamento periodico garantito. " +
           "L'azienda può decidere di distribuire parte degli utili ai soci (dividendo), " +
@@ -134,6 +135,7 @@ const _strumentiInterne: Record<TipoStrumento, SchedaStrumento> = {
       {
         etichetta: "Scadenza",
         valore: "Non esiste",
+        assente: true,
         spiegazione:
           "L'azione non ha scadenza. Non è previsto alcun rimborso del capitale. " +
           "Se vuoi uscire dall'investimento, devi vendere l'azione sul mercato " +

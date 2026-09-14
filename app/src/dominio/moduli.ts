@@ -209,6 +209,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     vedi: {
       tipo: "interattivo",
       componente: "anatomia-strumento",
+      strumento: "titolo-stato",
     },
     capisci: [
       "Un titolo di Stato è un prestito che fai allo Stato. " +
@@ -222,6 +223,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "titolo-stato",
       consegna:
         "Esplora le parti di un BTP: scopri chi lo emette, cosa ricevi nel tempo " +
         "e quando termina il prestito.",
@@ -236,6 +238,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     vedi: {
       tipo: "interattivo",
       componente: "anatomia-strumento",
+      strumento: "obbligazione-societaria",
     },
     capisci: [
       "Un'obbligazione societaria funziona come un titolo di Stato, " +
@@ -250,6 +253,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "obbligazione-societaria",
       consegna:
         "Esplora le parti di un'obbligazione societaria: chi la emette, " +
         "cosa ricevi e quando ti restituisce il capitale.",
@@ -264,6 +268,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     vedi: {
       tipo: "interattivo",
       componente: "anatomia-strumento",
+      strumento: "azione",
     },
     capisci: [
       "Un'azione rappresenta una quota di proprietà di un'azienda. " +
@@ -278,6 +283,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "azione",
       consegna:
         "Scopri cosa rappresenta un'azione e in cosa è fondamentalmente diversa " +
         "dalle obbligazioni che hai appena studiato.",
@@ -292,6 +298,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     vedi: {
       tipo: "interattivo",
       componente: "anatomia-strumento",
+      strumento: "etf",
     },
     capisci: [
       "Un ETF (Exchange Traded Fund) è un fondo che puoi comprare e vendere in borsa " +
@@ -306,6 +313,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "etf",
       consegna:
         "Guarda cosa c'è dentro un ETF e come si collega alla diversificazione " +
         "che hai già studiato.",

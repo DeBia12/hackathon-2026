@@ -69,10 +69,11 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
             </blockquote>
           ) : (
             (() => {
-              const Comp = INTERATTIVI[lezione.vedi.componente];
+              const { tipo: _tipo, componente, ...propsInterattivo } = lezione.vedi;
+              const Comp = INTERATTIVI[componente];
               return (
                 <div className="mb-6 max-w-prose">
-                  <Comp />
+                  <Comp {...propsInterattivo} />
                 </div>
               );
             })()
@@ -113,7 +114,9 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
         (() => {
           const prova = lezione.prova;
           if (prova === undefined) return null;
-          const Comp = INTERATTIVI[prova.componente];
+          // `consegna` va escluso dallo spread: finirebbe sul DOM come attributo ignoto.
+          const { componente, consegna, ...propsInterattivo } = prova;
+          const Comp = INTERATTIVI[componente];
           return (
             <section aria-label="Prova — interagisci con il concetto">
               {/* text-viola (5.7:1 su fondo lavanda, AA) per distinguere la fase pratica */}
@@ -125,10 +128,10 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
                 Prova
               </h3>
               <p className="mb-4 max-w-prose text-base leading-relaxed text-muted">
-                {prova.consegna}
+                {consegna}
               </p>
               <div className="mb-6 max-w-prose">
-                <Comp />
+                <Comp {...propsInterattivo} />
               </div>
               <Button onClick={avanza}>Dimostra →</Button>
             </section>

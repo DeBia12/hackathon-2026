@@ -77,8 +77,19 @@ export interface Domanda {
   gemella?: DomandaId;
 }
 
+/**
+ * Un interattivo con le sue prop. Unione discriminata sul componente:
+ * `strumento` è obbligatorio solo dove serve: così il compilatore impedisce
+ * che le quattro lezioni sugli strumenti finiscano a mostrare tutte lo stesso.
+ */
+export type Interattivo =
+  | { componente: "potere-acquisto" }
+  | { componente: "diversificazione" }
+  | { componente: "proprieta-o-prestito" }
+  | { componente: "anatomia-strumento"; strumento: TipoStrumento };
+
 export type Vedi =
-  | { tipo: "interattivo"; componente: InterattivoId }
+  | ({ tipo: "interattivo" } & Interattivo)
   | { tipo: "analogia"; testo: string };
 
 export interface Lezione {
@@ -90,7 +101,7 @@ export interface Lezione {
   /** CAPISCI - massimo 3 paragrafi brevi. Frasi corte. */
   capisci: string[];
   /** PROVA - interazione facoltativa */
-  prova?: { componente: InterattivoId; consegna: string };
+  prova?: Interattivo & { consegna: string };
   /** DIMOSTRA - la domanda di verifica */
   verifica: DomandaId;
 }
@@ -113,7 +124,16 @@ export interface SchedaStrumento {
   ruolo: "proprietario" | "creditore" | "quota di un paniere";
   emittente: string;
   /** Coppie etichetta/valore: scadenza, cedola, capitale. Dati STATICI. */
-  caratteristiche: Array<{ etichetta: string; valore: string; spiegazione: string }>;
+  caratteristiche: Array<{
+    etichetta: string;
+    valore: string;
+    spiegazione: string;
+    /**
+     * true quando la caratteristica è concettualmente assente per lo strumento.
+     * L'assenza stessa è l'informazione didattica (l'azione non ha cedola).
+     */
+    assente?: true;
+  }>;
   /** "Comprando questo diventi proprietario?" con risposta netta. */
   domandaChiave: { domanda: string; risposta: string };
   concetti: ConcettoId[];
