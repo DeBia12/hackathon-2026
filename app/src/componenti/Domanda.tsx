@@ -3,7 +3,6 @@ import type { ReactElement } from "react";
 import type { Domanda as DomandaTipo } from "@/dominio/tipi";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
-import "@/animazioni.css";
 
 interface PropsDomanda {
   domanda: DomandaTipo;
