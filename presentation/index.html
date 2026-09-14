@@ -296,14 +296,72 @@
             </dl>
           </details>
 
+          <details class="apri">
+            <summary><strong>5 comandi</strong> — il flusso di lavoro, che invochiamo noi</summary>
+            <dl>
+              <dt>/buildmatt</dt>
+              <dd>L'orchestratore: dall'idea alla consegna. È la slide dopo.</dd>
+              <dt>/kickoff</dt>
+              <dd>Inquadra il lavoro, prende la decisione architetturale, apre il branch.</dd>
+              <dt>/audit · /ship</dt>
+              <dd>Audit di accessibilità; poi check, controllo segreti, commit, push.</dd>
+              <dt>/demo</dt>
+              <dd>La checklist dell'ultima ora. Si esegue una volta sola, non a ogni feature.</dd>
+            </dl>
+          </details>
+
           <aside class="notes">
-            40 secondi. Aprire UNO solo dei tre, non tutti: quello degli hook è il
-            più concreto. Gli altri due restano disponibili se la giuria chiede.
+            40 secondi. Aprire UNA voce sola, non tutte: quella degli hook è la più
+            concreta. Le altre restano se la giuria chiede. I comandi sono il quarto
+            livello, l'unico che parte da noi.
             Si aprono anche da tastiera: Tab per raggiungerli, Invio o Spazio per aprire.
           </aside>
         </section>
 
-        <!-- 9. LE DUE REGOLE -->
+        <!-- 9. L'ORCHESTRATORE — il comando su cui ci giochiamo il giudizio -->
+        <section>
+          <h2>/buildmatt — dall'idea alla consegna</h2>
+          <div class="due-colonne">
+            <div>
+              <div class="riquadro">
+                <strong>Il ciclo, in un comando</strong>
+                <span style="font-size:.82em; line-height:1.5; display:block; margin-top:.3em">
+                  0 · avvio — branch, brief, decisione<br />
+                  1 · grilling — ci intervista per affilare l'idea<br />
+                  2 · bivio — sta in una sessione, o va spezzato<br />
+                  3 · piano — specifica, poi ticket con le dipendenze<br />
+                  4 · build — un subagent per ticket<br />
+                  5 · verifica — revisione e audit, in parallelo<br />
+                  6 · consegna — check, segreti, commit, push
+                </span>
+              </div>
+            </div>
+            <div>
+              <p style="font-size:.7em">
+                Serve a proteggere una cosa sola: <strong>la qualità del ragionamento
+                dentro una finestra di contesto</strong>. Oltre un certo volume il
+                modello resta fluente ma smette di ragionare bene, e non lo dichiara.
+              </p>
+              <p style="font-size:.7em">
+                Da lì le due regole: la pianificazione sta tutta in una finestra, e
+                ogni ticket riparte da zero.
+              </p>
+              <p class="didascalia" style="font-size:.62em">
+                <code>npm run frontiera</code> calcola quali ticket possono partire
+                subito, uno per subagent. In parallelo solo su file disgiunti.
+              </p>
+            </div>
+          </div>
+          <aside class="notes">
+            45 secondi, ed è la slide da non tagliare: è la risposta alla domanda
+            "come avete usato l'agentic coding". Il passo 1, il grilling, è l'unico
+            non delegabile: le decisioni sono nostre, l'orchestratore si ferma e chiede.
+            Se chiedono perché tanta cerimonia: c'è la scorciatoia --rapido per i
+            lavori piccoli, e l'abbiamo usata.
+          </aside>
+        </section>
+
+        <!-- 10. LE DUE REGOLE -->
         <section>
           <h2>Le due regole che abbiamo seguito</h2>
           <div class="riquadro">
@@ -327,7 +385,7 @@
           </aside>
         </section>
 
-        <!-- 10. CHIUSURA — manifesto 3 di 3, e l'unico segno > del deck -->
+        <!-- 11. CHIUSURA — manifesto 3 di 3, e l'unico segno > del deck -->
         <section class="slide-manifesto">
           <h2 class="acn-display">
             <span class="acn-sr-only">Capire prima di investire</span>
