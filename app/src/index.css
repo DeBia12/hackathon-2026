@@ -34,40 +34,66 @@
 }
 
 /* ============================================================
-   Design token — brand Accenture
-   Valori misurati dal sito reale, non stimati. Riferimento completo:
-   .claude/skills/accenture-brand/SKILL.md
-   Contrasti verificati con .claude/skills/a11y-check/contrast.mjs
+   Design token — fintech didattico, morbido e accogliente
+
+   Il pubblico è 18-30 anni con zero conoscenze finanziarie e un po' di
+   soggezione verso l'argomento: forme arrotondate, ombre leggere e colori
+   chiari abbassano la barriera più di quanto farebbe un'estetica istituzionale.
+
+   Ogni valore è MISURATO con .claude/skills/accessibilita/contrast.mjs,
+   non stimato. Dove la referenza visiva falliva il contrasto, ha vinto il
+   contrasto: il verde #059669 con testo bianco sopra dà 3.77:1, sotto la
+   soglia di 4.5:1, quindi le azioni usano #047857 (5.48:1) e il verde vivo
+   resta ai soli riempimenti e grafiche, dove bastano 3:1.
    ============================================================ */
 @theme {
-  /* Viola */
-  --color-accent: #a100ff;         /* riempimenti e grafica. Su bianco 5.3:1 — AA */
-  --color-accent-text: #7500c0;    /* testo viola su CHIARO — su bianco 8.34:1 — AAA */
-  --color-accent-deep: #460073;    /* fondi profondi — bianco sopra 13.93:1 — AAA */
-  --color-accent-active: #57008f;  /* stato :active dei bottoni */
-  --color-accent-deepest: #39005e; /* fondo card viola — bianco sopra 15.72:1 */
-  --color-accent-light: #be82ff;   /* testo viola su SCURO — su nero 7.83:1 — AAA */
-  --color-accent-focus: #dcafff;   /* anello di focus su scuro — su nero 11.62:1 */
+  /* Verde d'azione — il colore che dice "premi qui" */
+  --color-accent: #059669;         /* riempimenti e grafica — su bianco 3.77:1, OK per UI (3:1) */
+  --color-accent-text: #047857;    /* TESTO e fondo dei bottoni — bianco sopra 5.48:1 — AA */
+  --color-accent-deep: #065f46;    /* hover dei bottoni */
+  --color-accent-active: #064e3b;  /* stato :active */
+  --color-accent-deepest: #022c22; /* fondi profondi */
+  --color-accent-light: #6ee7b7;   /* verde su fondo SCURO */
+  --color-accent-focus: #34d399;   /* anello di focus su scuro */
+  --color-accent-tenue: #ecfdf5;   /* tessera chiara: fondo delle icone verdi */
 
-  /* Neutri */
-  --color-ink: #000000;
+  /* Colori di categoria — distinguono le aree, mai da soli: sempre con
+     un'etichetta testuale accanto. Tutti verificati sopra 4.5:1 su bianco. */
+  --color-blu: #2563eb;            /* 5.17:1 */
+  --color-blu-tenue: #eff6ff;
+  --color-viola: #7c3aed;          /* 5.7:1  */
+  --color-viola-tenue: #f5f3ff;
+  --color-ambra: #b45309;          /* 5.02:1 */
+  --color-ambra-tenue: #fffbeb;
+
+  /* Neutri freddi */
+  --color-ink: #0f172a;            /* titoli — su bianco 17.85:1 */
   --color-paper: #ffffff;
-  --color-surface: #f1f1ef;        /* grigio CALDO del brand, non il neutro #F3F3F3 */
-  --color-surface-dark: #202020;   /* superficie scura */
-  --color-line: #e3e3df;           /* bordi e divisori su chiaro */
+  --color-fondo: #f7f7fb;          /* fondo pagina, appena tinto di lavanda */
+  --color-surface: #f5f5fa;        /* superfici sollevate e tessere */
+  --color-surface-dark: #1e293b;
+  --color-line: #e2e8f0;           /* divisori DECORATIVI — 1.48:1, mai per bordi interattivi */
 
-  /* Grigi di testo: uno per i fondi chiari, uno per quelli scuri.
-     #5F5F5F regge sia bianco (6.39:1) sia #F1F1EF (5.65:1): un solo token
-     copre entrambi e sparisce la vecchia trappola "grigio su grigio". */
-  --color-muted: #5f5f5f;
-  --color-muted-surface: #5f5f5f;  /* alias storico, stesso valore */
-  --color-muted-dark: #a2a2a0;     /* SOLO su fondo scuro — su nero 8.21:1 */
+  /* Testo secondario. #475569 regge bianco (7.58:1) e il fondo (7.09:1).
+     #64748B (4.76:1) è la soglia minima: serve anche ai bordi dei componenti
+     interattivi, che devono superare 3:1 per WCAG 1.4.11. */
+  --color-muted: #475569;
+  --color-muted-surface: #475569;
+  --color-muted-dark: #cbd5e1;     /* SOLO su fondo scuro */
+  --color-bordo-ui: #64748b;       /* bordi di elementi con cui si interagisce */
 
-  --font-sans: "Graphik", Arial, Helvetica, sans-serif;
-  --font-serif: "GT Sectra Fine", Palatino, "Times New Roman", serif;
+  --font-sans: "Graphik", "Inter", system-ui, -apple-system, sans-serif;
+  --font-serif: "GT Sectra Fine", Georgia, serif;
 
-  /* Il brand è squadrato: il sito reale usa 0 ovunque. */
-  --radius-brand: 0px;
+  /* Angoli morbidi. `rounded-brand` è il raggio predefinito dei contenitori;
+     i bottoni usano `rounded-full`. */
+  --radius-brand: 16px;
+  --radius-tessera: 12px;
+  --radius-grande: 24px;
+
+  /* Ombre diffuse e basse: suggeriscono profondità senza sporcare il bianco. */
+  --shadow-riposo: 0 1px 2px rgb(15 23 42 / 0.04), 0 4px 12px rgb(15 23 42 / 0.05);
+  --shadow-sollevata: 0 2px 4px rgb(15 23 42 / 0.05), 0 12px 28px rgb(15 23 42 / 0.09);
 }
 
 /* ============================================================
@@ -93,7 +119,7 @@
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
+    @apply bg-fondo text-ink font-sans antialiased;
     font-size: 1rem;
     line-height: 1.6;
   }
