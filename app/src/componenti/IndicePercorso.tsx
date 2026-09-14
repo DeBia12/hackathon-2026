@@ -56,10 +56,20 @@ export function IndicePercorso({
 
           return (
             <li key={m.id}>
+              {/*
+                * aria-disabled invece di disabled: un pulsante disabilitato esce
+                * dall'ordine di tabulazione, e con lui sparirebbero sia i moduli
+                * bloccati sia quello aperto — cioè proprio l'informazione che
+                * l'indice esiste per dare. Restano raggiungibili e annunciati;
+                * il clic è fermato dalla guardia nell'onClick.
+                */}
               <button
                 type="button"
-                onClick={() => onApri(m.id)}
-                disabled={bloccato || corrente}
+                onClick={() => {
+                  if (bloccato || corrente) return;
+                  onApri(m.id);
+                }}
+                aria-disabled={bloccato || corrente}
                 aria-current={corrente ? "step" : undefined}
                 className={cn(
                   "w-full rounded-brand border-2 px-3 py-2 text-left min-h-11",
@@ -67,7 +77,9 @@ export function IndicePercorso({
                   corrente
                     ? "cursor-default border-accent-text bg-accent-tenue"
                     : bloccato
-                    ? "cursor-not-allowed border-line bg-surface"
+                    // border-bordo-ui (#666666) su bg-surface = 5.13:1: ora che
+                    // il pulsante è focalizzabile il suo bordo deve reggere 3:1.
+                    ? "cursor-not-allowed border-bordo-ui bg-surface"
                     : "border-line bg-paper hover:border-accent-text hover:bg-accent-tenue",
                 )}
               >

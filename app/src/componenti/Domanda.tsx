@@ -254,15 +254,22 @@ export function Domanda({
        */}
       {mostraEsito && !giàRisposte && (
         <div className="mt-6 space-y-2">
+          {/*
+           * aria-disabled invece di disabled: il pulsante resta raggiungibile da
+           * tastiera anche prima di aver scelto, così chi naviga con Tab scopre
+           * che esiste e legge, via aria-describedby, che cosa manca per usarlo.
+           */}
           <Button
             onClick={() => {
               if (selezione !== undefined) onRispondi(selezione);
             }}
-            disabled={selezione === undefined}
+            aria-disabled={selezione === undefined}
+            aria-describedby={`${gruppoId}-aiuto`}
+            className={cn(selezione === undefined && "opacity-50")}
           >
             {etichettaConferma}
           </Button>
-          <p className="text-sm text-muted">
+          <p id={`${gruppoId}-aiuto`} className="text-sm text-muted">
             {selezione === undefined
               ? "Scegli una risposta per continuare."
               : "Puoi cambiare risposta finché non confermi."}
