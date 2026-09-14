@@ -63,3 +63,5 @@ test-results/
 # Indice dei file della guida: generato da `npm run alberatura`, contiene una
 # copia di tutto il repository. Committarlo lo duplicherebbe a ogni modifica.
 presentation/guida/alberatura.json
+
+.claude/
