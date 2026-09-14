@@ -68,7 +68,7 @@ export function Risultato(): ReactElement {
   if (!haValutazioneFinale) {
     return (
       <div className="py-8">
-        <h1 className="text-4xl font-semibold tracking-tight text-ink">
+        <h1 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
           <span aria-hidden="true" className="text-accent">
             &gt;
           </span>{" "}
@@ -113,27 +113,31 @@ export function Risultato(): ReactElement {
               {AREE.map((area) => {
                 const val = prima.perArea[area.id];
                 return (
-                  <li key={area.id} className="flex items-center gap-4">
-                    <span className="w-48 shrink-0 text-sm font-medium text-ink">
+                  <li key={area.id} className="sm:flex sm:items-center sm:gap-4">
+                    <span className="block text-sm font-medium text-ink sm:w-48 sm:shrink-0">
                       {area.nome}
                     </span>
-                    <div
-                      role="progressbar"
-                      aria-valuenow={val}
-                      aria-valuemin={0}
-                      aria-valuemax={100}
-                      aria-label={`${area.nome}: ${val}%`}
-                      className="h-2 flex-1 overflow-hidden rounded-full bg-surface"
-                    >
+                    {/* Su mobile barra e percentuale scendono sotto il nome:
+                        affiancate al nome la barra si riduce a pochi pixel. */}
+                    <div className="mt-1.5 flex items-center gap-3 sm:mt-0 sm:flex-1">
                       <div
-                        className="h-full rounded-full bg-accent"
-                        style={{ width: `${val}%` }}
-                        aria-hidden="true"
-                      />
+                        role="progressbar"
+                        aria-valuenow={val}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        aria-label={`${area.nome}: ${val}%`}
+                        className="h-2 flex-1 overflow-hidden rounded-full bg-surface"
+                      >
+                        <div
+                          className="h-full rounded-full bg-accent"
+                          style={{ width: `${val}%` }}
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <span className="w-10 shrink-0 text-right text-sm font-medium text-ink">
+                        {val}%
+                      </span>
                     </div>
-                    <span className="w-10 shrink-0 text-right text-sm font-medium text-ink">
-                      {val}%
-                    </span>
                   </li>
                 );
               })}
@@ -179,7 +183,7 @@ export function Risultato(): ReactElement {
   return (
     <div className="py-8">
       {/* Un solo h1 per pagina */}
-      <h1 className="text-4xl font-semibold tracking-tight text-ink">
+      <h1 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
         <span aria-hidden="true" className="text-accent">
           &gt;
         </span>{" "}
@@ -187,7 +191,7 @@ export function Risultato(): ReactElement {
       </h1>
 
       {/* Il principio del prodotto — font serif per la voce editoriale */}
-      <blockquote className="mt-6 border-l-2 border-accent pl-5 font-serif text-xl font-light text-muted">
+      <blockquote className="mt-6 border-l-2 border-accent pl-4 font-serif text-lg font-light text-muted sm:pl-5 sm:text-xl">
         Non misuriamo quanti contenuti hai letto. Misuriamo cosa hai capito.
       </blockquote>
 
@@ -197,7 +201,7 @@ export function Risultato(): ReactElement {
        * Il senso è nel testo — la freccia è aria-hidden.
        * aria-live="polite" annuncia il delta appena renderizzato.
        */}
-      <section aria-labelledby="titolo-punteggio" className="mt-14">
+      <section aria-labelledby="titolo-punteggio" className="mt-10 sm:mt-14">
         <h2
           id="titolo-punteggio"
           className="text-xs font-semibold uppercase tracking-widest text-muted"
@@ -206,14 +210,14 @@ export function Risultato(): ReactElement {
         </h2>
 
         {/* Card ampia con ombra: il confronto PRIMA → DOPO tutto insieme */}
-        <div className="mt-6 rounded-brand bg-paper p-8 shadow-sollevata">
+        <div className="mt-6 rounded-brand bg-paper p-5 shadow-sollevata sm:p-8">
           <div className="flex flex-wrap items-end gap-4 sm:gap-8">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-muted">
                 Prima
               </p>
               {/* Testo enorme: PRIMA in muted per far risaltare il DOPO */}
-              <p className="text-[clamp(4rem,12vw,7rem)] font-semibold leading-none tracking-tight text-muted">
+              <p className="text-[clamp(2.75rem,11vw,7rem)] font-semibold leading-none tracking-tight text-muted">
                 {prima.complessivo}%
               </p>
             </div>
@@ -230,7 +234,7 @@ export function Risultato(): ReactElement {
               <p className="text-xs font-semibold uppercase tracking-widest text-muted">
                 Dopo
               </p>
-              <p className="text-[clamp(4rem,12vw,7rem)] font-semibold leading-none tracking-tight text-accent-text">
+              <p className="text-[clamp(2.75rem,11vw,7rem)] font-semibold leading-none tracking-tight text-accent-text">
                 {dopo.complessivo}%
               </p>
             </div>
@@ -254,7 +258,7 @@ export function Risultato(): ReactElement {
       </section>
 
       {/* ── Blocco 2: confronto per area ── */}
-      <section aria-labelledby="titolo-aree" className="mt-14">
+      <section aria-labelledby="titolo-aree" className="mt-10 sm:mt-14">
         <h2
           id="titolo-aree"
           className="text-xl font-semibold tracking-tight text-ink"
@@ -270,7 +274,7 @@ export function Risultato(): ReactElement {
       </section>
 
       {/* ── Blocco 3: cosa sai dire adesso ── */}
-      <section aria-labelledby="titolo-concetti" className="mt-14">
+      <section aria-labelledby="titolo-concetti" className="mt-10 sm:mt-14">
         <h2
           id="titolo-concetti"
           className="text-xl font-semibold tracking-tight text-ink"
@@ -311,7 +315,7 @@ export function Risultato(): ReactElement {
 
       {/* ── Chiusura: livello raggiunto e pulsante ricomincia ── */}
       <section
-        className="mt-14 border-t border-line pt-8"
+        className="mt-10 border-t border-line pt-8 sm:mt-14"
         aria-label="Livello raggiunto e opzioni"
       >
         <DistintivoLivello

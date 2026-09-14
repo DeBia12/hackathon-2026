@@ -49,8 +49,8 @@ export function PotereAcquisto(_props: Props) {
         `il ${percentualeRimanente}% del valore originale.`;
 
   return (
-    <article className="bg-surface p-6 md:p-8">
-      <h3 className="text-2xl font-semibold tracking-tight text-ink">
+    <article className="bg-surface p-4 sm:p-6 md:p-8">
+      <h3 className="text-xl font-semibold tracking-tight text-ink sm:text-2xl">
         Il potere d'acquisto nel tempo
       </h3>
       <p className="mt-2 text-base leading-relaxed text-muted">
@@ -132,7 +132,7 @@ export function PotereAcquisto(_props: Props) {
             <p className="text-sm font-semibold uppercase tracking-wide text-muted">
               Oggi
             </p>
-            <p className="mt-2 text-4xl font-semibold tracking-tight text-ink">
+            <p className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               {fmt.format(100)}
             </p>
             <p className="mt-2 text-base text-muted">
@@ -145,7 +145,7 @@ export function PotereAcquisto(_props: Props) {
             <p className="text-sm font-semibold uppercase tracking-wide text-muted">
               {etichettaAnni.charAt(0).toUpperCase() + etichettaAnni.slice(1)}
             </p>
-            <p className="mt-2 text-4xl font-semibold tracking-tight text-ink">
+            <p className="mt-2 text-3xl font-semibold tracking-tight text-ink sm:text-4xl">
               {fmt.format(100)}
             </p>
             <p className="mt-1 text-base text-muted">Sul conto (invariato)</p>

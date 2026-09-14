@@ -56,13 +56,13 @@ export function Mappa(): ReactElement {
   }
 
   return (
-    <div className="mx-auto max-w-2xl px-4 py-12">
+    <div className="mx-auto max-w-2xl">
       {/* ── Sezione: dove sei — card bianca su fondo lavanda ─────────────── */}
       <section aria-labelledby="titolo-percorso" className="mb-10">
-        <div className="rounded-brand bg-paper p-6 shadow-riposo">
+        <div className="rounded-brand bg-paper p-5 shadow-riposo sm:p-6">
           <h1
             id="titolo-percorso"
-            className="mb-6 text-3xl font-semibold tracking-tight text-ink"
+            className="mb-6 text-2xl font-semibold tracking-tight text-ink sm:text-3xl"
           >
             Il tuo percorso
           </h1>
@@ -173,7 +173,7 @@ export function Mappa(): ReactElement {
           /*
            * Tutti i moduli completati: CTA principale in evidenza.
            */
-          <div className="rounded-brand bg-paper p-6 shadow-riposo">
+          <div className="rounded-brand bg-paper p-5 shadow-riposo sm:p-6">
             <p className="mb-2 font-semibold text-ink">
               Hai completato tutti i moduli.
             </p>
@@ -194,7 +194,7 @@ export function Mappa(): ReactElement {
            * Moduli non ancora completati: il blocco è visibile ma spiega dove
            * si va a finire. Sapere la destinazione aiuta a proseguire.
            */
-          <div className="rounded-brand bg-surface p-6">
+          <div className="rounded-brand bg-surface p-5 sm:p-6">
             <p className="text-sm text-muted">
               La valutazione finale si sblocca dopo aver completato tutti e
               sei i moduli.{" "}

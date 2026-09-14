@@ -75,12 +75,14 @@ export function Benvenuto(): ReactElement {
             aria-hidden="true"
             className="relative overflow-visible rounded-grande border border-line bg-paper p-6 shadow-sollevata"
           >
-            <p className="mb-4 text-sm font-medium text-muted">
+            {/* Il padding destro lascia spazio alla card "+80%" sovrapposta,
+                che sul piccolo copre la fine dell'etichetta. */}
+            <p className="mb-4 pr-36 text-sm font-medium text-muted sm:pr-0">
               Esempio di progressione
             </p>
 
             {/* Istogramma — barre crescenti a pillola */}
-            <div className="flex h-52 items-end gap-3">
+            <div className="flex h-40 items-end gap-2 sm:h-52 sm:gap-3">
               <div
                 className="flex-1 rounded-t-xl bg-accent"
                 style={{ height: "28%" }}
@@ -108,7 +110,7 @@ export function Benvenuto(): ReactElement {
             </div>
 
             {/* Card flottante — valore esemplificativo */}
-            <div className="absolute -right-4 -top-6 rounded-brand border border-line bg-paper p-4 shadow-sollevata">
+            <div className="absolute -top-4 right-0 max-w-[10rem] rounded-brand border border-line bg-paper p-4 shadow-sollevata sm:-right-4 sm:-top-6 sm:max-w-none">
               <p className="text-3xl font-bold text-accent-text">+80%</p>
               <p className="mt-1 text-xs leading-snug text-muted">
                 miglioramento medio
@@ -133,7 +135,7 @@ export function Benvenuto(): ReactElement {
       </div>
 
       {/* ── Come funziona ─────────────────────────────────────────── */}
-      <section aria-labelledby="come-funziona-titolo" className="mt-20">
+      <section aria-labelledby="come-funziona-titolo" className="mt-14 sm:mt-20">
         <h2
           id="come-funziona-titolo"
           className="text-2xl font-semibold tracking-tight text-ink"

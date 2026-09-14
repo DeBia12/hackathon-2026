@@ -332,7 +332,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
             valore={percentualeModulo}
             etichetta={`Lezione ${indiceLezione + 1} di ${totalLezioni}`}
           />
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-ink">
+          <h1 className="text-2xl font-semibold leading-tight tracking-tight text-ink sm:text-3xl">
             {moduloObj.titolo}
           </h1>
           <p className="text-base text-muted">{moduloObj.sottotitolo}</p>
@@ -345,7 +345,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
           <div className="mb-6 space-y-3">
             <h2
               id="lezione-titolo"
-              className="text-2xl font-semibold leading-snug tracking-tight text-ink"
+              className="text-xl font-semibold leading-snug tracking-tight text-ink sm:text-2xl"
             >
               {lezioneObj.titolo}
             </h2>
@@ -378,7 +378,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
           <div className="mb-6 space-y-2">
             <h2
               id="dimostra-titolo"
-              className="text-2xl font-semibold leading-snug tracking-tight text-ink"
+              className="text-xl font-semibold leading-snug tracking-tight text-ink sm:text-2xl"
             >
               {lezioneObj.titolo}
             </h2>
@@ -428,7 +428,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
-                className="bg-accent-tenue rounded-brand p-6"
+                className="bg-accent-tenue rounded-brand p-5 sm:p-6"
               >
                 <h2 className="text-2xl font-semibold tracking-tight text-ink">
                   Padroneggiato
@@ -461,7 +461,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
-                className="bg-surface rounded-brand p-6"
+                className="bg-surface rounded-brand p-5 sm:p-6"
               >
                 <h2 className="text-2xl font-semibold tracking-tight text-ink">
                   Andiamo avanti

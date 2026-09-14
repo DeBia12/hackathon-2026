@@ -180,3 +180,25 @@ blu con una molla che supera e rientra. Divisione: `accenture-brand` sul deck in
 La skill documenta la misura e impone il sostituto conforme.~
 
 ---
+
+## Mobile: adattare i componenti esistenti, non introdurre un layout mobile separato
+
+**Cosa** — La web app è stata resa usabile sotto i 640px lavorando sui soli componenti
+esistenti: varianti `sm:` su padding, scala tipografica e direzione dei flex. L'unica
+modifica strutturale è l'intestazione, che sotto `sm` passa a due righe.
+
+**Perché** — L'overflow orizzontale della pagina veniva da un punto solo: nell'intestazione
+il badge livello, la barra di progresso (`w-28` fisso) e il bottone "Ricomincia" stavano su
+una riga rigida e portavano lo `scrollWidth` a 586px su un viewport da 390px. Risolto quello,
+il resto era solo respiro: padding da 24 a 16-20px, titoli da `3xl` a `2xl`, colonne fisse
+delle tabelle rese fluide. Il crawl automatico di tutte le schermate a 375px e 320px non
+trova più nessun elemento fuori dal viewport.
+
+**Alternativa scartata** — Un layout mobile dedicato (componenti o rotte separate): raddoppia
+la superficie da mantenere e da verificare in accessibilità, per un guadagno visivo nullo
+rispetto alle varianti `sm:`. Scartata anche la conversione delle due tabelle di confronto in
+card impilate: duplicherebbe il contenuto nel DOM e metterebbe a rischio la semantica
+`scope="row"`/`scope="col"` che oggi le rende navigabili. Le tabelle restano tabelle e
+scorrono di lato dentro un `role="region"` con `tabIndex={0}`, così la zona scorrevole
+resta raggiungibile da tastiera (WCAG 2.1.1); la tabella del modulo 6 dichiara anche in
+chiaro che scorre.

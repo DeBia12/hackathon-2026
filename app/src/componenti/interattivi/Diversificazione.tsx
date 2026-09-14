@@ -52,8 +52,8 @@ export function Diversificazione(_props: Props) {
     : `Entrambi gli scenari partono dallo stesso capitale ipotetico di ${fmt.format(CAPITALE)}.`;
 
   return (
-    <article className="bg-surface p-6 md:p-8">
-      <h3 className="text-2xl font-semibold tracking-tight text-ink">
+    <article className="bg-surface p-4 sm:p-6 md:p-8">
+      <h3 className="text-xl font-semibold tracking-tight text-ink sm:text-2xl">
         Cosa cambia distribuire
       </h3>
       <p className="mt-2 text-base leading-relaxed text-muted">

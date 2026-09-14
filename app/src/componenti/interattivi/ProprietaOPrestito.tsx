@@ -60,8 +60,8 @@ export function ProprietaOPrestito(_props: Props) {
   const [selezionato, setSelezionato] = useState<Prospettiva>("proprietario");
 
   return (
-    <article className="bg-surface p-6 md:p-8">
-      <h3 className="text-2xl font-semibold tracking-tight text-ink">
+    <article className="bg-surface p-4 sm:p-6 md:p-8">
+      <h3 className="text-xl font-semibold tracking-tight text-ink sm:text-2xl">
         Proprietario o creditore?
       </h3>
       <p className="mt-2 text-base leading-relaxed text-muted">
@@ -110,8 +110,22 @@ export function ProprietaOPrestito(_props: Props) {
       </div>
 
       {/* Tabella di confronto */}
-      <div className="mt-6 overflow-x-auto">
-        <table className="w-full border-collapse text-base">
+      {/*
+       * Tre colonne di prosa non stanno in 375px: comprimerle darebbe due
+       * parole per riga. La tabella conserva la larghezza minima leggibile e
+       * scorre di lato. Il contenitore e' un region con tabIndex={0}: una
+       * zona scorrevole deve essere raggiungibile da tastiera (WCAG 2.1.1).
+       */}
+      <p className="mt-6 text-sm text-muted sm:hidden">
+        Scorri la tabella di lato per confrontare le due colonne.
+      </p>
+      <div
+        role="region"
+        aria-label="Confronto tra proprietario e creditore"
+        tabIndex={0}
+        className="mt-3 overflow-x-auto focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text sm:mt-6"
+      >
+        <table className="w-full min-w-[34rem] border-collapse text-base">
           <caption className="sr-only">
             Confronto tra la posizione del proprietario (es. azionista) e del creditore
             (es. obbligazionista) in un'azienda ipotetica
