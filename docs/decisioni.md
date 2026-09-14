@@ -136,4 +136,23 @@ stub nella terza onda, su file disgiunti. Senza gli stub, il guscio avrebbe dovu
 aspettare le schermate e le schermate il guscio.
 ~Guscio in terza onda scartato: avrebbe richiesto una quarta onda che non entra nel tempo.~
 
+**2026-09-14 — Superare la verifica di una lezione acquisisce tutti i concetti che insegna**
+La banca delle domande verifica direttamente 11 concetti su 12: `proprieta` compare solo
+come distrattore. Senza questa regola non sarebbe mai diventato acquisito, e siccome
+`azione` lo ha come prerequisito il motore avrebbe rimandato alla lezione `l6a` a ogni
+errore sulle azioni, per sempre. La regola regge anche nel merito: `l6a` si intitola
+«Proprietario o creditore?» e insegna la distinzione come un concetto solo, quindi una
+verifica superata la verifica per intero. L'unica altra lezione con due concetti (`l3a`)
+li ha entrambi verificati altrove, quindi non si allenta nulla.
+~Aggiungere una domanda dedicata a `proprieta` scartata: avrebbe rotto la convenzione
+`v-<lezione>` su cui due agenti in parallelo si erano già accordati.~
+
+**2026-09-14 — Il flusso completo verificato nel browser, non solo dai test**
+I 51 test coprono il dominio, ma non dicono se l'app si comporta come deve. Percorso
+guidato via Playwright: valutazione iniziale, mappa, lezione, errore deliberato,
+remediation, riverifica, padronanza scritta in `localStorage`. È così che è emerso il
+sottotitolo «distribuire è meglio che concentrare», che nessun test poteva cogliere.
+~Verifica a sola lettura del codice scartata: i divieti della consegna riguardano ciò
+che l'utente legge a schermo, non le funzioni.~
+
 ---

@@ -111,7 +111,7 @@ export function PotereAcquisto(_props: Props) {
                   checked={tasso === valore}
                   onChange={() => setTasso(valore)}
                   className={cn(
-                    "h-5 w-5",
+                    "h-6 w-6",
                     "accent-accent-text",
                     "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent-text",
                   )}
@@ -165,6 +165,7 @@ export function PotereAcquisto(_props: Props) {
         {/* Equivalente testuale + live region */}
         <p
           aria-live="polite"
+          aria-atomic="true"
           className="border-l-4 border-accent bg-paper p-4 text-base leading-relaxed text-ink"
         >
           {descrizioneEsito}

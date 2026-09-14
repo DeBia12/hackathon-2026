@@ -56,6 +56,14 @@ export function Remediation({
     titoloRef.current?.focus();
   }, []);
 
+  // Focus sull'intestazione della riverifica quando la fase cambia.
+  const riverificaHeadingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    if (fase === "riverifica") {
+      riverificaHeadingRef.current?.focus();
+    }
+  }, [fase]);
+
   // Ref per il focus quando si torna alla lezione dopo un tentativo fallito.
   const lezioneRef = useRef<HTMLDivElement>(null);
 
@@ -146,7 +154,11 @@ export function Remediation({
       {/* ── Riverifica ────────────────────────────────────────────── */}
       {fase === "riverifica" && (
         <section aria-label="Riverifica — verifica il concetto appena visto">
-          <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-accent-text">
+          <h3
+            ref={riverificaHeadingRef}
+            tabIndex={-1}
+            className="mb-4 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
+          >
             Riverifica
           </h3>
 

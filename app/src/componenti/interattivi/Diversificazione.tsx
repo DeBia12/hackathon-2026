@@ -193,6 +193,7 @@ export function Diversificazione(_props: Props) {
       {/* Equivalente testuale + live region */}
       <p
         aria-live="polite"
+        aria-atomic="true"
         className="mt-4 bg-paper p-4 text-base leading-relaxed text-ink"
       >
         {descrizioneAccessibile}

@@ -141,13 +141,10 @@ export function RigaModulo({
   // ── Variante bloccata — non interattiva ────────────────────────────────────
 
   /*
-   * aria-disabled="true" segnala agli AT che l'elemento non è attivabile.
    * La spiegazione testuale interna è il meccanismo a11y principale:
    * qualunque lettore di schermo la legge indipendentemente dal ruolo.
    */
   return (
-    <li aria-disabled="true">
-      {corpo}
-    </li>
+    <li>{corpo}</li>
   );
 }

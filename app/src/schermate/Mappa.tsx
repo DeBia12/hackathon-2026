@@ -56,17 +56,14 @@ export function Mappa(): ReactElement {
   }
 
   return (
-    <main
-      id="contenuto"
+    <div
       className="mx-auto max-w-2xl px-4 py-12"
-      aria-label="Il tuo percorso di apprendimento"
     >
       {/* ── Sezione: dove sei ─────────────────────────────────────────────── */}
       <section aria-labelledby="titolo-percorso" className="mb-14">
         <h1
           id="titolo-percorso"
-          className="mb-8 text-3xl font-semibold text-ink"
-          style={{ letterSpacing: "-0.02em" }}
+          className="mb-8 text-3xl font-semibold tracking-tight text-ink"
         >
           <span aria-hidden="true" className="text-accent">
             &gt;
@@ -250,6 +247,6 @@ export function Mappa(): ReactElement {
           Vai alla valutazione finale
         </Button>
       </div>
-    </main>
+    </div>
   );
 }

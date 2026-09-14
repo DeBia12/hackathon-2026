@@ -186,6 +186,7 @@ export function ProprietaOPrestito(_props: Props) {
       {/* Conseguenza evidenziata + live region */}
       <p
         aria-live="polite"
+        aria-atomic="true"
         className="mt-6 border-l-4 border-accent bg-paper p-4 text-base leading-relaxed text-ink"
       >
         {CONSEGUENZA[selezionato]}

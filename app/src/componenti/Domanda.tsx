@@ -83,7 +83,7 @@ export function Domanda({
                   "motion-safe:transition-colors motion-safe:duration-[550ms]",
                   "motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]",
                   giàRisposte ? "cursor-default" : "hover:border-accent-text",
-                  selezionata ? "border-accent" : "border-line",
+                  selezionata ? "border-accent" : "border-muted",
                 )}
               >
                 {/*

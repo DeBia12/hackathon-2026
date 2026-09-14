@@ -247,7 +247,7 @@ export function AnatomiaStrumento({ strumento = "titolo-stato" }: Props) {
           const aperta = parteAperta === parte.id;
 
           return (
-            <li key={parte.id} className="border-2 border-line bg-paper">
+            <li key={parte.id} className="border-2 border-muted bg-paper">
               {/* Trigger disclosure */}
               <button
                 type="button"

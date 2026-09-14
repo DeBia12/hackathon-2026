@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import type { ReactElement } from "react";
 import type { Lezione } from "@/dominio/tipi";
 import { INTERATTIVI } from "@/componenti/interattivi/registro";
@@ -21,6 +21,16 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
   const haPart = lezione.prova !== undefined;
   const [fase, setFase] = useState<FaseEducativa>("vedi");
 
+  /*
+   * Al cambio di fase il pulsante precedente scompare: senza refocus
+   * lo screen reader perderebbe il contesto. Il titolo di sezione h3
+   * (tabIndex=-1) riceve il focus programmatico ad ogni transizione.
+   */
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  useEffect(() => {
+    headingRef.current?.focus();
+  }, [fase]);
+
   function avanza(): void {
     if (fase === "vedi") {
       setFase("capisci");
@@ -41,7 +51,11 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
       {/* ── VEDI ──────────────────────────────────────────────────── */}
       {fase === "vedi" && (
         <section aria-label="Vedi — cosa stiamo per capire">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
+          <h3
+            ref={headingRef}
+            tabIndex={-1}
+            className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
+          >
             Vedi
           </h3>
 
@@ -67,7 +81,11 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
       {/* ── CAPISCI ───────────────────────────────────────────────── */}
       {fase === "capisci" && (
         <section aria-label="Capisci — i concetti chiave">
-          <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
+          <h3
+            ref={headingRef}
+            tabIndex={-1}
+            className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
+          >
             Capisci
           </h3>
 
@@ -93,7 +111,11 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
           const Comp = INTERATTIVI[prova.componente];
           return (
             <section aria-label="Prova — interagisci con il concetto">
-              <h3 className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text">
+              <h3
+                ref={headingRef}
+                tabIndex={-1}
+                className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
+              >
                 Prova
               </h3>
               <p className="mb-4 text-base text-muted">{prova.consegna}</p>
