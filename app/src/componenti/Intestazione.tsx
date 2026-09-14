@@ -54,7 +54,9 @@ export function Intestazione({
                       concettiTotali={concettiTotali}
                     />
                   </span>
-                  <span className="hidden rounded-full bg-surface px-3 py-1 sm:inline-block">
+                  {/* Senza pillola attorno: la barra compatta ha già il suo
+                      fondo pieno e la percentuale scritta sopra. */}
+                  <span className="hidden sm:inline-block">
                     <BarraProgresso
                       valore={percentualeProgresso}
                       etichetta="Progresso"

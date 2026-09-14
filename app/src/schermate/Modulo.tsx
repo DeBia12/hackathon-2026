@@ -23,6 +23,7 @@ import { BarraProgresso } from "@/componenti/BarraProgresso";
 import { PastigliaConcetto } from "@/componenti/PastigliaConcetto";
 import { MicroLezione } from "@/componenti/MicroLezione";
 import { Remediation } from "@/componenti/Remediation";
+import { IndicePercorso } from "@/componenti/IndicePercorso";
 import { Button } from "@/components/ui/Button";
 
 type PassoRimedia = Extract<Passo, { tipo: "rimedia" }>;
@@ -45,6 +46,13 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
    * non innesca un'altra remediation: si avanza lasciando il concetto in-corso.
    */
   const [hasRemediato, setHasRemediato] = useState(false);
+  /**
+   * Incrementato ogni volta che la verifica viene ripresentata. Entra nella
+   * `key` di Domanda: il rimontaggio rimescola l'ordine delle opzioni, così
+   * chi ritorna sulla stessa domanda dopo la remediation non ritrova la
+   * risposta nella stessa posizione.
+   */
+  const [presentazione, setPresentazione] = useState(0);
 
   const padroneggiataRef = useRef<HTMLDivElement>(null);
 
@@ -241,6 +249,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
     } else {
       setIndiceLezione((i) => i + 1);
       setChiaveLezione((k) => k + 1);
+      setPresentazione((p) => p + 1);
       setFase("lezione");
       setScelta(undefined);
       setEsitoCorrente(undefined);
@@ -289,9 +298,36 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
   function handleRemediationProsegui(): void {
     // Torna al DIMOSTRA della lezione originale (senza ripetere VEDI+CAPISCI+PROVA).
     setFase("dimostra");
+    setPresentazione((p) => p + 1);
     setScelta(undefined);
     setEsitoCorrente(undefined);
     setPassoRimedia(null);
+  }
+
+  // ── Handler NAVIGAZIONE ───────────────────────────────────────────────────
+
+  /*
+   * Uscire da un modulo non cancella nulla: lezioni viste e padronanza stanno
+   * nello stato globale, quindi rientrando si riparte dalla prima lezione del
+   * modulo con i concetti già acquisiti intatti.
+   */
+  function handleTornaAllaMappa(): void {
+    invia({ tipo: "vai-a", schermata: { nome: "mappa" } });
+  }
+
+  function handleApriModulo(id: ModuloId): void {
+    invia({ tipo: "vai-a", schermata: { nome: "modulo", modulo: id } });
+  }
+
+  function handleLezionePrecedente(): void {
+    setIndiceLezione((i) => Math.max(0, i - 1));
+    setChiaveLezione((k) => k + 1);
+    setPresentazione((p) => p + 1);
+    setFase("lezione");
+    setScelta(undefined);
+    setEsitoCorrente(undefined);
+    setPassoRimedia(null);
+    setHasRemediato(false);
   }
 
   // ── Valori calcolati ──────────────────────────────────────────────────────
@@ -318,13 +354,69 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
-    <div className="max-w-2xl space-y-8 py-8">
+    <div className="flex flex-col gap-8 lg:flex-row lg:items-start">
+      {/*
+       * ── Indice del percorso ───────────────────────────────────────────
+       * Su schermo largo è una colonna che resta accanto al contenuto;
+       * sotto lg diventa un <details> richiudibile, per non spingere la
+       * lezione sotto la piega. È nascosto durante la remediation, come
+       * l'intestazione: lì il contesto è un altro.
+       */}
+      {fase !== "remediation" && (
+        <>
+          <aside className="hidden lg:block lg:w-64 lg:flex-shrink-0">
+            <div className="lg:sticky lg:top-6">
+              <IndicePercorso
+                moduloCorrente={moduloIdVal}
+                onApri={handleApriModulo}
+              />
+            </div>
+          </aside>
+
+          <details className="rounded-brand border-2 border-line bg-paper p-4 lg:hidden">
+            <summary className="min-h-11 cursor-pointer py-2 text-sm font-semibold text-ink">
+              Indice dei moduli
+            </summary>
+            <div className="mt-3">
+              <IndicePercorso
+                moduloCorrente={moduloIdVal}
+                onApri={handleApriModulo}
+              />
+            </div>
+          </details>
+        </>
+      )}
+
+      <div className="min-w-0 max-w-2xl flex-1 space-y-8">
       {/* ── Intestazione modulo ─────────────────────────────────────────
           Nascosta durante la remediation: focus sul cambio di contesto.
           La barra di avanzamento è in cima, prima del titolo, per dare
           subito il senso del percorso. */}
       {fase !== "remediation" && (
         <header className="space-y-3">
+          {/*
+           * Uscita sempre disponibile: entrare in un modulo non deve essere una
+           * porta a senso unico (WCAG 3.2.3, navigazione coerente).
+           */}
+          <div className="flex flex-wrap items-center gap-3">
+            <Button
+              variante="fantasma"
+              onClick={handleTornaAllaMappa}
+              className="text-sm"
+            >
+              <span aria-hidden="true">←</span> Tutti i moduli
+            </Button>
+            {indiceLezione > 0 && (
+              <Button
+                variante="fantasma"
+                onClick={handleLezionePrecedente}
+                className="text-sm"
+              >
+                <span aria-hidden="true">←</span> Lezione precedente
+              </Button>
+            )}
+          </div>
+
           <p className="text-xs font-semibold uppercase tracking-widest text-muted">
             Modulo {moduloObj.numero}
           </p>
@@ -388,6 +480,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
           </div>
 
           <Domanda
+            key={`${verificaDomanda.id}-${presentazione}`}
             domanda={verificaDomanda}
             scelta={scelta}
             esito={
@@ -502,6 +595,7 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
           onProsegui={handleRemediationProsegui}
         />
       )}
+      </div>
     </div>
   );
 }
