@@ -336,7 +336,7 @@ export const MODULI: readonly Modulo[] = [
     id: "m3",
     numero: 3,
     titolo: "Risparmiare o investire",
-    sottotitolo: "Due scelte diverse per lo stesso denaro: sicurezza o possibilità di crescita",
+    sottotitolo: "Due usi diversi dello stesso denaro, con orizzonti e incertezze diverse",
     lezioni: ["l3a"],
   },
   {
@@ -350,7 +350,9 @@ export const MODULI: readonly Modulo[] = [
     id: "m5",
     numero: 5,
     titolo: "La diversificazione",
-    sottotitolo: "Perché distribuire è meglio che concentrare tutto su una sola scelta",
+    // "è meglio" sarebbe una raccomandazione, che la consegna vieta: qui si
+    // descrive l'effetto di distribuire, non si dice che convenga farlo.
+    sottotitolo: "Come cambia il peso di un singolo evento se distribuisci invece di concentrare",
     lezioni: ["l5a"],
   },
   {
