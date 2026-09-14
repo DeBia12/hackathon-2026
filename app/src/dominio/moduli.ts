@@ -88,7 +88,7 @@ const _lezioniInterne: Record<string, Lezione> = {
   l3a: {
     id: "l3a",
     titolo: "Due usi diversi dello stesso denaro",
-    concetti: ["risparmio", "rischio"],
+    concetti: ["risparmio", "investimento"],
     vedi: {
       tipo: "analogia",
       testo:
@@ -248,6 +248,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "titolo-stato",
       consegna:
         "Esplora le parti di un BTP: scopri chi lo emette, cosa ricevi nel tempo " +
         "e quando termina il prestito.",
@@ -280,6 +281,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "obbligazione-societaria",
       consegna:
         "Esplora le parti di un'obbligazione societaria: chi la emette, " +
         "cosa ricevi e quando ti restituisce il capitale.",
@@ -313,6 +315,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "azione",
       consegna:
         "Scopri cosa rappresenta un'azione e in cosa è fondamentalmente diversa " +
         "dalle obbligazioni che hai appena studiato.",
@@ -345,6 +348,7 @@ const _lezioniInterne: Record<string, Lezione> = {
     ],
     prova: {
       componente: "anatomia-strumento",
+      strumento: "etf",
       consegna:
         "Guarda cosa c'è dentro un ETF e come si collega alla diversificazione " +
         "che hai già studiato.",

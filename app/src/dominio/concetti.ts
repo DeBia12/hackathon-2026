@@ -17,6 +17,14 @@ export const CONCETTI: Readonly<Record<ConcettoId, Concetto>> = {
     prerequisiti: [],
     lezione: "l1a",
   },
+  "investimento": {
+    id: "investimento",
+    nome: "Investimento",
+    area: "basi",
+    inUnaRiga: "Investire significa impiegare il denaro che non spendi accettando un risultato incerto, in cambio della possibilità che cresca nel tempo.",
+    prerequisiti: ["risparmio"],
+    lezione: "l3a",
+  },
   "potere-acquisto": {
     id: "potere-acquisto",
     nome: "Potere d'acquisto",

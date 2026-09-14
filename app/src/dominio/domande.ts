@@ -479,8 +479,42 @@ const _DOMANDE: Record<DomandaId, Domanda> = {
   "v-l3a": {
     id: "v-l3a",
     momento: "verifica",
-    concetto: "rischio",
+    concetto: "investimento",
     gemella: "r-l3a",
+    testo: "Risparmiare e investire sono due modi diversi di usare il denaro che non spendi. Che cosa li distingue?",
+    corretta: "c",
+    opzioni: [
+      {
+        id: "a",
+        testo: "Nessuna differenza: sono due parole per la stessa cosa",
+        lacuna: "investimento",
+        spiegazione: "Sono due usi distinti dello stesso denaro: il risparmio punta alla sicurezza e alla disponibilità immediata, l'investimento accetta un risultato incerto.",
+      },
+      {
+        id: "b",
+        testo: "Investire garantisce che il denaro cresca, risparmiare no",
+        lacuna: "investimento",
+        spiegazione: "L'investimento non garantisce nulla: mette in conto che il risultato futuro non sia noto in anticipo, né in positivo né in negativo.",
+      },
+      {
+        id: "c",
+        testo: "Il risparmio punta alla sicurezza e alla disponibilità immediata; l'investimento accetta un risultato incerto in cambio della possibilità di crescita nel tempo",
+        spiegazione: "È la distinzione della lezione. Non descrive quale dei due sia preferibile: sono due usi diversi dello stesso denaro, con obiettivi diversi.",
+      },
+      {
+        id: "d",
+        testo: "Il risparmio riguarda somme piccole, l'investimento somme grandi",
+        lacuna: "investimento",
+        spiegazione: "La differenza non sta nell'importo, ma in che cosa si accetta: disponibilità e stabilità da una parte, incertezza sul risultato dall'altra.",
+      },
+    ],
+  },
+
+  "v-l4a": {
+    id: "v-l4a",
+    momento: "verifica",
+    concetto: "rischio",
+    gemella: "r-l4a",
     testo: "In ambito finanziario, cosa si intende con il termine 'rischio'?",
     corretta: "b",
     opzioni: [
@@ -510,11 +544,11 @@ const _DOMANDE: Record<DomandaId, Domanda> = {
     ],
   },
 
-  "v-l4a": {
-    id: "v-l4a",
+  "v-l4b": {
+    id: "v-l4b",
     momento: "verifica",
-    concetto: "rischio",
-    gemella: "r-l4a",
+    concetto: "rendimento",
+    gemella: "r-l4b",
     testo: "Qual è la relazione generale tra rischio e possibilità di rendimento?",
     corretta: "c",
     opzioni: [
@@ -540,40 +574,6 @@ const _DOMANDE: Record<DomandaId, Domanda> = {
         testo: "Gli strumenti a basso rischio hanno sempre un rendimento negativo",
         lacuna: "rendimento",
         spiegazione: "Gli strumenti a basso rischio tendono ad avere rendimenti contenuti, ma possono comunque essere positivi.",
-      },
-    ],
-  },
-
-  "v-l4b": {
-    id: "v-l4b",
-    momento: "verifica",
-    concetto: "rendimento",
-    gemella: "r-l4b",
-    testo: "Un investimento ipotetico vale 500 euro. Dopo un anno vale 550 euro. Qual è il rendimento percentuale?",
-    corretta: "b",
-    opzioni: [
-      {
-        id: "a",
-        testo: "5%",
-        lacuna: "rendimento",
-        spiegazione: "Il 5% di 500 euro è 25 euro, non 50. Il calcolo corretto è: guadagno diviso capitale iniziale, moltiplicato per 100.",
-      },
-      {
-        id: "b",
-        testo: "10%",
-        spiegazione: "Il guadagno è 50 euro su un capitale di 500 euro. 50 ÷ 500 = 0,10, ovvero il 10%. Il rendimento percentuale si calcola come (valore finale − valore iniziale) ÷ valore iniziale × 100.",
-      },
-      {
-        id: "c",
-        testo: "50%",
-        lacuna: "rendimento",
-        spiegazione: "Il 50% di 500 euro sarebbe 250 euro di guadagno. Il guadagno effettivo è 50 euro, non 250.",
-      },
-      {
-        id: "d",
-        testo: "550%",
-        lacuna: "rendimento",
-        spiegazione: "550% significherebbe che il valore è moltiplicato per 5,5. Non è questo che è successo: il valore è cresciuto di 50 euro.",
       },
     ],
   },
@@ -891,8 +891,42 @@ const _DOMANDE: Record<DomandaId, Domanda> = {
   "r-l3a": {
     id: "r-l3a",
     momento: "riverifica",
-    concetto: "rischio",
+    concetto: "investimento",
     gemella: "v-l3a",
+    testo: "Due persone mettono da parte 1.000 euro ciascuna. La prima li tiene su un conto da cui può prelevarli in qualsiasi momento. La seconda li impiega in uno strumento il cui valore può cambiare nel tempo. Che cosa distingue le due situazioni?",
+    corretta: "b",
+    opzioni: [
+      {
+        id: "a",
+        testo: "La seconda persona ha commesso un errore",
+        lacuna: "investimento",
+        spiegazione: "Non c'è un errore: sono due usi diversi dello stesso denaro. La lezione descrive la differenza, non stabilisce quale situazione sia preferibile.",
+      },
+      {
+        id: "b",
+        testo: "La seconda ha accettato un risultato incerto; la prima ha privilegiato la disponibilità immediata e la stabilità dell'importo",
+        spiegazione: "È esattamente la differenza tra risparmiare e investire: cambia ciò che si accetta sul risultato futuro, non la somma di partenza.",
+      },
+      {
+        id: "c",
+        testo: "Nessuna: in entrambi i casi i 1.000 euro restano 1.000 euro",
+        lacuna: "investimento",
+        spiegazione: "Nel secondo caso l'importo può cambiare nel tempo, in aumento o in diminuzione: è il risultato incerto che caratterizza l'investimento.",
+      },
+      {
+        id: "d",
+        testo: "La prima persona sta investendo, la seconda sta risparmiando",
+        lacuna: "investimento",
+        spiegazione: "È il contrario: tenere il denaro disponibile e stabile descrive il risparmio, impiegarlo accettando un valore che può variare descrive l'investimento.",
+      },
+    ],
+  },
+
+  "r-l4a": {
+    id: "r-l4a",
+    momento: "riverifica",
+    concetto: "rischio",
+    gemella: "v-l4a",
     testo: "Due strumenti finanziari hanno avuto in media lo stesso rendimento su 10 anni. Il primo ha avuto fluttuazioni molto ampie; il secondo è rimasto stabile. Quale ha il rischio maggiore?",
     corretta: "c",
     opzioni: [
@@ -922,11 +956,11 @@ const _DOMANDE: Record<DomandaId, Domanda> = {
     ],
   },
 
-  "r-l4a": {
-    id: "r-l4a",
+  "r-l4b": {
+    id: "r-l4b",
     momento: "riverifica",
-    concetto: "rischio",
-    gemella: "v-l4a",
+    concetto: "rendimento",
+    gemella: "v-l4b",
     testo: "Un conto di risparmio paga un interesse basso. Uno strumento ipotetico alternativo offre potenzialmente il triplo, ma il suo valore può oscillare molto. Quale principio spiega questa differenza?",
     corretta: "b",
     opzioni: [
@@ -952,40 +986,6 @@ const _DOMANDE: Record<DomandaId, Domanda> = {
         testo: "Il principio del potere d'acquisto",
         lacuna: "potere-acquisto",
         spiegazione: "Il potere d'acquisto riguarda quante cose puoi comprare con una somma di denaro; non spiega la relazione tra rischio e rendimento.",
-      },
-    ],
-  },
-
-  "r-l4b": {
-    id: "r-l4b",
-    momento: "riverifica",
-    concetto: "rendimento",
-    gemella: "v-l4b",
-    testo: "Un fondo ipotetico ha prodotto un rendimento del -8% in un anno. Su un investimento iniziale di 1.000 euro, quanto vale ora?",
-    corretta: "b",
-    opzioni: [
-      {
-        id: "a",
-        testo: "1.080 euro",
-        lacuna: "rendimento",
-        spiegazione: "1.080 euro corrisponde a un rendimento positivo dell'8%. Ma il rendimento è negativo: il valore scende, non sale.",
-      },
-      {
-        id: "b",
-        testo: "920 euro",
-        spiegazione: "Un rendimento del -8% significa perdere l'8% del capitale: 1.000 × 0,08 = 80 euro persi. 1.000 − 80 = 920 euro.",
-      },
-      {
-        id: "c",
-        testo: "800 euro",
-        lacuna: "rendimento",
-        spiegazione: "800 euro corrisponde a una perdita del 20%, non dell'8%.",
-      },
-      {
-        id: "d",
-        testo: "992 euro",
-        lacuna: "rendimento",
-        spiegazione: "992 euro corrisponde a una perdita di 8 euro, cioè lo 0,8%, non dell'8%.",
       },
     ],
   },
