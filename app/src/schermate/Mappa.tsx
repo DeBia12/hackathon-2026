@@ -217,6 +217,10 @@ export function Mappa(): ReactElement {
               type="button"
               onClick={() => naviga({ nome: "risultato" })}
               className={[
+                // Controllo standalone, non un link inline dentro un paragrafo:
+                // la sola altezza di linea di text-sm da' 20px, sotto i 24px
+                // minimi di WCAG 2.2 2.5.8. min-h-11 lo allinea agli altri controlli.
+                "inline-flex min-h-11 items-center py-2",
                 "text-sm font-medium text-accent-text",
                 "underline underline-offset-4",
                 "focus-visible:outline-2 focus-visible:outline-accent-text",
