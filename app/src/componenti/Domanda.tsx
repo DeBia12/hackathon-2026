@@ -1,8 +1,9 @@
-import { useId, useState, useEffect } from "react";
+import { useId, useState, useEffect, useMemo } from "react";
 import type { ReactElement } from "react";
 import type { Domanda as DomandaTipo } from "@/dominio/tipi";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/lib/cn";
+import { mescola } from "@/lib/mescola";
 
 interface PropsDomanda {
   domanda: DomandaTipo;
@@ -17,6 +18,8 @@ interface PropsDomanda {
   onRispondi: (idOpzione: string) => void;
   onAvanti?: () => void;
   etichettaAvanti?: string;
+  /** Etichetta del passo di conferma, presente solo quando c'è un esito da rivelare. */
+  etichettaConferma?: string;
 }
 
 export function Domanda({
@@ -28,6 +31,7 @@ export function Domanda({
   onRispondi,
   onAvanti,
   etichettaAvanti = "Avanti",
+  etichettaConferma = "Conferma",
 }: PropsDomanda): ReactElement {
   /*
    * useId garantisce id stabili e unici anche con più istanze di Domanda
@@ -35,6 +39,30 @@ export function Domanda({
    */
   const gruppoId = useId();
   const giàRisposte = scelta !== undefined;
+
+  /*
+   * Ordine delle opzioni mescolato a ogni presentazione della domanda: nella
+   * banca la risposta corretta cadeva quasi sempre in terza posizione.
+   * `corretta` è un id, non un indice, quindi la valutazione non ne risente.
+   * useMemo sull'id tiene l'ordine stabile finché la domanda resta a schermo:
+   * rimescolare a ogni render sposterebbe le opzioni sotto le dita di chi
+   * naviga da tastiera o con uno screen reader.
+   */
+  const opzioni = useMemo(() => mescola(domanda.opzioni), [domanda.id]);
+
+  /*
+   * `selezione` è la scelta ancora modificabile, `scelta` quella confermata dal
+   * chiamante. Quando c'è un esito da rivelare la conferma è un passo a sé:
+   * finché non la premi puoi cambiare idea. Senza esito (le valutazioni) la
+   * selezione si propaga subito e resta modificabile fino all'avanzamento.
+   */
+  const [selezione, setSelezione] = useState<string | undefined>(scelta);
+  useEffect(() => {
+    setSelezione(scelta);
+  }, [scelta, domanda.id]);
+
+  const evidenziata = giàRisposte ? scelta : selezione;
+  const bloccato = giàRisposte && mostraEsito;
 
   /*
    * Slide-up del pannello di esito. Al mount del pannello (esito cambia da
@@ -100,11 +128,11 @@ export function Domanda({
         </legend>
 
         <div className="flex flex-col gap-3">
-          {domanda.opzioni.map((opzione) => {
+          {opzioni.map((opzione) => {
             const opzioneId = `${gruppoId}-${opzione.id}`;
-            const selezionata = scelta === opzione.id;
-            const corretta = giàRisposte && selezionata && esito?.corretta === true;
-            const sbagliata = giàRisposte && selezionata && esito?.corretta === false;
+            const selezionata = evidenziata === opzione.id;
+            const corretta = mostraEsito && selezionata && esito?.corretta === true;
+            const sbagliata = mostraEsito && selezionata && esito?.corretta === false;
 
             return (
               /*
@@ -128,8 +156,8 @@ export function Domanda({
                     : sbagliata
                     ? "border-rosso bg-rosso-tenue"
                     : selezionata
-                    ? "border-accent-text"
-                    : giàRisposte
+                    ? "border-accent-text bg-accent-tenue"
+                    : bloccato
                     ? "cursor-default border-line"
                     : "border-line hover:border-accent-text hover:bg-accent-tenue",
                   animazione?.id === opzione.id && animazione.tipo === "pop"
@@ -141,8 +169,8 @@ export function Domanda({
                 )}
               >
                 {/*
-                 * disabled={giàRisposte}: dopo la risposta il gruppo radio è
-                 * bloccato in modo nativo (niente arrow key, niente click).
+                 * disabled solo dopo che l'esito è stato rivelato: prima di
+                 * quel momento la scelta resta modificabile.
                  * Il contrasto del testo non è compromesso: la <span> adiacente
                  * non eredita l'opacità di un input disabilitato — solo il
                  * cerchio radio stesso viene attenuato dal browser.
@@ -153,9 +181,13 @@ export function Domanda({
                   name={`${gruppoId}-gruppo`}
                   value={opzione.id}
                   checked={selezionata}
-                  disabled={giàRisposte}
+                  disabled={bloccato}
                   onChange={() => {
-                    if (!giàRisposte) onRispondi(opzione.id);
+                    if (bloccato) return;
+                    setSelezione(opzione.id);
+                    // Senza esito da rivelare la scelta si propaga subito: il
+                    // passo di conferma raddoppierebbe i clic senza dare nulla.
+                    if (!mostraEsito) onRispondi(opzione.id);
                   }}
                   className="mt-0.5 h-6 w-6 flex-shrink-0 accent-accent-text"
                 />
@@ -211,6 +243,29 @@ export function Domanda({
           </p>
           <p className="mt-2 text-base leading-relaxed text-muted">
             {esito.spiegazione}
+          </p>
+        </div>
+      )}
+
+      {/*
+       * Un pulsante per volta: prima si conferma, poi si avanza. Il pulsante
+       * resta disabilitato finché non c'è una selezione, con il motivo scritto
+       * in chiaro sotto (WCAG 3.3.2): lo stato visivo non è l'unico segnale.
+       */}
+      {mostraEsito && !giàRisposte && (
+        <div className="mt-6 space-y-2">
+          <Button
+            onClick={() => {
+              if (selezione !== undefined) onRispondi(selezione);
+            }}
+            disabled={selezione === undefined}
+          >
+            {etichettaConferma}
+          </Button>
+          <p className="text-sm text-muted">
+            {selezione === undefined
+              ? "Scegli una risposta per continuare."
+              : "Puoi cambiare risposta finché non confermi."}
           </p>
         </div>
       )}
