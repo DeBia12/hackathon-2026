@@ -3,12 +3,85 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Hackathon — Presentazione</title>
+    <title>Capitolo Zero — Hackathon 2026</title>
 
     <link rel="stylesheet" href="vendor/reveal/reset.css" />
     <link rel="stylesheet" href="vendor/reveal/reveal.css" />
     <link rel="stylesheet" href="theme/accenture.css" />
     <link rel="stylesheet" href="vendor/reveal/plugin/highlight/zenburn.css" />
+
+    <!-- Componenti presenti solo in questo deck: le schermate dell'app e gli
+         elenchi che si aprono al clic. Stanno qui e non in theme/accenture.css
+         perche' quel file e' una copia della skill: modificarlo significa
+         tenere allineati due file. -->
+    <style>
+      .schermo {
+        display: block;
+        width: 100%;
+        height: auto;
+        border: 1px solid var(--acn-grigio, #a2a2a0);
+      }
+      .slide-chiara .schermo { border-color: var(--acn-bordo, #e3e3df); }
+      .schermo--largo { max-width: 80%; margin-left: auto; margin-right: auto; }
+
+      /* Elenco che si apre al clic. <details> nativo: funziona da tastiera,
+         lo screen reader annuncia lo stato, e non serve JavaScript. */
+      .apri {
+        border-left: 5px solid var(--acn-viola, #a100ff);
+        padding-left: 0.6em;
+        margin-bottom: 0.5em;
+        text-align: left;
+      }
+      .apri > summary {
+        cursor: pointer;
+        list-style: none;
+        font-size: 0.82em;
+        line-height: 1.35;
+        padding: 0.15em 0;
+        min-height: 24px;
+      }
+      .apri > summary::-webkit-details-marker { display: none; }
+
+      /* Il tema da' l'anello di focus solo ad <a> e <button>: i <summary>
+         resterebbero con l'outline di default del browser. */
+      .reveal .apri > summary:focus-visible {
+        outline: 2px solid var(--acn-viola-focus, #dcafff);
+        outline-offset: 8px;
+      }
+      .reveal section.slide-chiara .apri > summary:focus-visible {
+        outline-color: var(--acn-viola, #a100ff);
+      }
+      .apri > summary::after {
+        content: "+";
+        color: var(--acn-viola-chiaro, #be82ff);
+        margin-left: 0.5em;
+        font-weight: 500;
+      }
+      .apri[open] > summary::after { content: "–"; }
+      .slide-chiara .apri > summary::after { color: var(--acn-viola-testo, #7500c0); }
+
+      .apri > summary > strong { color: var(--acn-viola-chiaro, #be82ff); }
+      .slide-chiara .apri > summary > strong { color: var(--acn-viola-testo, #7500c0); }
+
+      .apri dl {
+        margin: 0.35em 0 0.2em;
+        font-size: 0.55em;
+        line-height: 1.4;
+      }
+      .apri dt {
+        font-weight: 500;
+        margin-top: 0.25em;
+      }
+      .apri dd {
+        margin: 0 0 0 1.2em;
+        color: var(--acn-grigio, #a2a2a0);
+      }
+      .slide-chiara .apri dd { color: var(--acn-grigio-chiaro, #5f5f5f); }
+
+      @media (prefers-reduced-motion: reduce) {
+        .apri, .apri * { transition: none !important; animation: none !important; }
+      }
+    </style>
   </head>
 
   <body>
@@ -28,146 +101,245 @@
     <div class="reveal">
       <div class="slides">
 
-        <!-- 1. TITOLO -->
+        <!-- 1. TITOLO — manifesto 1 di 3.
+             Il titolo NON e' spezzato in due span animati: le due meta' convergono
+             di 10% ciascuna e a meta' animazione la "Z" finisce sopra la "o".
+             Quella animazione serve alle due meta' di UNA parola divisa dal segno >. -->
         <section class="slide-manifesto">
-          <p class="acn-eyebrow">Hackathon 2026</p>
-          <h1 class="acn-display">
-            <span class="acn-sr-only">Nome del progetto</span>
-            <span aria-hidden="true">
-              <span class="acn-titolo--sinistra">Nome del</span>
-              <span class="acn-titolo--destra">pro<svg class="acn-segno" viewBox="0 0 32 32" aria-hidden="true"><path d="M0 22.6L17.66 16.03L0 9.13V0L30.24 12.18V19.75L0 32V22.6Z"/></svg>etto</span>
-            </span>
-          </h1>
-          <p><span class="acn-riga"></span>Il claim in una riga: cosa cambia e per chi.</p>
-          <p class="didascalia">Nome Cognome · Nome Cognome — Hackathon 2026</p>
+          <p class="acn-eyebrow">Hackathon 2026 · Educazione finanziaria</p>
+          <h1 class="acn-display">Capitolo Zero</h1>
+          <p>
+            <span class="acn-riga" aria-hidden="true"></span>
+            Un percorso guidato che insegna i concetti di base della finanza
+            personale, e misura quanto l'utente ha capito prima e dopo averlo fatto.
+          </p>
+          <p class="didascalia">Mattia · Stefano</p>
           <aside class="notes">
-            Aprire con calma. Dire il claim, non leggerlo dalla slide.
+            20 secondi. Dire cosa fa l'app in una frase, poi passare avanti.
           </aside>
         </section>
 
-        <!-- 2. IL PROBLEMA -->
+        <!-- 2. CHI LA USA -->
         <section>
-          <h2>Il problema</h2>
-          <p class="numero-grande">3 su 10</p>
-          <p class="didascalia">[dato da sostituire con la fonte reale]</p>
-          <p>Racconta una persona vera, non una categoria.</p>
-          <aside class="notes">
-            Una persona, un ostacolo concreto. Niente statistiche a raffica: una sola,
-            quella che fa male.
-          </aside>
-        </section>
-
-        <!-- 3. L'INTUIZIONE — la voce editoriale del brand: serif 300 -->
-        <section>
-          <h2>L'intuizione</h2>
-          <p class="acn-editoriale acn-editoriale--entra">
-            La frase che spiega <span class="accento">perché</span> la nostra soluzione ha senso.
+          <h2>Chi usa Capitolo Zero</h2>
+          <p class="numero-grande">13</p>
+          <p class="didascalia">
+            I concetti coperti, dal risparmio all'ETF. Ognuno collegato ai suoi prerequisiti.
+          </p>
+          <p>
+            Chi ha già sentito le parole — inflazione, azione, obbligazione, ETF — ma
+            non sa cosa significano. Un glossario non basta: per cercare una voce
+            devi già sapere che ti manca.
           </p>
           <aside class="notes">
-            Questa è la slide che la giuria ricorda. Una frase, detta lentamente.
+            30 secondi. I 13 concetti sono un dato verificabile aprendo l'app,
+            non una statistica presa da fuori.
           </aside>
         </section>
 
-        <!-- 4. LA SOLUZIONE -->
+        <!-- 3. COME FUNZIONA — testo a sinistra, schermata dell'app a destra -->
         <section>
-          <h2>La soluzione</h2>
-          <ul>
-            <li>Cosa fa, in poche parole</li>
-            <li>Per chi è pensata</li>
-            <li>Cosa la rende diversa</li>
-          </ul>
-          <aside class="notes">Massimo 40 secondi: la demo mostrerà il resto.</aside>
-        </section>
-
-        <!-- 5. ARCHITETTURA -->
-        <section>
-          <h2>Architettura</h2>
+          <h2>Come funziona</h2>
           <div class="due-colonne">
             <div>
-              <div class="riquadro"><strong>app/</strong> React 19 + TypeScript + Tailwind</div>
-              <div class="riquadro" style="margin-top:.5em"><strong>agents/</strong> Claude Agent SDK</div>
-              <div class="riquadro" style="margin-top:.5em"><strong>backend/</strong> Supabase self-hosted</div>
+              <div class="passo"><strong>Prima</strong> — 5 domande. Restituiscono quali concetti mancano, area per area</div>
+              <div class="passo"><strong>Impara</strong> — 6 moduli, 12 lezioni, simulatori interattivi. I moduli si sbloccano in ordine</div>
+              <div class="passo"><strong>Dopo</strong> — le stesse 5 aree rimisurate, affiancate al punteggio iniziale</div>
             </div>
             <div>
-              <p style="font-size:.72em">
-                <strong>Perché così:</strong> [la scelta e l'alternativa scartata].
-              </p>
-              <p style="font-size:.72em" class="accento">
-                Tutto in locale: nessuna dipendenza dal wifi della sede.
-              </p>
+              <img
+                class="schermo"
+                src="assets/immagini/app-mappa.png"
+                alt="Schermata del percorso: livello Esploratore, 5 concetti acquisiti su 13. Due moduli completati e il terzo in corso, ognuno con le pastiglie dei concetti che insegna."
+              />
             </div>
           </div>
           <aside class="notes">
-            Spiegare UNA scelta architetturale e il suo trade-off. La giuria valuta il come.
+            30 secondi. Mostrare la schermata mentre si elencano i tre passi.
+            La percentuale misura i concetti capiti, non le pagine lette.
           </aside>
         </section>
 
-        <!-- 6. IL PROCESSO -->
+        <!-- 4. IL MECCANISMO ADATTIVO -->
         <section>
-          <h2>Il nostro processo</h2>
-          <div class="passo"><strong>ui-builder</strong> — componenti accessibili per costruzione</div>
-          <div class="passo"><strong>revisore-accessibilita</strong> — audit WCAG 2.2 AA automatico</div>
-          <div class="passo"><strong>edu-content</strong> — testi in linguaggio semplice</div>
-          <div class="passo"><strong>supabase-dev</strong> — schema, RLS e migrazioni</div>
+          <h2>Cosa succede quando l'utente sbaglia</h2>
+          <p>
+            Ogni risposta sbagliata è collegata nel dato a un concetto preciso.
+            L'app non ripete la stessa domanda: risale i prerequisiti e riapre la
+            lezione del primo concetto che l'utente non ha ancora acquisito.
+          </p>
+          <div class="riquadro" style="margin-top:.8em">
+            <strong>Esempio</strong>
+            Sbagli una domanda sulle azioni. L'app riapre «Proprietario o creditore?»,
+            non la lezione sulle azioni.
+          </div>
+          <p class="didascalia" style="margin-top:.7em">
+            13 concetti collegati da prerequisiti, più una funzione pura. 51 test.
+            Nessun modello interrogato mentre l'utente studia.
+          </p>
+          <p class="didascalia" style="margin-top:.4em">
+            Moduli e lezioni sono dati, non testo dentro le schermate: stanno in un
+            punto solo e oggi vivono in locale. Portarli su database non tocca né il
+            motore né l'interfaccia — il client è già cablato, e l'app gira comunque
+            se il database non c'è.
+          </p>
           <aside class="notes">
-            Il cuore del pitch: l'evento premia il COME. Dire cosa ha fatto ciascun agente
-            e cosa abbiamo deciso noi.
+            35 secondi. È la capability software concreta che la consegna richiede:
+            non una riscrittura di testi.
+            Se chiedono della scalabilità: i contenuti passano da MODULI, LEZIONI e
+            CONCETTI, quindi cambiare sorgente è sostituire quelle tre. Supabase è
+            già istanziato e l'app degrada senza, quindi la demo non dipende da lui.
           </aside>
         </section>
 
-        <!-- 7. ACCESSIBILITÀ — slide densa: fondo chiaro, si legge meglio -->
-        <section class="slide-chiara">
-          <h2>Accessibilità by design</h2>
-          <p>Non una verifica finale: un vincolo dentro gli agenti che scrivono il codice.</p>
-          <div class="due-colonne" style="margin-top:1em">
+        <!-- 5. PRIMA E DOPO — l'evidenza, non la descrizione -->
+        <section>
+          <h2>Prima e dopo</h2>
+          <img
+            class="schermo schermo--largo"
+            src="assets/immagini/app-risultato.png"
+            alt="Schermata dei risultati dell'app: punteggio complessivo di alfabetizzazione finanziaria, prima 20 per cento, dopo 80 per cento, con l'etichetta più 60 punti percentuali."
+          />
+          <p class="didascalia" style="margin-top:.7em">
+            Schermata dell'app. Sotto il punteggio, il confronto area per area —
+            comprese quelle rimaste invariate. Le domande finali sono gemelle delle
+            iniziali: stesso concetto, formulazione diversa.
+          </p>
+          <aside class="notes">
+            25 secondi. Questo è il deliverable "Before/After" della consegna,
+            ed è una schermata del prodotto, non un artefatto fatto per il pitch.
+          </aside>
+        </section>
+
+        <!-- 6. I LIMITI -->
+        <section>
+          <h2>Cosa fa e cosa non fa</h2>
+          <div class="due-colonne" style="margin-top:.5em">
             <div class="riquadro">
-              <strong>Misurato, non stimato</strong>
-              Contrasti calcolati da script, non a occhio
+              <strong>Fa</strong>
+              Spiega i concetti. Calcola esempi numerici. Verifica la comprensione
+              con domande e la rimisura alla fine.
             </div>
             <div class="riquadro">
-              <strong>Esempio reale</strong>
-              Il viola brand su nero dà 3.96:1 — sotto la soglia AA
+              <strong>Non fa</strong>
+              Non consiglia strumenti. Non confronta prodotti. Non dice cosa comprare
+              o vendere. Non profila l'utente.
             </div>
           </div>
+          <p class="didascalia" style="margin-top:.9em">
+            L'app dichiara questi limiti all'utente in una pagina dedicata, insieme
+            a cosa è stato semplificato e cosa non è stato alterato.
+          </p>
           <aside class="notes">
-            Mostrare contrast.mjs dal vivo se c'è tempo: fa vedere il metodo, non l'intenzione.
+            20 secondi. Il divieto di consulenza della consegna è implementato come
+            pagina del prodotto. Si chiama "Come funziona Capitolo Zero".
           </aside>
         </section>
 
-        <!-- 8. DEMO -->
+        <!-- 7. DEMO — manifesto 2 di 3 -->
+        <section class="slide-manifesto">
+          <h2 class="acn-display">Demo</h2>
+          <p class="didascalia">Valutazione · errore · lezione riaperta · risultato</p>
+          <aside class="notes">
+            60-70 secondi, non di più. ALT+TAB sulla finestra già aperta al benvenuto.
+            Percorso provato: 1) valutazione iniziale, sbagliare apposta la domanda
+            sulla diversificazione. 2) mappa, mostrare l'area scoperta. 3) lezione col
+            simulatore. 4) errore, e si apre la lezione del concetto a monte.
+            5) risultato, prima e dopo affiancati.
+          </aside>
+        </section>
+
+        <!-- 8. IL WORKFLOW AGENTICO — gli elenchi si aprono al clic -->
+        <section>
+          <h2>Come è stata costruita</h2>
+          <p style="font-size:.72em">
+            Il lavoro è diviso fra agenti specializzati. Apri una voce per l'elenco.
+          </p>
+
+          <details class="apri">
+            <summary><strong>4 hook</strong> — controlli automatici, a ogni modifica</summary>
+            <dl>
+              <dt>verifica-accessibilita</dt>
+              <dd>Dopo ogni modifica a un componente: blocca 5 violazioni certe.</dd>
+              <dt>rileva-design</dt>
+              <dd>61 regole contro gli anti-pattern del frontend generato da AI.</dd>
+              <dt>blocca-segreti</dt>
+              <dd>Prima di ogni commit: blocca se in stage c'è una credenziale.</dd>
+              <dt>verifica-tipi</dt>
+              <dd>A fine turno: se il typecheck fallisce, il turno non si chiude.</dd>
+            </dl>
+          </details>
+
+          <details class="apri">
+            <summary><strong>11 agenti</strong> — un mestiere ciascuno, contesto separato</summary>
+            <dl>
+              <dt>ui-builder · edu-content</dt>
+              <dd>Componenti accessibili; testi in linguaggio semplice.</dd>
+              <dt>revisore-accessibilita</dt>
+              <dd>Audit WCAG 2.2 AA. Ha promosso questo deck con zero bloccanti.</dd>
+              <dt>matt-implementer · matt-reviewer</dt>
+              <dd>Uno esegue un ticket partendo da zero, l'altro lo rivede.</dd>
+              <dt>deck-builder · supabase-dev · 4 ausiliari di design</dt>
+              <dd>Slide, schema dati, produzione degli asset.</dd>
+            </dl>
+          </details>
+
+          <details class="apri">
+            <summary><strong>24 skill</strong> — conoscenza richiamabile a comando</summary>
+            <dl>
+              <dt>accenture-brand · brilliant-style</dt>
+              <dd>Due design system misurati dai siti reali: il primo per queste slide, il secondo per l'app.</dd>
+              <dt>accessibilita · impeccable</dt>
+              <dd>Contrasti calcolati da script; 23 comandi di design e 61 regole.</dd>
+              <dt>tdd · code-review · to-tickets · domain-modeling</dt>
+              <dd>Il metodo di lavoro: dalla specifica ai ticket, fino alla revisione.</dd>
+            </dl>
+          </details>
+
+          <aside class="notes">
+            40 secondi. Aprire UNO solo dei tre, non tutti: quello degli hook è il
+            più concreto. Gli altri due restano disponibili se la giuria chiede.
+            Si aprono anche da tastiera: Tab per raggiungerli, Invio o Spazio per aprire.
+          </aside>
+        </section>
+
+        <!-- 9. LE DUE REGOLE -->
+        <section>
+          <h2>Le due regole che abbiamo seguito</h2>
+          <div class="riquadro">
+            <strong>I controlli girano a ogni modifica, non alla fine</strong>
+            Accessibilità e tipi sono verificati mentre si scrive. Non c'è una fase
+            di correzione finale, perché in 5 ore non ci sarebbe stata.
+          </div>
+          <div class="riquadro" style="margin-top:.6em">
+            <strong>Chi scrive non revisiona</strong>
+            Ogni ticket parte da un contesto vuoto e la revisione gira su un agente
+            separato: chi ha appena scritto del codice tende ad approvarlo.
+          </div>
+          <p class="didascalia" style="margin-top:1em">
+            52 commit · 7.616 righe · 51 test ·
+            <span class="accento">ogni decisione scritta con l'alternativa scartata</span>
+          </p>
+          <aside class="notes">
+            35 secondi. Citare docs/decisioni.md: ogni riga ha cosa, perché e cosa
+            abbiamo scartato. Esempio pronto: Supabase abbandonato alle 11:24 perché
+            il download non entrava nel tempo rimasto. Scritto, col costo accettato.
+          </aside>
+        </section>
+
+        <!-- 10. CHIUSURA — manifesto 3 di 3, e l'unico segno > del deck -->
         <section class="slide-manifesto">
           <h2 class="acn-display">
-            <span class="acn-sr-only">Demo</span>
-            <span aria-hidden="true">De<svg class="acn-segno" viewBox="0 0 32 32" aria-hidden="true"><path d="M0 22.6L17.66 16.03L0 9.13V0L30.24 12.18V19.75L0 32V22.6Z"/></svg>mo</span>
+            <span class="acn-sr-only">Capire prima di investire</span>
+            <span aria-hidden="true">
+              <span class="acn-titolo--sinistra">Capire prima di</span>
+              <span class="acn-titolo--destra">in<svg class="acn-segno" viewBox="0 0 32 32" aria-hidden="true"><path d="M0 22.6L17.66 16.03L0 9.13V0L30.24 12.18V19.75L0 32V22.6Z"/></svg>estire</span>
+            </span>
           </h2>
-          <p class="didascalia">Passare all'applicazione</p>
+          <p><span class="acn-riga" aria-hidden="true"></span>Capitolo Zero — Mattia · Stefano</p>
           <aside class="notes">
-            ALT+TAB alla finestra già aperta. Percorso provato: [scrivere qui i 3 passaggi].
+            20 secondi. Poi silenzio: lasciare spazio alle domande.
           </aside>
-        </section>
-
-        <!-- 9. LEZIONI -->
-        <section>
-          <h2>Cosa abbiamo imparato</h2>
-          <ul>
-            <li>[Una cosa che ha funzionato]</li>
-            <li>[Un errore e come l'abbiamo corretto]</li>
-            <li>[Una sorpresa]</li>
-          </ul>
-          <aside class="notes">
-            L'onestà sull'errore vale più di tre successi. Non saltare questa slide.
-          </aside>
-        </section>
-
-        <!-- 10. PROSSIMI PASSI -->
-        <section class="slide-manifesto">
-          <h2 class="acn-display">Con altre 5 ore</h2>
-          <ul>
-            <li>[Priorità 1]</li>
-            <li>[Priorità 2]</li>
-          </ul>
-          <p style="margin-top:1em">Chiudere ripetendo il claim iniziale.</p>
-          <aside class="notes">Grazie. Poi silenzio: lasciare spazio alle domande.</aside>
         </section>
 
       </div>
@@ -184,6 +356,21 @@
           ? "none"
           : "fade",
         plugins: [RevealNotes, RevealHighlight],
+      });
+    </script>
+    <script>
+      /*
+       * Reveal lega la barra spaziatrice a "slide successiva" e, fra gli elementi
+       * su cui si tira indietro, non contempla <summary>. Senza questo, aprire un
+       * elenco da tastiera aprirebbe l'elenco E farebbe avanzare la slide.
+       * Il listener sta sul summary: intercetta nella fase target, quindi l'evento
+       * non arriva mai a Reveal, mentre l'azione predefinita del browser (aprire
+       * il <details>) resta intatta perche' stopPropagation non annulla i default.
+       */
+      document.querySelectorAll("details.apri > summary").forEach((summary) => {
+        summary.addEventListener("keydown", (e) => {
+          if (e.key === " " || e.key === "Enter") e.stopPropagation();
+        });
       });
     </script>
     <!-- Dopo Reveal.initialize: sfondo.js si aggancia agli eventi del deck. -->
