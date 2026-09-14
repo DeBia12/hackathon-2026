@@ -35,4 +35,49 @@ di font (mancava il serif editoriale), il grigio di superficie è caldo `#F1F1EF
 problema del viola illeggibile su nero.
 ~Ricostruzione a memoria scartata: produce un risultato "ispirato a", non riconoscibile.~
 
+**2026-09-14 — Skill di design di terze parti (`impeccable`, `apple-design`) copiate nel repo**
+Installate a mano in `.claude/skills/`, non via `npx impeccable install` né `npx skills add`:
+così sono versionate col progetto e il secondo membro del team le ha con un `git pull`,
+senza rieseguire installer. `impeccable` porta 23 comandi di design e 61 regole
+deterministiche, `apple-design` porta 122 pagine di HIG Apple.
+~Installer npm scartati: installano fuori dal repo, quindi non si condividono col team.~
+
+**2026-09-14 — Solo l'hook per-modifica di impeccable, non il passaggio profondo su Stop**
+Il manifest di impeccable propone due hook: uno rapido dopo ogni Edit/Write e uno profondo
+a fine turno (timeout 30s). Preso solo il primo: a fine turno c'è già il typecheck, e 30s
+per turno su 5 ore di lavoro sono minuti persi. Il passaggio profondo resta a richiesta
+con `/impeccable audit`.
+~Entrambi gli hook scartati: raddoppiare la latenza di fine turno per un controllo
+che possiamo lanciare quando serve.~
+
+**2026-09-14 — In conflitto di stile vince `accenture-brand`, non `impeccable` né Apple HIG**
+Le due skill nuove hanno opinioni estetiche proprie (impeccable: mai nero puro, sempre
+tintato; Apple: raggi morbidi e materiali traslucidi) che contraddicono il brand Accenture
+(nero `#000000`, raggio 0, nessuna ombra). Servono per interazione, gerarchia e
+anti-pattern; la palette e le forme restano quelle del brand.
+~Adozione integrale delle loro raccomandazioni scartata: produrrebbe una UI che non
+sembra Accenture, e il brand è un requisito della consegna.~
+
+**2026-09-14 — Struttura a 6 cartelle confermata: nessuna eliminata**
+La consegna cita `agents/`, `app/`, `presentation/` e `.claude/`. Verificate le altre due:
+`backend/` resta perché serve persistenza vera (profili e progressi, non solo stato locale);
+`docs/` resta perché `decisioni.md` è l'artefatto che la regola d'oro richiede — la giuria
+valuta il COME. `agents/` resta al plurale: contiene più agenti ed è già cablata ovunque.
+~Repo a 3 cartelle scartato: avrebbe cancellato la prova del processo e la persistenza.~
+
+**2026-09-14 — Riferimenti a `presentazione/` riallineati a `presentation/`**
+Il commit `8ed0bae` aveva rinominato i file senza aggiornare un solo riferimento: `npm run
+present`, `npm run guida` e `npm run alberatura` puntavano a una cartella inesistente, come
+il permesso in `settings.json` e l'agente `deck-builder`. Sostituita solo la forma con slash
+(`presentazione/`), lasciando intatta la parola italiana in prosa.
+~Rename globale della stringa scartato: avrebbe corrotto i testi che parlano della presentazione.~
+
+**2026-09-14 — `.claude/` spostata in `agents/`, codice TS degli agenti eliminato**
+Scelta dell'utente: `agents/` raccoglie tutto l'agentico e `.claude/` ci sta dentro. Rimossi
+`agents/src` (CLI semplificatore + catena lezione) e i suoi script npm. Riallineati 6 file di
+riferimento e la profondità di `RADICE` in `genera-alberatura.mjs`.
+**Costo noto e accettato:** Claude Code legge `.claude/` solo dalla radice del repo, quindi
+subagent, skill, hook e comandi slash di progetto non si caricano più automaticamente.
+~`.claude/` a radice scartata su richiesta esplicita, pur essendo l'unica posizione funzionante.~
+
 ---

@@ -5,29 +5,42 @@
 > uso degli agenti e processo di sviluppo. Ogni decisione non ovvia va tracciata in
 > `docs/decisioni.md` (1 riga: cosa, perché, alternativa scartata).
 
+## La consegna
+> Testo integrale e vincolante: [`docs/brief-challenge.md`](docs/brief-challenge.md).
+>
+> Soluzione di **agentic coding** per l'**educazione alla finanza personale di base**.
+> Va scelto **uno** scenario preciso, serve una **capability software concreta**
+> (non solo testi riscritti) e tre deliverable: *User Difficulty Statement*,
+> *Before/After Simplicity Evidence*, *Risk & Clarity Note*.
+>
+> **Vietato**: raccomandazioni di investimento, consulenza personalizzata, indicazioni
+> su cosa comprare/vendere/scegliere. L'app spiega e calcola, non suggerisce.
+
 ## Vincoli
 - **Durata: 5 ore.** Ottimizza per velocità di consegna, non per completezza.
   Preferisci sempre: funzionante e dimostrabile > elegante e incompleto.
 - **Team: 2 persone.** Lavorate su branch separati, merge su `main` frequenti.
 - **Output atteso:** prototipo web app + presentazione.
 
-## Tematiche (una o più)
-1. Accessibilità digitale
-2. Educazione finanziaria
-3. Educazione digitale inclusiva
+## Tematiche
+La consegna fissa il tema principale — **educazione finanziaria**. Le altre due restano
+criteri di qualità trasversali, non alternative:
+1. **Educazione finanziaria** — il tema della challenge
+2. Accessibilità digitale — requisito di qualità, WCAG 2.2 AA
+3. Educazione digitale inclusiva — linguaggio semplice, zero prerequisiti
 
-Tutte e tre condividono lo stesso requisito trasversale: **l'accessibilità non è
-opzionale, è il criterio di qualità principale**. Ogni componente UI nasce accessibile.
+L'**accessibilità non è opzionale**: è il criterio di qualità principale.
+Ogni componente UI nasce accessibile.
 
 ## Struttura del repository
 | Cartella | Contenuto |
 |---|---|
 | `app/` | Web app — Vite + React 19 + TypeScript + Tailwind |
-| `agents/` | Agenti Claude (Agent SDK TypeScript), prompt e catene |
+| `agents/` | Tutto l'agentico: contiene `.claude/` |
 | `backend/` | Supabase self-hosted su Podman + eventuali funzioni server |
-| `presentazione/` | Deck Reveal.js con tema brand Accenture |
+| `presentation/` | Deck Reveal.js con tema brand Accenture |
 | `docs/` | Decisioni architetturali, note, brief |
-| `.claude/` | Agenti, skill e comandi condivisi col team |
+| `agents/.claude/` | Subagent, skill, hook e comandi slash |
 
 ## Stack e comandi
 ```bash
@@ -62,7 +75,7 @@ Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 ## Brand Accenture (per UI e presentazione)
 
 > Riferimento completo, con font, animazioni e componenti:
-> [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md).
+> [`agents/.claude/skills/accenture-brand/SKILL.md`](agents/.claude/skills/accenture-brand/SKILL.md).
 > I valori sono **misurati dal sito reale**, non stimati.
 
 - **Viola primario** `#A100FF` — riempimenti, grafica, il segno `>`
@@ -76,7 +89,7 @@ Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 - **Movimento**: una sola curva, `cubic-bezier(0.85, 0, 0, 1)` a **550ms**.
 - **Forme**: squadrate, raggio **0**. Niente ombre. Molto spazio bianco.
 
-> **Contrasti misurati** (con `node .claude/skills/accessibilita/contrast.mjs`):
+> **Contrasti misurati** (con `node agents/.claude/skills/accessibilita/contrast.mjs`):
 > `#A100FF` su bianco = 5.3:1 ✅ AA · `#7500C0` su bianco = 8.34:1 ✅ AAA
 > `#BE82FF` su nero = 7.83:1 ✅ AAA · `#5F5F5F` su bianco = 6.39:1 ✅ AA
 >
@@ -109,10 +122,11 @@ Scattano sempre, senza che nessuno decida di invocarli. Sono il livello più aff
 | Quando | Cosa fa |
 |---|---|
 | Dopo ogni modifica a un `.tsx` | Blocca 5 violazioni di accessibilità certe |
+| Dopo ogni modifica a un file UI | Passa il file alle 61 regole del detector `impeccable` |
 | Prima di ogni `git commit` | Blocca il commit se in stage c'è una credenziale |
 | A fine turno | Esegue il typecheck; se fallisce, il turno non si chiude |
 
-Codice in `.claude/hooks/`. Per disattivarne uno, togli la voce da `.claude/settings.json`.
+Codice in `agents/.claude/hooks/`. Per disattivarne uno, togli la voce da `agents/.claude/settings.json`.
 
 ### 2. Agenti — esecutori specializzati
 
@@ -125,12 +139,22 @@ Codice in `.claude/hooks/`. Per disattivarne uno, togli la voce da `.claude/sett
 | `deck-builder` | Slide della presentazione |
 | `matt-implementer` | Esegue **un** ticket in contesto fresco, con TDD dove serve |
 | `matt-reviewer` | Rivede codice che non ha scritto |
+| `impeccable-*` | Quattro ausiliari della skill `impeccable`: asset, DESIGN.md, revisione finale, micro-edit |
 
 Tutti possono invocare skill in autonomia.
 
 ### 3. Skill — conoscenza richiamabile
 
 Di progetto: `accenture-brand`, `accessibilita`, `demo-ready`, `create-readme`.
+
+Di design, installate da terzi:
+- [`impeccable`](https://github.com/pbakaus/impeccable) — 23 comandi di design (`/impeccable audit`,
+  `critique`, `polish`, `typeset`, `layout`, `animate`, `clarify`…) più 61 regole
+  deterministiche contro gli anti-pattern del frontend generato da AI. Il motore è un
+  binario in `~/.impeccable/bin/`, scaricato al primo uso: nessuna dipendenza npm.
+- [`apple-design`](https://github.com/dickwu/apple-design-skill) — 122 pagine delle Human
+  Interface Guidelines Apple. Utile per le decisioni di interazione e gerarchia; il
+  **look** resta quello di `accenture-brand`, che vince su ogni conflitto di stile.
 
 Da [mattpocock/skills](https://github.com/mattpocock/skills), il flusso completo:
 `grill-with-docs`, `grilling`, `domain-modeling`, `to-spec`, `to-tickets`,
