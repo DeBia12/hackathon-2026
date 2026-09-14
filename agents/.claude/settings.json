@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "permissions": {
+    "allow": [
+      "Bash(npm run:*)",
+      "Bash(npm install)",
+      "Bash(npm ci)",
+      "Bash(npx tsc:*)",
+      "Bash(node agents/.claude/skills/accessibilita/contrast.mjs:*)",
+      "Bash(sh agents/.claude/skills/impeccable/scripts/impeccable:*)",
+      "Bash(agents/.claude/skills/impeccable/scripts/impeccable:*)",
+      "Bash(agents/.claude/skills/impeccable/scripts/impeccable.cmd:*)",
+      "Bash(git status:*)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git branch:*)",
+      "Bash(git pull:*)",
+      "Bash(git push:*)",
+      "Read(//c/Users/**)",
+      "Edit(app/**)",
+      "Edit(agents/**)",
+      "Edit(backend/**)",
+      "Edit(presentation/**)",
+      "Edit(docs/**)"
+    ],
+    "deny": [
+      "Read(./.env)",
+      "Read(./backend/supabase/.env)",
+      "Read(./**/*.pem)",
+      "Read(./**/*.key)",
+      "Bash(git push --force:*)",
+      "Bash(git reset --hard:*)"
+    ]
+  },
+  "env": {
+    "ANTHROPIC_MODEL": "claude-opus-5"
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node agents/.claude/hooks/blocca-segreti.mjs"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node agents/.claude/hooks/verifica-accessibilita.mjs"
+          },
+          {
+            "type": "command",
+            "command": "node agents/.claude/hooks/rileva-design.mjs",
+            "timeout": 15,
+            "statusMessage": "Controllo qualità del design"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node agents/.claude/hooks/verifica-tipi.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}
