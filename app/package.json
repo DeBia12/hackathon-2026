@@ -8,10 +8,12 @@
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "test": "vitest run"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.116.0",
+    "lucide-react": "^1.46.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   },
@@ -24,6 +26,7 @@
     "oxlint": "^1.81.0",
     "tailwindcss": "^4.3.3",
     "typescript": "~6.0.2",
-    "vite": "^8.3.0"
+    "vite": "^8.3.0",
+    "vitest": "^5.0.0"
   }
 }
