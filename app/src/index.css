@@ -1,7 +1,8 @@
 @import "tailwindcss";
+@import "./animazioni.css";
 
 /* ============================================================
-   Font del brand — file reali presi da accenture.com
+   Font — i file locali del progetto
    Proprietari (Commercial Type, Grilli Type): uso interno Accenture.
    ============================================================ */
 @font-face {
@@ -34,40 +35,87 @@
 }
 
 /* ============================================================
-   Design token — brand Accenture
-   Valori misurati dal sito reale, non stimati. Riferimento completo:
-   .claude/skills/accenture-brand/SKILL.md
-   Contrasti verificati con .claude/skills/a11y-check/contrast.mjs
+   Design token — stile Brilliant
+
+   Riferimento: .claude/skills/brilliant-style/SKILL.md, valori estratti da
+   brilliant.org. Le tre firme: fondo avena con griglia romboidale a 45 gradi,
+   bottoni con uno SPESSORE inset invece di un'ombra, display in grazie col
+   concetto in corsivo.
+
+   Una modifica voluta rispetto al riferimento: l'accento e' VERDE, non blu.
+
+   Ogni valore e' MISURATO con .claude/skills/accessibilita/contrast.mjs.
+   Dove il sito sta sotto WCAG AA, ha vinto il contrasto: brilliant.org usa
+   bianco su verde #29CC57 (2.13:1) e su blu #456DFF (4.3:1), entrambi sotto
+   soglia. Qui i riempimenti che portano testo bianco sono scuriti.
    ============================================================ */
 @theme {
-  /* Viola */
-  --color-accent: #a100ff;         /* riempimenti e grafica. Su bianco 5.3:1 — AA */
-  --color-accent-text: #7500c0;    /* testo viola su CHIARO — su bianco 8.34:1 — AAA */
-  --color-accent-deep: #460073;    /* fondi profondi — bianco sopra 13.93:1 — AAA */
-  --color-accent-active: #57008f;  /* stato :active dei bottoni */
-  --color-accent-deepest: #39005e; /* fondo card viola — bianco sopra 15.72:1 */
-  --color-accent-light: #be82ff;   /* testo viola su SCURO — su nero 7.83:1 — AAA */
-  --color-accent-focus: #dcafff;   /* anello di focus su scuro — su nero 11.62:1 */
+  /* Verde d'azione. Scelta esplicita dell'utente: il dettaglio e' verde, non blu.
+     Il verde acceso #29CC57 del sito da 2.13:1 su bianco: sotto la soglia di 3:1
+     anche per un semplice riempimento percepibile, quindi i riempimenti usano
+     #00A83A (3.15:1) e tutto cio' che porta testo bianco usa #007C23 (5.37:1). */
+  --color-accent: #00a83a;         /* riempimenti e grafica — 3.15:1 */
+  --color-accent-text: #007c23;    /* TESTO e fondo dei bottoni — bianco sopra 5.37:1 */
+  --color-accent-deep: #004e16;    /* hover — 9.99:1 su bianco */
+  --color-accent-active: #004e16;
+  --color-accent-deepest: #004e16;
+  --color-accent-light: #9fe8b3;   /* verde su fondo SCURO — su #141414 12.87:1 */
+  --color-accent-focus: #9fe8b3;
+  --color-accent-tenue: #eafaee;   /* fondo tenue delle tessere verdi */
 
-  /* Neutri */
-  --color-ink: #000000;
+  /* Colori di categoria. I gialli e i verdi accesi del sito reggono solo con
+     testo NERO sopra: come testo su bianco servono le varianti scure. */
+  --color-blu: #007c23;            /* alias: il verde, per non lasciare blu in giro */
+  --color-blu-tenue: #eafaee;
+  --color-viola: #7139cc;          /* 6.65:1 */
+  --color-viola-tenue: #f4edff;
+  --color-ambra: #926d00;          /* 4.76:1 */
+  --color-ambra-tenue: #fef9e9;
+  --color-verde: #007c23;          /* 5.37:1 — esito corretto */
+  --color-verde-tenue: #eafaee;
+  --color-rosso: #9c2e2e;          /* 7.38:1 — esito da rivedere */
+  --color-rosso-tenue: #ffefef;
+
+  /* Neutri caldi. Mai nero puro: il testo primario è #141414. */
+  --color-ink: #141414;            /* su avena 16.64:1 */
   --color-paper: #ffffff;
-  --color-surface: #f1f1ef;        /* grigio CALDO del brand, non il neutro #F3F3F3 */
-  --color-surface-dark: #202020;   /* superficie scura */
-  --color-line: #e3e3df;           /* bordi e divisori su chiaro */
+  --color-fondo: #f5f3f1;          /* avena: il fondo pagina, non bianco */
+  --color-surface: #f2f2f2;
+  --color-surface-dark: #141414;
+  --color-line: #e4e4e4;           /* bordo di ogni card: tiene la composizione
+                                      insieme al posto dell'ombra */
 
-  /* Grigi di testo: uno per i fondi chiari, uno per quelli scuri.
-     #5F5F5F regge sia bianco (6.39:1) sia #F1F1EF (5.65:1): un solo token
-     copre entrambi e sparisce la vecchia trappola "grigio su grigio". */
-  --color-muted: #5f5f5f;
-  --color-muted-surface: #5f5f5f;  /* alias storico, stesso valore */
-  --color-muted-dark: #a2a2a0;     /* SOLO su fondo scuro — su nero 8.21:1 */
+  /* #4C4C4C regge l'avena (7.76:1). #666666 è il minimo sui fondi chiari
+     (5.74:1 su bianco) e serve ai bordi degli elementi interattivi.
+     #999999 su avena dà 2.57:1: è un grigio da fondo scuro, mai su chiaro. */
+  --color-muted: #4c4c4c;
+  --color-muted-surface: #4c4c4c;
+  --color-muted-dark: #999999;
+  --color-bordo-ui: #666666;
 
-  --font-sans: "Graphik", Arial, Helvetica, sans-serif;
-  --font-serif: "GT Sectra Fine", Palatino, "Times New Roman", serif;
+  --font-sans: "Figtree", "Graphik", "Inter", system-ui, sans-serif;
+  /* Georgia prima di GT Sectra: ha un corsivo vero, e il corsivo è la firma
+     del display. Un corsivo sintetizzato dal browser si vede. */
+  --font-serif: Georgia, "GT Sectra Fine", "Times New Roman", serif;
 
-  /* Il brand è squadrato: il sito reale usa 0 ovunque. */
-  --radius-brand: 0px;
+  --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-display--line-height: 0.95;
+  --text-display--letter-spacing: -0.02em;
+
+  --radius-brand: 1rem;
+  --radius-tessera: 0.75rem;
+  --radius-grande: 2rem;
+
+  /* Le ombre sono diffuse e senza scostamento verticale: il sollevamento lo fa
+     il bianco della card sull'avena, non l'ombra. */
+  --shadow-riposo: 0 1px 3px rgb(0 0 0 / 0.04);
+  --shadow-sollevata: 0 0 25px rgb(0 0 0 / 0.08);
+  /* Lo spessore del bottone: un inset, non un'ombra. Premendolo ci scende dentro. */
+  --shadow-spessore: inset 0 -4px rgb(0 78 22 / 0.35);
+  --shadow-spessore-premuto: inset 0 -2px rgb(0 78 22 / 0.35);
+
+  /* Una molla che supera e rientra. */
+  --ease-molla: cubic-bezier(0.2, 1.1, 0.36, 1);
 }
 
 /* ============================================================
@@ -93,9 +141,17 @@
   }
 
   body {
-    @apply bg-paper text-ink font-sans antialiased;
-    font-size: 1rem;
+    @apply bg-fondo text-ink font-sans antialiased;
+    font-size: 1.0625rem;
     line-height: 1.6;
+
+    /* La griglia romboidale a 45 gradi: dà l'aria del quaderno a quadretti
+       senza sembrarlo. L'opacità non va alzata sopra 0a — appena la griglia
+       si vede davvero, la pagina diventa rumorosa e il testo perde leggibilità. */
+    background-image:
+      repeating-linear-gradient(45deg, rgb(0 0 0 / 0.04) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(-45deg, rgb(0 0 0 / 0.04) 0 1px, transparent 1px 64px);
+    background-attachment: fixed;
   }
 
   /* Focus visibile ovunque, anche se un componente dimentica di dichiararlo */

@@ -320,23 +320,22 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
   return (
     <div className="max-w-2xl space-y-8 py-8">
       {/* ── Intestazione modulo ─────────────────────────────────────────
-          Nascosta durante la remediation: focus sul cambio di contesto. */}
+          Nascosta durante la remediation: focus sul cambio di contesto.
+          La barra di avanzamento è in cima, prima del titolo, per dare
+          subito il senso del percorso. */}
       {fase !== "remediation" && (
         <header className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-widest text-muted">
             Modulo {moduloObj.numero}
           </p>
-          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-ink">
-            <span aria-hidden="true" className="text-accent">
-              &gt;
-            </span>{" "}
-            {moduloObj.titolo}
-          </h1>
-          <p className="text-base text-muted">{moduloObj.sottotitolo}</p>
           <BarraProgresso
             valore={percentualeModulo}
             etichetta={`Lezione ${indiceLezione + 1} di ${totalLezioni}`}
           />
+          <h1 className="text-3xl font-semibold leading-tight tracking-tight text-ink">
+            {moduloObj.titolo}
+          </h1>
+          <p className="text-base text-muted">{moduloObj.sottotitolo}</p>
         </header>
       )}
 
@@ -420,16 +419,18 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
         >
           {tuttiConceptiAcquisiti ? (
             <>
+              {/*
+               * Card verde-tenue: segnala visivamente il successo.
+               * role="status" + aria-live="polite" annuncia l'evento agli screen reader.
+               * Il messaggio non è veicolato dal solo colore: "Padroneggiato" è testo.
+               */}
               <div
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
-                className="border-2 border-accent-text bg-surface p-6"
+                className="bg-accent-tenue rounded-brand p-6"
               >
                 <h2 className="text-2xl font-semibold tracking-tight text-ink">
-                  <span aria-hidden="true" className="text-accent">
-                    &gt;
-                  </span>{" "}
                   Padroneggiato
                 </h2>
                 <p className="mt-2 text-base text-muted">
@@ -452,11 +453,15 @@ export function Modulo({ modulo }: { modulo: ModuloId }): ReactElement {
             </>
           ) : (
             <>
+              {/*
+               * Card neutra su surface: indica che si va avanti senza drammatizzare.
+               * role="status" + aria-live="polite" mantiene l'annuncio agli screen reader.
+               */}
               <div
                 role="status"
                 aria-live="polite"
                 aria-atomic="true"
-                className="border-2 border-line bg-surface p-6"
+                className="bg-surface rounded-brand p-6"
               >
                 <h2 className="text-2xl font-semibold tracking-tight text-ink">
                   Andiamo avanti

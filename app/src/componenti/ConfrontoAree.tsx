@@ -34,7 +34,7 @@ export function ConfrontoAree({ esito }: PropsConfrontoAree): ReactElement {
         aria-label="Confronto dei punteggi per area di competenza — prima e dopo il percorso"
       >
         <thead>
-          <tr className="border-b-2 border-ink">
+          <tr className="border-b border-line">
             <th
               scope="col"
               className="pb-3 pr-6 text-left text-xs font-semibold uppercase tracking-widest text-muted"
@@ -43,19 +43,19 @@ export function ConfrontoAree({ esito }: PropsConfrontoAree): ReactElement {
             </th>
             <th
               scope="col"
-              className="pb-3 pr-4 text-right text-xs font-semibold uppercase tracking-widest text-muted w-20"
+              className="w-20 pb-3 pr-4 text-right text-xs font-semibold uppercase tracking-widest text-muted"
             >
               Prima
             </th>
             <th
               scope="col"
-              className="pb-3 pr-4 text-right text-xs font-semibold uppercase tracking-widest text-ink w-20"
+              className="w-20 pb-3 pr-4 text-right text-xs font-semibold uppercase tracking-widest text-ink"
             >
               Dopo
             </th>
             <th
               scope="col"
-              className="pb-3 text-right text-xs font-semibold uppercase tracking-widest text-ink w-24"
+              className="w-28 pb-3 text-right text-xs font-semibold uppercase tracking-widest text-ink"
             >
               Variazione
             </th>
@@ -68,59 +68,61 @@ export function ConfrontoAree({ esito }: PropsConfrontoAree): ReactElement {
             const delta = esito.deltaPerArea[area.id];
             const { visivo, srOnly } = formatDelta(delta);
 
-            // Il colore del delta è un supplemento: il segno e il sr-only portano il significato
-            const coloreDelta =
+            // Colore pastiglia: supplemento visivo — il segno e il sr-only portano il significato
+            const classiPastiglia =
               delta > 0
-                ? "text-accent-text"
-                : delta < 0
-                  ? "text-ink"
-                  : "text-muted";
+                ? "bg-accent-tenue text-accent-text"
+                : "bg-surface text-muted";
 
             return (
               <tr key={area.id}>
                 {/* th scope="row": ogni riga ha un'intestazione → la tabella è navigabile */}
                 <th
                   scope="row"
-                  className="py-4 pr-6 text-left font-medium text-ink align-top"
+                  className="py-5 pr-6 text-left font-medium text-ink align-top"
                 >
                   <span>{area.nome}</span>
 
                   {/* Barre decorative affiancate — supplemento visivo, non la fonte del dato */}
                   <div
-                    className="mt-2 flex gap-1"
+                    className="mt-2 flex gap-1.5"
                     aria-hidden="true"
                   >
                     {/* Barra prima (grigia) */}
-                    <div className="relative h-1.5 flex-1 overflow-hidden bg-line">
+                    <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-surface">
                       <div
-                        className="absolute inset-y-0 left-0 bg-muted motion-safe:transition-[width] motion-safe:duration-[550ms] motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]"
+                        className="absolute inset-y-0 left-0 rounded-full bg-muted motion-safe:transition-[width] motion-safe:duration-[550ms] motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]"
                         style={{ width: `${valPrima}%` }}
                       />
                     </div>
-                    {/* Barra dopo (viola) */}
-                    <div className="relative h-1.5 flex-1 overflow-hidden bg-line">
+                    {/* Barra dopo (verde) */}
+                    <div className="relative h-2 flex-1 overflow-hidden rounded-full bg-surface">
                       <div
-                        className="absolute inset-y-0 left-0 bg-accent motion-safe:transition-[width] motion-safe:duration-[550ms] motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]"
+                        className="absolute inset-y-0 left-0 rounded-full bg-accent motion-safe:transition-[width] motion-safe:duration-[550ms] motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]"
                         style={{ width: `${valDopo}%` }}
                       />
                     </div>
                   </div>
                 </th>
 
-                <td className="py-4 pr-4 text-right tabular-nums text-muted align-top">
+                <td className="py-5 pr-4 text-right tabular-nums text-muted align-top">
                   {valPrima}%
                 </td>
 
-                <td className="py-4 pr-4 text-right tabular-nums font-medium text-ink align-top">
+                <td className="py-5 pr-4 text-right tabular-nums font-medium text-ink align-top">
                   {valDopo}%
                 </td>
 
-                <td className="py-4 text-right tabular-nums font-semibold align-top">
+                <td className="py-5 align-top">
                   {/* sr-only porta il testo completo; il visivo ha il segno ma l'assistente legge sr-only */}
                   <span className="sr-only">{srOnly}</span>
-                  <span aria-hidden="true" className={coloreDelta}>
-                    {visivo}
-                  </span>
+                  <div className="flex justify-end" aria-hidden="true">
+                    <span
+                      className={`inline-flex items-center rounded-full px-3 py-1 text-xs font-semibold ${classiPastiglia}`}
+                    >
+                      {visivo}
+                    </span>
+                  </div>
                 </td>
               </tr>
             );

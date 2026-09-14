@@ -35,6 +35,20 @@ const ETICHETTE_STATO: Record<StatoModulo, string> = {
   bloccato: "Bloccato",
 };
 
+// ─── Colori delle tessere-icona, ciclici per modulo ──────────────────────────
+
+/*
+ * Ciclo di quattro colori: verde, blu, viola, ambra.
+ * L'indice si calcola da modulo.numero per essere deterministico.
+ * Un modulo bloccato usa bg-surface e text-muted indipendentemente.
+ */
+const TESSERE = [
+  { bg: "bg-accent-tenue", testo: "text-accent-text" },
+  { bg: "bg-blu-tenue", testo: "text-blu" },
+  { bg: "bg-viola-tenue", testo: "text-viola" },
+  { bg: "bg-ambra-tenue", testo: "text-ambra" },
+] as const;
+
 // ─── Componente ───────────────────────────────────────────────────────────────
 
 export function RigaModulo({
@@ -53,69 +67,94 @@ export function RigaModulo({
    */
   const nomeAccessibile = `Modulo ${modulo.numero}, ${modulo.titolo}, ${etichettaStato}`;
 
+  const bloccato = stato === "bloccato";
+  // `noUncheckedIndexedAccess` rende l'accesso per indice possibilmente indefinito
+  // anche con il modulo: il ripiego evita un'asserzione di tipo.
+  const tessera = TESSERE[(modulo.numero - 1) % TESSERE.length];
+  const classiTessera = tessera
+    ? `${tessera.bg} ${tessera.testo}`
+    : "bg-surface text-muted";
+
+  // ── Tessera-icona: il quadrato colorato a sinistra ────────────────────────
+
+  const tesseraIcona = (
+    <span
+      className={cn(
+        "flex h-11 w-11 shrink-0 items-center justify-center rounded-tessera text-sm font-semibold",
+        bloccato ? "bg-surface text-muted" : classiTessera,
+      )}
+      aria-hidden="true"
+    >
+      {modulo.numero}
+    </span>
+  );
+
   // ── Corpo visivo condiviso tra le due varianti di rendering ────────────────
 
   const corpo = (
-    <div className="py-5">
-      {/* Riga principale: numero + titolo + etichetta stato */}
-      <div className="flex items-start justify-between gap-4">
-        <div className="flex items-start gap-4">
-          {/* Il numero è decorativo: il nome accessibile già lo include */}
-          <span
-            className="w-6 shrink-0 pt-0.5 text-sm font-medium tabular-nums text-muted"
-            aria-hidden="true"
-          >
-            {modulo.numero}
-          </span>
+    <div className="flex items-start gap-4">
+      {tesseraIcona}
+
+      <div className="min-w-0 flex-1">
+        {/* Riga principale: titolo + etichetta stato */}
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="font-semibold leading-snug text-ink">{modulo.titolo}</p>
+            <p
+              className={cn(
+                "font-semibold leading-snug",
+                bloccato ? "text-muted" : "text-ink",
+              )}
+            >
+              {modulo.titolo}
+            </p>
             <p className="mt-0.5 text-sm leading-snug text-muted">
               {modulo.sottotitolo}
             </p>
           </div>
+
+          {/*
+           * L'etichetta di stato è visiva: il colore non è l'unico segnale,
+           * la parola è sempre presente.
+           */}
+          <span
+            className={cn(
+              "shrink-0 text-sm font-medium",
+              stato === "completato" ? "text-accent-text" : "text-muted",
+            )}
+            aria-hidden="true"
+          >
+            {etichettaStato}
+          </span>
         </div>
 
         {/*
-         * L'etichetta di stato è visiva: il colore non è l'unico segnale,
-         * la parola è sempre presente.
+         * Messaggio di sblocco — solo quando bloccato.
+         * Spiega il perché e dice cosa fare: è il meccanismo accessibile
+         * principale. Il contrasto di questo testo resta pienamente leggibile
+         * anche se la tessera e il titolo sono visivamente attenuati.
          */}
-        <span
-          className={cn(
-            "shrink-0 text-sm font-medium",
-            stato === "completato" ? "text-accent-text" : "text-muted",
-          )}
-          aria-hidden="true"
-        >
-          {etichettaStato}
-        </span>
+        {bloccato && moduloPrecedente !== undefined && (
+          <p className="mt-2 text-sm text-muted">
+            Per continuare, completa prima il modulo {moduloPrecedente.numero}:{" "}
+            <span className="font-medium text-ink">{moduloPrecedente.titolo}</span>.
+          </p>
+        )}
+
+        {/* Concetti del modulo con il loro stato di padronanza */}
+        {concetti.length > 0 && (
+          <div className="mt-3 flex flex-wrap gap-2">
+            {concetti.map((c) => (
+              <PastigliaConcetto key={c.id} nome={c.nome} stato={c.stato} />
+            ))}
+          </div>
+        )}
       </div>
-
-      {/*
-       * Messaggio di sblocco — solo quando bloccato.
-       * Spiega il perché e dice cosa fare: un blocco silenzioso è un difetto
-       * di accessibilità oltre che un cattivo UX.
-       */}
-      {stato === "bloccato" && moduloPrecedente !== undefined && (
-        <p className="ml-10 mt-2 text-sm text-muted">
-          Per continuare, completa prima il modulo {moduloPrecedente.numero}:{" "}
-          <span className="font-medium text-ink">{moduloPrecedente.titolo}</span>.
-        </p>
-      )}
-
-      {/* Concetti del modulo con il loro stato di padronanza */}
-      {concetti.length > 0 && (
-        <div className="ml-10 mt-3 flex flex-wrap gap-2">
-          {concetti.map((c) => (
-            <PastigliaConcetto key={c.id} nome={c.nome} stato={c.stato} />
-          ))}
-        </div>
-      )}
     </div>
   );
 
   // ── Variante interattiva (completato / disponibile / in-corso) ─────────────
 
-  if (stato !== "bloccato") {
+  if (!bloccato) {
     return (
       <li>
         <button
@@ -123,13 +162,12 @@ export function RigaModulo({
           onClick={onClick}
           aria-label={nomeAccessibile}
           className={cn(
-            "w-full text-left",
-            "hover:bg-surface",
-            "focus-visible:outline-2 focus-visible:outline-accent-text",
-            "focus-visible:outline-offset-[-2px]",
-            "motion-safe:transition-colors",
-            "motion-safe:duration-[550ms]",
+            "w-full rounded-brand bg-paper p-6 text-left shadow-riposo",
+            "motion-safe:transition-shadow motion-safe:duration-[550ms]",
             "motion-safe:[transition-timing-function:cubic-bezier(0.85,0,0,1)]",
+            "motion-safe:hover:shadow-sollevata",
+            "focus-visible:outline-2 focus-visible:outline-accent-text",
+            "focus-visible:outline-offset-2",
           )}
         >
           {corpo}
@@ -143,8 +181,14 @@ export function RigaModulo({
   /*
    * La spiegazione testuale interna è il meccanismo a11y principale:
    * qualunque lettore di schermo la legge indipendentemente dal ruolo.
+   * Il testo di sblocco usa text-ink e text-muted per garantire 4.5:1
+   * anche sul fondo bg-surface del blocco.
    */
   return (
-    <li>{corpo}</li>
+    <li>
+      <div className="rounded-brand bg-surface p-6">
+        {corpo}
+      </div>
+    </li>
   );
 }

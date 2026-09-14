@@ -16,7 +16,7 @@ export function DistintivoLivello({
 
   return (
     <div
-      className="inline-flex items-center gap-2 border-2 border-accent-text bg-paper px-3 py-1"
+      className="inline-flex items-center gap-2 rounded-full bg-accent-tenue px-4 py-1.5"
       aria-label={
         mostraCifre
           ? `Livello ${livello} — ${concettiAcquisiti} di ${concettiTotali} concetti acquisiti`

@@ -51,23 +51,27 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
       {/* ── VEDI ──────────────────────────────────────────────────── */}
       {fase === "vedi" && (
         <section aria-label="Vedi — cosa stiamo per capire">
+          {/*
+           * Etichetta colorata: text-blu (5.17:1 su fondo lavanda, AA).
+           * Colore diverso per ogni fase per dare identità visiva ai passi.
+           */}
           <h3
             ref={headingRef}
             tabIndex={-1}
-            className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
+            className="mb-4 text-xs font-semibold uppercase tracking-widest text-blu focus:outline-none"
           >
             Vedi
           </h3>
 
           {lezione.vedi.tipo === "analogia" ? (
-            <blockquote className="mb-6 border-l-4 border-accent pl-5 text-base italic leading-relaxed text-ink">
+            <blockquote className="mb-6 max-w-prose border-l-4 border-blu pl-5 text-base italic leading-relaxed text-ink">
               {lezione.vedi.testo}
             </blockquote>
           ) : (
             (() => {
               const Comp = INTERATTIVI[lezione.vedi.componente];
               return (
-                <div className="mb-6">
+                <div className="mb-6 max-w-prose">
                   <Comp />
                 </div>
               );
@@ -81,15 +85,16 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
       {/* ── CAPISCI ───────────────────────────────────────────────── */}
       {fase === "capisci" && (
         <section aria-label="Capisci — i concetti chiave">
+          {/* text-accent-text (verde) per il passo centrale — 5.21:1 su bg-paper */}
           <h3
             ref={headingRef}
             tabIndex={-1}
-            className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
+            className="mb-4 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
           >
             Capisci
           </h3>
 
-          <div className="space-y-4">
+          <div className="max-w-prose space-y-4">
             {lezione.capisci.map((paragrafo, i) => (
               <p key={i} className="text-base leading-relaxed text-ink">
                 {paragrafo}
@@ -111,15 +116,18 @@ export function MicroLezione({ lezione, onCompleta }: PropsMicroLezione): ReactE
           const Comp = INTERATTIVI[prova.componente];
           return (
             <section aria-label="Prova — interagisci con il concetto">
+              {/* text-viola (5.7:1 su fondo lavanda, AA) per distinguere la fase pratica */}
               <h3
                 ref={headingRef}
                 tabIndex={-1}
-                className="mb-3 text-xs font-semibold uppercase tracking-widest text-accent-text focus:outline-none"
+                className="mb-4 text-xs font-semibold uppercase tracking-widest text-viola focus:outline-none"
               >
                 Prova
               </h3>
-              <p className="mb-4 text-base text-muted">{prova.consegna}</p>
-              <div className="mb-6">
+              <p className="mb-4 max-w-prose text-base leading-relaxed text-muted">
+                {prova.consegna}
+              </p>
+              <div className="mb-6 max-w-prose">
                 <Comp />
               </div>
               <Button onClick={avanza}>Dimostra →</Button>

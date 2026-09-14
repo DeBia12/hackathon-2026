@@ -42,7 +42,8 @@ export function Field({ etichetta, aiuto, errore, className, required, ...props 
         className={cn(
           "min-h-11 rounded-brand border-2 bg-paper px-3 py-2 text-base text-ink",
           "focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-accent-text",
-          errore ? "border-[#B3261E]" : "border-muted",
+          // border-bordo-ui (#64748b) supera 3:1 su bianco per WCAG 1.4.11
+          errore ? "border-[#B3261E]" : "border-bordo-ui",
           className,
         )}
         {...props}

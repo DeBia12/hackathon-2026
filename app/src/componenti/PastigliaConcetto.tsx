@@ -14,26 +14,36 @@ interface PropsPastigliaConcetto {
  */
 const CONFIG: Record<
   StatoPadronanza,
-  { simbolo: string; etichettaSr: string }
+  { simbolo: string; etichettaSr: string; classi: string }
 > = {
-  ignoto: { simbolo: "○", etichettaSr: "da vedere" },
-  "in-corso": { simbolo: "◑", etichettaSr: "in corso" },
-  acquisito: { simbolo: "●", etichettaSr: "acquisito" },
+  ignoto: {
+    simbolo: "○",
+    etichettaSr: "da vedere",
+    classi: "bg-surface text-muted",
+  },
+  "in-corso": {
+    simbolo: "◑",
+    etichettaSr: "in corso",
+    classi: "bg-accent-tenue text-accent-text",
+  },
+  acquisito: {
+    simbolo: "●",
+    etichettaSr: "acquisito",
+    classi: "bg-accent-text text-paper",
+  },
 };
 
 export function PastigliaConcetto({
   nome,
   stato,
 }: PropsPastigliaConcetto): ReactElement {
-  const { simbolo, etichettaSr } = CONFIG[stato];
+  const { simbolo, etichettaSr, classi } = CONFIG[stato];
 
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-1.5 border-2 px-2.5 py-1 text-sm font-medium",
-        stato === "ignoto" && "border-line bg-paper text-muted",
-        stato === "in-corso" && "border-accent-text bg-paper text-accent-text",
-        stato === "acquisito" && "border-accent-text bg-accent-text text-paper",
+        "inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sm font-medium",
+        classi,
       )}
     >
       <span aria-hidden="true">{simbolo}</span>
