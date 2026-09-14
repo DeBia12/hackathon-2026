@@ -47,8 +47,8 @@ yarn-error.log*
 pnpm-debug.log*
 
 # --- Claude Code (locale, non condiviso col team) ---
-agents/.claude/settings.local.json
-agents/.claude/.cache/
+.claude/settings.local.json
+.claude/.cache/
 
 # --- Test / coverage ---
 coverage/
@@ -64,4 +64,3 @@ test-results/
 # copia di tutto il repository. Committarlo lo duplicherebbe a ogni modifica.
 presentation/guida/alberatura.json
 
-.claude/

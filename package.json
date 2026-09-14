@@ -20,9 +20,9 @@
     "setup": "npm --prefix app install",
     "db:setup": "bash backend/supabase/scripts/setup.sh",
     "guida": "npm run alberatura && npx --yes serve presentation/guida -l 8001 --no-clipboard",
-    "alberatura": "node agents/.claude/scripts/genera-alberatura.mjs",
-    "frontiera": "node agents/.claude/scripts/frontiera.mjs",
-    "contrasto": "node agents/.claude/skills/accessibilita/contrast.mjs"
+    "alberatura": "node .claude/scripts/genera-alberatura.mjs",
+    "frontiera": "node .claude/scripts/frontiera.mjs",
+    "contrasto": "node .claude/skills/accessibilita/contrast.mjs"
   },
   "devDependencies": {
     "reveal.js": "^5.2.1"

@@ -40,7 +40,7 @@ Ogni componente UI nasce accessibile.
 | `backend/` | Supabase self-hosted su Podman + eventuali funzioni server |
 | `presentation/` | Deck Reveal.js con tema brand Accenture |
 | `docs/` | Decisioni architetturali, note, brief |
-| `agents/.claude/` | Subagent, skill, hook e comandi slash |
+| `.claude/` | Subagent, skill, hook e comandi slash |
 
 ## Stack e comandi
 ```bash
@@ -75,7 +75,7 @@ Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 ## Brand Accenture (per UI e presentazione)
 
 > Riferimento completo, con font, animazioni e componenti:
-> [`agents/.claude/skills/accenture-brand/SKILL.md`](agents/.claude/skills/accenture-brand/SKILL.md).
+> [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md).
 > I valori sono **misurati dal sito reale**, non stimati.
 
 - **Viola primario** `#A100FF` — riempimenti, grafica, il segno `>`
@@ -89,7 +89,7 @@ Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 - **Movimento**: una sola curva, `cubic-bezier(0.85, 0, 0, 1)` a **550ms**.
 - **Forme**: squadrate, raggio **0**. Niente ombre. Molto spazio bianco.
 
-> **Contrasti misurati** (con `node agents/.claude/skills/accessibilita/contrast.mjs`):
+> **Contrasti misurati** (con `node .claude/skills/accessibilita/contrast.mjs`):
 > `#A100FF` su bianco = 5.3:1 ✅ AA · `#7500C0` su bianco = 8.34:1 ✅ AAA
 > `#BE82FF` su nero = 7.83:1 ✅ AAA · `#5F5F5F` su bianco = 6.39:1 ✅ AA
 >
@@ -126,7 +126,7 @@ Scattano sempre, senza che nessuno decida di invocarli. Sono il livello più aff
 | Prima di ogni `git commit` | Blocca il commit se in stage c'è una credenziale |
 | A fine turno | Esegue il typecheck; se fallisce, il turno non si chiude |
 
-Codice in `agents/.claude/hooks/`. Per disattivarne uno, togli la voce da `agents/.claude/settings.json`.
+Codice in `.claude/hooks/`. Per disattivarne uno, togli la voce da `.claude/settings.json`.
 
 ### 2. Agenti — esecutori specializzati
 

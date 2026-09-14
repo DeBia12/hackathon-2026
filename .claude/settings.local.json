@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(podman --version)",
+      "Bash(podman-compose --version)",
+      "Bash(podman machine *)",
+      "Bash(wsl -e bash -lc \"podman ps --format '{{.Names}}\\\\t{{.Status}}' 2>&1 | head -20\")"
+    ]
+  }
+}

@@ -9,7 +9,7 @@ digitale inclusiva.
 > [!NOTE]
 > Il criterio di valutazione dichiarato è che **conta più il come che il risultato**:
 > architettura, approccio e processo di sviluppo. Per questo il repository tratta le
-> decisioni (`docs/decisioni.md`) e gli agenti (`agents/.claude/agents/`) come materiale di
+> decisioni (`docs/decisioni.md`) e gli agenti (`.claude/agents/`) come materiale di
 > progetto, non come contorno.
 
 ## Struttura
@@ -21,7 +21,7 @@ digitale inclusiva.
 | `backend/supabase/` | Supabase self-hosted su Podman — Postgres, auth, API REST |
 | `presentation/` | Deck Reveal.js con tema Accenture, funziona offline |
 | `docs/` | Decisioni architetturali e registro degli audit di accessibilità |
-| `agents/.claude/` | Subagent, skill, hook e comandi slash |
+| `.claude/` | Subagent, skill, hook e comandi slash |
 
 ## Requisiti
 
@@ -98,7 +98,7 @@ npm run contrasto '#A100FF' '#000000'
 > Il brand ha **due viola e due grigi**, e usarli sul fondo sbagliato è l'errore più facile:
 > `#A100FF` su nero dà 3.96:1 (su scuro il testo viola è `#BE82FF`, 7.83:1) e `#A2A2A0`
 > su bianco dà 2.56:1 (su chiaro il grigio è `#5F5F5F`, 6.39:1).
-> I dettagli sono in [`agents/.claude/skills/accenture-brand/SKILL.md`](agents/.claude/skills/accenture-brand/SKILL.md).
+> I dettagli sono in [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md).
 
 ## Convenzioni
 

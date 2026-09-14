@@ -1,0 +1,572 @@
+/* ============================================================================
+   ACCENTURE DESIGN SYSTEM
+   Token e componenti estratti da accenture.com/it-it (settembre 2026).
+   Ogni valore qui è misurato dal sito reale, non stimato.
+   Dipende da: assets/fonts.css
+   ============================================================================ */
+
+@import "./assets/fonts.css";
+
+/* --------------------------------------------------------------------------
+   1. TOKEN
+   -------------------------------------------------------------------------- */
+:root {
+  /* Colori del brand */
+  --acn-purple:         #A100FF;  /* primario: riempimenti, accenti, il segno ">" */
+  --acn-purple-2:       #7500C0;  /* secondario: hover, testo viola su chiaro */
+  --acn-purple-3:       #460073;  /* terziario: fondi profondi */
+  --acn-purple-active:  #57008F;  /* stato :active dei bottoni */
+  --acn-purple-deep:    #39005E;  /* fondo card "announcement" */
+  --acn-purple-light:   #BE82FF;  /* viola su fondo SCURO — 7.83:1 su nero */
+  --acn-purple-focus:   #DCAFFF;  /* anello di focus su fondo scuro */
+
+  /* Neutri */
+  --acn-black:          #000000;
+  --acn-white:          #FFFFFF;
+  --acn-surface-dark:   #202020;  /* card video / interviste */
+  --acn-surface-dark-2: #2B2B2B;  /* superfici scure sollevate */
+  --acn-surface-light:  #F1F1EF;  /* grigio caldo: card chiare, sezioni */
+  --acn-border-light:   #E3E3DF;  /* bordi e divisori su chiaro */
+  --acn-grey:           #A2A2A0;  /* testo attenuato — solo su fondo SCURO */
+  --acn-grey-on-light:  #5F5F5F;  /* testo attenuato su fondo chiaro */
+
+  /* Tipografia */
+  --acn-font:        "Graphik", Arial, Helvetica, sans-serif;
+  --acn-font-serif:  "GT Sectra Fine", Palatino, "Times New Roman", serif;
+
+  /* Spaziatura — scala reale del sito */
+  --acn-space-sm:  16px;
+  --acn-space-md:  32px;
+  --acn-space-lg:  48px;
+  --acn-space-xl:  96px;
+  --acn-space-xxl: 160px;
+
+  /* Struttura */
+  --acn-header-h:   72px;
+  --acn-nav-h:      56px;
+  --acn-max-width:  1920px;
+  --acn-gutter:     80px;   /* padding orizzontale desktop */
+
+  /* Movimento — la firma del brand */
+  --acn-ease:       cubic-bezier(0.85, 0, 0, 1);
+  --acn-ease-in:    cubic-bezier(0.22, 0, 0.63, 1);
+  --acn-ease-out:   cubic-bezier(0.38, 0, 0, 1);
+  --acn-duration:   550ms;
+  --acn-duration-l: 750ms;
+
+  /* Angoli: il brand è squadrato. 0 ovunque. */
+  --acn-radius: 0;
+}
+
+/* --------------------------------------------------------------------------
+   2. BASE
+   -------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--acn-font);
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+  background: var(--acn-black);
+  color: var(--acn-white);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tema chiaro: applica .acn-light a una sezione o al body */
+.acn-light {
+  background: var(--acn-white);
+  color: var(--acn-black);
+}
+
+/* Focus visibile — obbligatorio, mai rimuoverlo */
+/* La pagina è scura per default, quindi il default è l'anello chiaro.
+   L'eccezione è la sezione chiara. Non invertire questi due: un selettore tipo
+   `body:not(.acn-light)` è sempre vero (la classe sta sulle sezioni, non sul body)
+   e finirebbe per applicare l'anello chiaro anche dentro le sezioni chiare,
+   dove #DCAFFF su #F1F1EF dà 1.6:1 — invisibile. */
+:focus-visible {
+  outline: 2px solid var(--acn-purple-focus); /* 11.62:1 su nero */
+  outline-offset: 8px;
+}
+.acn-light :focus-visible {
+  outline-color: var(--acn-purple);           /* 4.69:1 su #F1F1EF */
+}
+
+/* Salto al contenuto: primo elemento del body, visibile solo da tastiera.
+   Va messo in ogni pagina, altrimenti chi naviga a tastiera deve attraversare
+   tutta la navigazione a ogni schermata. */
+.acn-skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--acn-space-sm);
+  z-index: 9999;
+  padding: 12px 20px;
+  background: var(--acn-white);
+  color: var(--acn-black);
+  font-weight: 500;
+  text-decoration: none;
+}
+.acn-skip-link:focus { top: 8px; }
+
+/* --------------------------------------------------------------------------
+   3. TIPOGRAFIA
+   Scala fluida: i valori sono quelli a 1440px; sopra i 1440px il sito
+   scala tutto linearmente fino a 1920px (fattore 1.333).
+   -------------------------------------------------------------------------- */
+.acn-display {            /* titolo hero: 100px a 1440px */
+  font-family: var(--acn-font);
+  font-size: clamp(42px, 7vw, 100px);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: clamp(-3px, -0.03em, -1.44px);
+  text-transform: uppercase;
+  text-wrap: balance;
+  margin: 0;
+}
+
+.acn-h1 {
+  font-size: clamp(40px, 5vw, 64px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.acn-h2 {
+  font-size: clamp(32px, 3.5vw, 48px);
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+.acn-h3 {
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 500;
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+/* Voce editoriale: il serif. Usalo per citazioni e sottotitoli d'apertura,
+   mai per il testo di lettura lungo. */
+.acn-editorial {
+  font-family: var(--acn-font-serif);
+  font-size: clamp(24px, 2.5vw, 32px);
+  font-weight: 300;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.acn-body   { font-size: 16px; line-height: 1.6; font-weight: 400; }
+.acn-body-l { font-size: 18px; line-height: 1.6; font-weight: 400; }
+
+/* Etichetta sopra il titolo: maiuscolo, piccolo, spaziato */
+.acn-eyebrow {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+.acn-caption { font-size: 14px; line-height: 1.5; color: var(--acn-grey); }
+.acn-light .acn-caption { color: var(--acn-grey-on-light); }
+
+/* --------------------------------------------------------------------------
+   4. LAYOUT
+   -------------------------------------------------------------------------- */
+.acn-container {
+  width: 100%;
+  max-width: var(--acn-max-width);
+  margin-inline: auto;
+  padding-inline: var(--acn-space-sm);
+}
+@media (min-width: 600px)  { .acn-container { padding-inline: var(--acn-space-lg); } }
+@media (min-width: 1024px) { .acn-container { padding-inline: var(--acn-gutter); } }
+
+.acn-section { padding-block: var(--acn-space-xl); }
+@media (min-width: 1024px) { .acn-section { padding-block: var(--acn-space-xxl); } }
+
+/* Griglia 4 / 8 / 12 colonne, come il sito */
+.acn-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: var(--acn-space-sm);
+  row-gap: var(--acn-space-sm);
+}
+@media (min-width: 600px)  { .acn-grid { grid-template-columns: repeat(8, 1fr);  column-gap: 24px; row-gap: var(--acn-space-md); } }
+@media (min-width: 1024px) { .acn-grid { grid-template-columns: repeat(12, 1fr); column-gap: var(--acn-space-md); } }
+@media (min-width: 1440px) { .acn-grid { column-gap: 40px; } }
+
+/* --------------------------------------------------------------------------
+   5. BOTTONI
+   Il bottone primario NON cambia colore di sfondo: un gradiente scorre da
+   destra a sinistra sotto il testo. E' la firma di interazione del brand.
+   -------------------------------------------------------------------------- */
+.acn-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 48px;
+  padding-inline: 20px;
+  border: 0;
+  border-radius: var(--acn-radius);
+  font-family: var(--acn-font);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  letter-spacing: -0.005em;
+  text-decoration: none;
+  cursor: pointer;
+  width: fit-content;
+}
+
+/* Primario — wipe a gradiente */
+.acn-btn--primary {
+  position: relative;
+  color: var(--acn-white);
+  background-color: var(--acn-purple);
+  overflow: hidden;
+}
+.acn-btn--primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: linear-gradient(90deg, var(--acn-purple-2) 50%, var(--acn-purple) 0);
+  background-size: 200% 200%;
+  background-position-x: 100%;
+  transition: background-position-x var(--acn-duration) var(--acn-ease);
+}
+.acn-btn--primary:hover::before { background-position-x: 0; }
+.acn-btn--primary:active        { background-color: var(--acn-purple-active); }
+.acn-btn--primary > *           { position: relative; z-index: 1; }
+
+/* Secondario — contorno, il testo sbiadisce in hover */
+.acn-btn--secondary {
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  transition: color var(--acn-duration) var(--acn-ease),
+              border-color var(--acn-duration) var(--acn-ease);
+}
+.acn-btn--secondary:hover  { color: var(--acn-grey); }
+.acn-btn--secondary:active { color: var(--acn-border-light); border-color: var(--acn-border-light); }
+.acn-light .acn-btn--secondary:hover { color: var(--acn-grey-on-light); }
+
+/* Terziario — testo + quadrato viola con il ">". Il quadrato scivola in hover. */
+.acn-btn--tertiary {
+  padding: 4px 0;
+  background: transparent;
+  color: inherit;
+  font-size: 16px;
+}
+.acn-btn__icon {
+  position: relative;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  overflow: hidden;
+  background-color: var(--acn-purple);
+  color: var(--acn-white);
+  transition: translate var(--acn-duration) var(--acn-ease);
+}
+.acn-btn__icon::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(90deg, var(--acn-purple-2) 50%, var(--acn-purple) 0);
+  background-size: 200% 200%;
+  background-position-x: 100%;
+  transition: background-position-x var(--acn-duration) var(--acn-ease);
+}
+.acn-btn__icon > svg { position: relative; z-index: 1; width: 55%; height: 55%; fill: currentColor; }
+.acn-btn--tertiary:hover  .acn-btn__icon         { translate: 4px; }
+.acn-btn--tertiary:hover  .acn-btn__icon::before { background-position-x: 0; }
+.acn-btn--tertiary:active .acn-btn__icon         { background-color: var(--acn-purple-active); }
+
+/* --------------------------------------------------------------------------
+   6. CARD
+   Anatomia reale: blocco testo in alto (etichetta maiuscola + titolo),
+   immagine che riempie il resto. 300x424px, nessun raggio, nessuna ombra.
+   In hover l'intera card scala del 4%.
+   -------------------------------------------------------------------------- */
+.acn-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 424px;
+  overflow: hidden;
+  border-radius: var(--acn-radius);
+  background-color: var(--acn-black);
+  color: var(--acn-white);
+  text-decoration: none;
+  transition: scale var(--acn-duration) var(--acn-ease);
+}
+.acn-card:hover,
+.acn-card:focus-visible { scale: 1.04; }
+
+.acn-card--light { background-color: var(--acn-surface-light); color: var(--acn-black); }
+.acn-card--deep  { background-color: var(--acn-purple-deep);    color: var(--acn-white); }
+.acn-card--dark  { background-color: var(--acn-surface-dark);   color: var(--acn-white); }
+
+.acn-card__body    { padding: 28px 24px 24px; }
+.acn-card__label   { margin: 0 0 16px; font-size: 14px; font-weight: 500; letter-spacing: 0.02em; text-transform: uppercase; }
+.acn-card__title   { margin: 0; font-size: 22px; font-weight: 500; line-height: 1.25; letter-spacing: -0.02em; }
+.acn-card__media   { flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.acn-card__media img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+}
+
+/* Griglia di card: 4 colonne a desktop */
+.acn-card-grid {
+  display: grid;
+  gap: var(--acn-space-sm);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 600px)  { .acn-card-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+@media (min-width: 1024px) { .acn-card-grid { grid-template-columns: repeat(4, 1fr); gap: var(--acn-space-md); } }
+
+/* --------------------------------------------------------------------------
+   7. HERO
+   -------------------------------------------------------------------------- */
+.acn-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 400px;
+  background-color: var(--acn-black);
+  color: var(--acn-white);
+  background-size: cover;
+  background-position: center;
+}
+.acn-hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  animation: acn-fade-in 1550ms var(--acn-ease-in) var(--acn-duration) backwards;
+}
+.acn-hero__grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  max-width: var(--acn-max-width);
+  margin-inline: auto;
+  min-height: 40vh;
+  padding: 24px var(--acn-space-sm);
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--acn-space-sm);
+}
+@media (min-width: 600px)  { .acn-hero__grid { padding: var(--acn-space-lg); grid-template-columns: repeat(8, 1fr);  column-gap: 24px; row-gap: var(--acn-space-md); } }
+@media (min-width: 1024px) { .acn-hero__grid { padding: 60px var(--acn-gutter); grid-template-columns: repeat(12, 1fr); column-gap: var(--acn-space-md); } }
+@media (min-width: 1440px) { .acn-hero__grid { column-gap: 40px; } }
+
+.acn-hero__headline {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding-bottom: 40px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-wrap: balance;
+  text-transform: uppercase;
+  font-size: clamp(42px, 11vw, 50px);
+  letter-spacing: -1.44px;
+  animation: acn-rise 750ms var(--acn-ease-out) var(--acn-duration) backwards;
+}
+@media (min-width: 600px) {
+  .acn-hero__headline { line-height: 1.1; font-size: clamp(48px, 12vw, 80px); letter-spacing: -2.7px; }
+}
+@media (min-width: 1024px) { .acn-hero__headline { grid-column: 1 / span 8; font-size: 80px; letter-spacing: -3px; } }
+@media (min-width: 1440px) { .acn-hero__headline { font-size: 100px; } }
+
+/* Il ">" dentro la parola. Entra ruotato di 90 gradi e si raddrizza. */
+.acn-hero__mark {
+  display: inline-block;
+  position: relative;
+  bottom: 0.04em;
+  height: 0.78em;
+  width: 0.78em;
+  fill: var(--acn-purple);
+  animation: acn-mark-turn 750ms var(--acn-ease-out) 3000ms forwards;
+}
+
+.acn-hero__body {
+  grid-column: 2 / -1;
+  align-self: end;
+  display: flex;
+  flex-direction: column;
+  gap: var(--acn-space-sm);
+  font-size: 14px;
+  line-height: 1.5;
+  animation: acn-rise 1250ms var(--acn-ease-out) 1500ms backwards;
+}
+@media (min-width: 600px)  { .acn-hero__body { grid-column: 4 / -1; font-size: 16px; line-height: 1.6; gap: 24px; } }
+@media (min-width: 1024px) { .acn-hero__body { grid-column: -5 / -1; line-height: 1.5; } }
+
+/* Il trattino viola sopra il testo: 42x5px */
+.acn-deco-line { width: 42px; height: 5px; background: var(--acn-purple); flex-shrink: 0; }
+
+/* --------------------------------------------------------------------------
+   8. LOGO
+   Il logo è animato. A riposo si vede solo il ">" a tutta altezza: la parola
+   "accenture" è spinta fuori dal viewBox. In hover il ">" rimpicciolisce e
+   scivola a destra sopra la "t", mentre la parola risale al suo posto.
+   Usa assets/logo/accenture-logo.svg con le classi qui sotto sui due path.
+   -------------------------------------------------------------------------- */
+.acn-logo { display: block; width: 152px; }
+.acn-logo svg { display: block; width: 100%; height: auto; }
+
+.acn-logo__mark,
+.acn-logo__text {
+  transition: transform var(--acn-duration) var(--acn-ease),
+              translate  var(--acn-duration) var(--acn-ease),
+              scale      var(--acn-duration) var(--acn-ease);
+}
+.acn-logo__mark { fill: var(--acn-purple); }
+.acn-logo__text { fill: var(--acn-white); transform: translateY(32px); }
+.acn-light .acn-logo__text { fill: var(--acn-black); }
+
+.acn-logo:hover .acn-logo__mark,
+.acn-logo:focus-visible .acn-logo__mark { scale: 0.396; translate: 88.5px; }
+.acn-logo:hover .acn-logo__text,
+.acn-logo:focus-visible .acn-logo__text { transform: translateY(0); }
+
+/* Variante statica: solo il segno ">", per header compatti e favicon */
+.acn-logo--mark { width: 32px; }
+.acn-logo--mark .acn-logo__text { display: none; }
+.acn-logo--mark .acn-logo__mark { scale: 1; translate: 0; }
+
+/* --------------------------------------------------------------------------
+   9. ANIMAZIONI
+   Tutte usano la stessa curva. Il brand ha un solo modo di muoversi:
+   parte veloce, frena a lungo.
+   -------------------------------------------------------------------------- */
+@keyframes acn-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Il contenuto sale entrando */
+@keyframes acn-rise {
+  from { opacity: 0; transform: translateY(20%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Le due metà del titolo si chiudono l'una verso l'altra */
+@keyframes acn-slide-left  { from { transform: translateX(10%); }  to { transform: translateX(0); } }
+@keyframes acn-slide-right { from { transform: translateX(-10%); } to { transform: translateX(0); } }
+
+/* Il ">" si raddrizza: entra a 90 gradi, ruota a 0 */
+@keyframes acn-mark-turn {
+  from { transform: rotate(90deg); }
+  to   { transform: rotate(0) scale(0.95) translateX(0.025em); }
+}
+
+/* Il trattino viola si apre da sinistra */
+@keyframes acn-line-in {
+  from { width: 0; }
+  to   { width: 42px; }
+}
+
+/* Linea divisoria che si stende per tutta la larghezza */
+@keyframes acn-rule-in {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+/* Ingresso editoriale: sale ruotando leggermente */
+@keyframes acn-editorial-in {
+  from { transform: translateY(120%) rotate(6deg); }
+  to   { transform: translateY(0) rotate(0); }
+}
+
+.acn-anim-rise      { animation: acn-rise 750ms var(--acn-ease-out) backwards; }
+.acn-anim-fade      { animation: acn-fade-in var(--acn-duration) var(--acn-ease) backwards; }
+.acn-anim-editorial { animation: acn-editorial-in var(--acn-duration-l) var(--acn-ease) backwards; }
+.acn-anim-line      { animation: acn-line-in var(--acn-duration-l) var(--acn-ease) backwards; }
+
+/* Ritardi a cascata per gli elementi in sequenza */
+.acn-delay-1 { animation-delay: 100ms; }
+.acn-delay-2 { animation-delay: 250ms; }
+.acn-delay-3 { animation-delay: 400ms; }
+.acn-delay-4 { animation-delay: 550ms; }
+
+/* --------------------------------------------------------------------------
+   10. RIVELAZIONE ALLO SCROLL
+   Metti .acn-reveal sull'elemento e aggiungi .is-visible via IntersectionObserver.
+   Senza JS l'elemento resta visibile: nessun contenuto sparisce mai.
+   -------------------------------------------------------------------------- */
+.acn-reveal {
+  opacity: 1;
+  transform: none;
+}
+.js .acn-reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  /* `scale` va ripetuto qui: senza, questa regola sovrascrive la transizione
+     di hover di una card che porta anche .acn-reveal, e lo scatto diventa secco. */
+  transition: opacity   var(--acn-duration-l) var(--acn-ease),
+              transform var(--acn-duration-l) var(--acn-ease),
+              scale     var(--acn-duration)   var(--acn-ease);
+}
+.js .acn-reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* --------------------------------------------------------------------------
+   11. MOVIMENTO RIDOTTO
+   Requisito WCAG 2.3.3. Il sito vero lo rispetta: qui azzeriamo tutto e
+   portiamo gli elementi al loro stato finale.
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    /* Azzerare il ritardo è necessario quanto la durata: con `backwards` e un
+       delay di 1500ms il corpo dell'hero resterebbe invisibile per un secondo
+       e mezzo anche ad animazioni disattivate. */
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .acn-card:hover, .acn-card:focus-visible { scale: 1; }
+  .acn-btn--tertiary:hover .acn-btn__icon  { translate: 0; }
+  .acn-hero__mark { transform: none; }
+  .acn-deco-line  { width: 42px; }
+  .js .acn-reveal { opacity: 1; transform: none; }
+}
+
+/* --------------------------------------------------------------------------
+   12. UTILITY
+   -------------------------------------------------------------------------- */
+.acn-bg-black   { background: var(--acn-black);        color: var(--acn-white); }
+.acn-bg-light   { background: var(--acn-surface-light); color: var(--acn-black); }
+.acn-bg-deep    { background: var(--acn-purple-3);      color: var(--acn-white); }
+.acn-text-accent      { color: var(--acn-purple-2); }     /* su fondo CHIARO */
+.acn-text-accent-dark { color: var(--acn-purple-light); }  /* su fondo SCURO */
+/* Rete di sicurezza: #BE82FF su #F1F1EF dà 2.37:1. Se il token per fondo scuro
+   finisce dentro una sezione chiara, qui rientra automaticamente a #7500C0. */
+.acn-light .acn-text-accent-dark { color: var(--acn-purple-2); }
+
+/* Solo per lettori di schermo */
+.acn-sr-only {
+  position: absolute;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
