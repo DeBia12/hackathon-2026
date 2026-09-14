@@ -142,7 +142,7 @@ export function Risultato(): ReactElement {
             </h2>
             <ul className="mt-4 space-y-4" role="list">
               {concettiAcquisiti.map((c) => (
-                <li key={c.id} className="flex flex-col gap-1.5">
+                <li key={c.id} className="flex flex-col items-start gap-1.5">
                   <PastigliaConcetto nome={c.nome} stato="acquisito" />
                   <p className="text-sm text-muted">{c.inUnaRiga}</p>
                 </li>
@@ -260,7 +260,7 @@ export function Risultato(): ReactElement {
         ) : (
           <ul className="mt-6 space-y-5" role="list">
             {concettiAcquisiti.map((c) => (
-              <li key={c.id} className="flex flex-col gap-1.5">
+              <li key={c.id} className="flex flex-col items-start gap-1.5">
                 <PastigliaConcetto nome={c.nome} stato="acquisito" />
                 <p className="text-sm text-muted">{c.inUnaRiga}</p>
               </li>
