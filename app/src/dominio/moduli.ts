@@ -77,7 +77,7 @@ const _lezioniInterne: Record<string, Lezione> = {
   l3a: {
     id: "l3a",
     titolo: "Due usi diversi dello stesso denaro",
-    concetti: ["risparmio", "rischio"],
+    concetti: ["risparmio", "investimento"],
     vedi: {
       tipo: "analogia",
       testo:

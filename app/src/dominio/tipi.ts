@@ -1,5 +1,5 @@
 export type ConcettoId =
-  | "risparmio" | "potere-acquisto" | "inflazione"
+  | "risparmio" | "investimento" | "potere-acquisto" | "inflazione"
   | "rischio" | "rendimento" | "diversificazione"
   | "proprieta" | "prestito"
   | "titolo-stato" | "obbligazione-societaria" | "azione" | "etf";
