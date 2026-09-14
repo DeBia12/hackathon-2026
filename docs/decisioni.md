@@ -155,4 +155,28 @@ sottotitolo «distribuire è meglio che concentrare», che nessun test poteva co
 ~Verifica a sola lettura del codice scartata: i divieti della consegna riguardano ciò
 che l'utente legge a schermo, non le funzioni.~
 
+**2026-09-14 — `accenture-brand` ristretta al solo deck, e sfondo animato col video vero**
+La skill copriva anche la web app, che nel frattempo si era data un'identità opposta
+(forme morbide, colori chiari) dichiarata in `app/src/index.css`: due design system in
+conflitto nello stesso repo. Ora è il tema di `presentation/` e basta — via `accenture.css`
+e `tailwind-preset.js`. Lo sfondo nero animato è il `<video>` della hero di accenture.com
+scaricato nel repo (1 MB), non una ricostruzione: keyframe, durate, ritardi e curve sono
+letti dal DOM del sito col browser.
+~Campo di particelle in canvas scartato: evocava il sito invece di riprodurlo, e 60 righe
+di JS da mantenere valgono meno di un asset da 1 MB che funziona offline.~
+~`Accenture-Reinvented-1920x600.mp4` scartato dopo averlo provato: non è lo sfondo, è la
+sigla del logo. Dietro al titolo scriveva "reinvented with accenture".~
+
+**2026-09-14 — Skill `brilliant-style` accanto a `accenture-brand`, non al suo posto**
+L'app di educazione finanziaria deve insegnare, e il riferimento del settore è
+brilliant.org: token, font, ombre e curve sono stati estratti dal bundle Panda CSS del
+sito vero, non stimati. La skill sta separata perché i due sistemi sono incompatibili —
+Accenture è squadrato, nero e viola con una curva a 550ms; Brilliant è morbido, avena e
+blu con una molla che supera e rientra. Divisione: `accenture-brand` sul deck in
+`presentation/`, `brilliant-style` sulla web app in `app/`.
+~Fusione dei due sistemi scartata: produce un terzo stile che non è nessuno dei due.~
+~Copia fedele dei contrasti di Brilliant scartata: tre coppie del sito stanno sotto AA
+(bianco su blue-500 = 4.3:1, bianco su green-500 = 2.13:1, bianco su red-500 = 3.01:1).
+La skill documenta la misura e impone il sostituto conforme.~
+
 ---

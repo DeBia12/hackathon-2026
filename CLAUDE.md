@@ -72,11 +72,15 @@ Ogni componente prodotto deve rispettare:
 
 Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 
-## Brand Accenture (per UI e presentazione)
+## Brand Accenture (solo per la presentazione)
 
-> Riferimento completo, con font, animazioni e componenti:
+> Riferimento completo — tema Reveal.js, sfondo nero animato, animazioni copiate dal sito:
 > [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md).
 > I valori sono **misurati dal sito reale**, non stimati.
+>
+> **La web app non segue questo brand.** Ha una sua identità, dichiarata in
+> `app/src/index.css`: forme morbide e colori chiari, scelti per un pubblico 18-30
+> con soggezione verso la finanza. Qui sotto restano i colori del deck.
 
 - **Viola primario** `#A100FF` — riempimenti, grafica, il segno `>`
 - **Viola di testo** `#7500C0` su fondo **chiaro** · `#BE82FF` su fondo **scuro**
@@ -145,7 +149,11 @@ Tutti possono invocare skill in autonomia.
 
 ### 3. Skill — conoscenza richiamabile
 
-Di progetto: `accenture-brand`, `accessibilita`, `demo-ready`, `create-readme`.
+Di progetto: `accenture-brand`, `brilliant-style`, `accessibilita`, `demo-ready`, `create-readme`.
+
+> I due design system non si mescolano: `accenture-brand` vale sul deck in `presentation/`,
+> `brilliant-style` — lo stile di brilliant.org, token estratti dal sito vero — sulla web
+> app in `app/`.
 
 Di design, installate da terzi:
 - [`impeccable`](https://github.com/pbakaus/impeccable) — 23 comandi di design (`/impeccable audit`,

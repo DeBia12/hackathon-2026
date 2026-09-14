@@ -1,0 +1,120 @@
+/* =============================================================================
+   Stile Brilliant — token per Tailwind v4
+   Uso:  @import "tailwindcss";
+         @import "../../.claude/skills/brilliant-style/theme.css";
+
+   Tutti i token sono prefissati br- per convivere con quelli già presenti in
+   app/src/index.css senza sovrascriverli. Utility risultanti: bg-br-oat-50,
+   text-br-gray-950, rounded-br-xl, font-br-serif, ease-br-spring, shadow-br-lip.
+   ========================================================================== */
+
+@theme {
+  /* --- Colore ----------------------------------------------------------- */
+  --color-br-oat-50:  #f5f3f1;   /* fondo pagina */
+  --color-br-oat-200: #e4e4e4;   /* bordo */
+
+  --color-br-gray-50:  #f8f8f8;
+  --color-br-gray-100: #f2f2f2;
+  --color-br-gray-200: #e5e5e5;
+  --color-br-gray-300: #cccccc;
+  --color-br-gray-400: #b3b3b3;
+  --color-br-gray-500: #999999;  /* 2.57:1 su oat: solo fondi scuri */
+  --color-br-gray-700: #666666;  /* minimo su chiaro: 5.19:1 */
+  --color-br-gray-800: #4c4c4c;  /* testo secondario: 7.76:1 */
+  --color-br-gray-900: #383838;
+  --color-br-gray-950: #141414;  /* testo primario: 16.64:1 */
+
+  --color-br-blue-100: #ecf0ff;
+  --color-br-blue-200: #dae2ff;
+  --color-br-blue-300: #abbdff;
+  --color-br-blue-400: #7491ff;  /* blu di testo su fondo scuro: 6.35:1 */
+  --color-br-blue-500: #456dff;  /* riempimenti e grafica (>= 3:1) */
+  --color-br-blue-600: #375ce3;  /* riempimento con testo bianco: 5.52:1 */
+  --color-br-blue-700: #294bc6;  /* testo blu su bianco: 7.2:1 */
+  --color-br-blue-900: #142563;
+
+  --color-br-green-100: #eafaee;
+  --color-br-green-300: #9fe8b3;
+  --color-br-green-500: #29cc57;  /* con testo #141414 sopra: 8.66:1 */
+  --color-br-green-800: #007c23;  /* testo verde su bianco: 5.37:1 */
+  --color-br-green-900: #004e16;
+
+  --color-br-red-100: #ffefef;
+  --color-br-red-300: #ffb6b6;
+  --color-br-red-500: #ff5d5d;    /* bordi e icone, non fondo di testo bianco */
+  --color-br-red-800: #9c2e2e;    /* con testo bianco sopra: 7.38:1 */
+
+  --color-br-yellow-100: #fef9e9;
+  --color-br-yellow-500: #f7c325; /* con testo #141414 sopra: 11.22:1 */
+  --color-br-yellow-800: #926d00;
+
+  --color-br-mint-500:   #5cf0b6; /* con #141414 sopra: 12.8:1 */
+  --color-br-pear-500:   #d8e82e; /* con #141414 sopra: 13.6:1 */
+  --color-br-papaya-500: #ff775c; /* con #141414 sopra: 7.06:1 */
+  --color-br-purple-500: #9d62ff;
+  --color-br-purple-700: #7139cc; /* testo viola su bianco: 6.65:1 */
+  --color-br-pink-500:   #ff6bd5;
+
+  /* --- Tipografia ------------------------------------------------------- */
+  --font-br-sans:  "Figtree", "Inter", system-ui, -apple-system, sans-serif;
+  --font-br-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-br-mono:  "Source Code Pro", ui-monospace, monospace;
+
+  --text-br-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-br-display--line-height: 0.95;
+  --text-br-display--letter-spacing: -0.02em;
+  --text-br-h2: clamp(1.75rem, 3vw, 2.5rem);
+  --text-br-h2--line-height: 1.1;
+  --text-br-body: 1.0625rem;
+  --text-br-body--line-height: 1.6;
+
+  /* --- Forma ------------------------------------------------------------ */
+  --radius-br-xs:  0.375rem;
+  --radius-br-md:  0.5rem;
+  --radius-br-lg:  0.75rem;
+  --radius-br-xl:  1rem;
+  --radius-br-2xl: 1.25rem;
+  --radius-br-3xl: 2rem;
+
+  /* --- Elevazione: diffusa, senza offset verticale ---------------------- */
+  --shadow-br-subtle: 0 1px 3px #0000000a;
+  --shadow-br-base:   0 0 15px #0000001a;
+  --shadow-br-md:     0 0 25px #00000026;
+
+  /* Lo spessore dei bottoni: shadow-br-lip / shadow-br-lip-lg su fondo blu,
+     shadow-br-lip-neutral sulle superfici neutre. */
+  --shadow-br-lip:         inset 0 -4px #1425634d;
+  --shadow-br-lip-lg:      inset 0 -6px #1425634d;
+  --shadow-br-lip-premuto: inset 0 -2px #1425634d;
+  --shadow-br-lip-neutral: inset 0 -4px #00000026;
+
+  /* --- Movimento -------------------------------------------------------- */
+  --ease-br-spring: cubic-bezier(0.2, 1.1, 0.36, 1);
+  --ease-br-out:    cubic-bezier(0.16, 1, 0.3, 1);
+
+  --animate-br-pop:      br-pop 0.2s cubic-bezier(0.2, 1.1, 0.36, 1);
+  --animate-br-shake:    br-shake 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-br-slide-up: br-slide-up 0.833s cubic-bezier(0.2, 1.1, 0.36, 1) both;
+
+  @keyframes br-pop {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.04); }
+  }
+  @keyframes br-shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+  @keyframes br-slide-up {
+    from { transform: translateY(100%); opacity: 0; }
+    to   { transform: translateY(0);    opacity: 1; }
+  }
+}
+
+/* La griglia diagonale come utility: bg-br-griglia */
+@utility bg-br-griglia {
+  background-color: var(--color-br-oat-50);
+  background-image:
+    repeating-linear-gradient(45deg, #0000000a 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(-45deg, #0000000a 0 1px, transparent 1px 64px);
+}

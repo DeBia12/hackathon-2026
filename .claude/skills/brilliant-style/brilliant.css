@@ -1,0 +1,483 @@
+/* =============================================================================
+   Stile Brilliant — design system
+   Token estratti da brilliant.org (settembre 2026). Namespace: br-
+   Uso:  <link rel="stylesheet" href="brilliant.css">  +  <body class="br-page">
+   ========================================================================== */
+
+/* I font reali (CoFo Brilliant, CoFo Robert) sono proprietari: queste sono le
+   sostituzioni open più vicine. Rimuovi l'import se li carichi in locale. */
+@import url("https://fonts.googleapis.com/css2?family=Figtree:ital,wght@0,400;0,500;0,700;1,400&family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;1,9..144,500;1,9..144,600&display=swap");
+
+:root {
+  /* --- Colore: scale reali del design system ---------------------------- */
+  --br-oat-50:  #f5f3f1;   /* fondo pagina */
+  --br-oat-200: #e4e4e4;   /* bordo */
+
+  --br-gray-50:  #f8f8f8;
+  --br-gray-100: #f2f2f2;
+  --br-gray-200: #e5e5e5;
+  --br-gray-300: #cccccc;
+  --br-gray-400: #b3b3b3;
+  --br-gray-500: #999999;  /* solo su fondo scuro */
+  --br-gray-700: #666666;
+  --br-gray-800: #4c4c4c;
+  --br-gray-900: #383838;
+  --br-gray-950: #141414;  /* nero del sistema: non è #000 */
+
+  --br-blue-100: #ecf0ff;
+  --br-blue-200: #dae2ff;
+  --br-blue-400: #7491ff;  /* blu di testo su fondo scuro */
+  --br-blue-500: #456dff;  /* riempimenti e grafica */
+  --br-blue-600: #375ce3;  /* riempimento con testo bianco -> 5.52:1 */
+  --br-blue-700: #294bc6;  /* testo blu su bianco -> 7.2:1 */
+  --br-blue-900: #142563;
+
+  --br-green-100: #eafaee;
+  --br-green-300: #9fe8b3;
+  --br-green-500: #29cc57;  /* corretto: testo nero sopra */
+  --br-green-800: #007c23;
+  --br-green-900: #004e16;
+
+  --br-red-100: #ffefef;
+  --br-red-300: #ffb6b6;
+  --br-red-500: #ff5d5d;    /* sbagliato: come bordo e icona */
+  --br-red-800: #9c2e2e;    /* riempimento con testo bianco -> 7.38:1 */
+
+  --br-yellow-100: #fef9e9;
+  --br-yellow-500: #f7c325;
+  --br-yellow-800: #926d00;
+
+  --br-mint-500:   #5cf0b6;
+  --br-pear-500:   #d8e82e;
+  --br-papaya-500: #ff775c;
+  --br-purple-500: #9d62ff;
+  --br-purple-700: #7139cc;
+  --br-pink-500:   #ff6bd5;
+
+  /* --- Ruoli ------------------------------------------------------------ */
+  --br-bg:            var(--br-oat-50);
+  --br-surface:       #ffffff;
+  --br-border:        var(--br-oat-200);
+  --br-text:          var(--br-gray-950);
+  --br-text-muted:    var(--br-gray-800);
+  --br-accent:        var(--br-blue-500);
+  --br-accent-strong: var(--br-blue-600);
+  --br-accent-text:   var(--br-blue-700);
+
+  /* --- Tipografia ------------------------------------------------------- */
+  --br-font-sans:  "Figtree", "Inter", system-ui, -apple-system, sans-serif;
+  --br-font-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --br-font-mono:  "Source Code Pro", ui-monospace, monospace;
+
+  /* --- Forma ------------------------------------------------------------ */
+  --br-r-xs:  .375rem;
+  --br-r-md:  .5rem;
+  --br-r-lg:  .75rem;
+  --br-r-xl:  1rem;
+  --br-r-2xl: 1.25rem;
+  --br-r-3xl: 2rem;
+  --br-r-full: 9999px;
+
+  /* --- Elevazione: diffusa, senza offset -------------------------------- */
+  --br-shadow-subtle: 0 1px 3px #0000000a;
+  --br-shadow-base:   0 0 15px #0000001a;
+  --br-shadow-md:     0 0 25px #00000026;
+
+  /* --- Spessore dei bottoni (la firma) ---------------------------------- */
+  --br-lip-blue:    #1425634d;
+  --br-lip-neutral: #00000026;
+
+  /* --- Movimento -------------------------------------------------------- */
+  --br-spring:      cubic-bezier(.2, 1.1, .36, 1);
+  --br-spring-time: .833s;
+  --br-ease-out:    cubic-bezier(.16, 1, .3, 1);
+  --br-fast: .15s;
+  --br-base: .2s;
+  --br-slow: .5s;
+}
+
+/* Tema scuro: si attiva con <html data-theme="dark">, come sul sito */
+[data-theme="dark"] {
+  --br-bg:         var(--br-gray-950);
+  --br-surface:    #1e1e1e;
+  --br-border:     #25231f;
+  --br-text:       #ffffff;
+  --br-text-muted: var(--br-gray-400);
+  --br-accent-text: var(--br-blue-400);
+}
+
+/* =============================================================================
+   Base
+   ========================================================================== */
+
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--br-font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  color: var(--br-text);
+  background-color: var(--br-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* FIRMA 1 — fondo avena con griglia romboidale */
+.br-page {
+  min-height: 100vh;
+  background-color: var(--br-bg);
+  background-image:
+    repeating-linear-gradient( 45deg, #0000000a 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(-45deg, #0000000a 0 1px, transparent 1px 64px);
+}
+
+[data-theme="dark"] .br-page {
+  background-image:
+    repeating-linear-gradient( 45deg, #ffffff0a 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(-45deg, #ffffff0a 0 1px, transparent 1px 64px);
+}
+
+/* Variante fitta, per pannelli e hero: il passo da 10px del sito */
+.br-page--fitta {
+  background-image: repeating-linear-gradient(45deg, #0000000f 0 1px, transparent 1px 10px);
+}
+
+.br-container { width: min(72rem, 100% - 3rem); margin-inline: auto; }
+.br-section   { padding-block: 6rem; }
+
+/* Focus: un anello spesso, sempre visibile. Il sito usa 3px. */
+:where(a, button, [tabindex], input, select, textarea):focus-visible {
+  outline: 3px solid var(--br-blue-600);
+  outline-offset: 2px;
+  border-radius: var(--br-r-xs);
+}
+
+.br-sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* =============================================================================
+   Tipografia
+   ========================================================================== */
+
+/* FIRMA 3 — display in grazie, concetto in corsivo */
+.br-display {
+  font-family: var(--br-font-serif);
+  font-weight: 600;
+  font-size: clamp(2.5rem, 6vw, 4.5rem);
+  line-height: .95;
+  letter-spacing: -.02em;
+  margin: 0 0 1.5rem;
+  text-wrap: balance;
+}
+.br-display em { font-style: italic; font-weight: 600; }
+
+.br-h2 {
+  font-size: clamp(1.75rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -.01em;
+  margin: 0 0 1rem;
+  text-wrap: balance;
+}
+
+.br-h3 { font-size: 1.25rem; font-weight: 700; line-height: 1.3; margin: 0 0 .5rem; }
+
+.br-lead { font-size: 1.25rem; line-height: 1.5; color: var(--br-text-muted); margin: 0 0 2rem; }
+
+.br-muted { color: var(--br-text-muted); }
+
+.br-label {
+  font-size: .8125rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--br-text-muted);
+}
+
+.br-link { color: var(--br-accent-text); text-decoration: underline; text-underline-offset: .2em; }
+
+/* =============================================================================
+   Bottoni — FIRMA 2: lo spessore
+   ========================================================================== */
+
+.br-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: .5rem;
+  min-height: 48px;          /* ben oltre i 24x24 di WCAG 2.2 */
+  padding: .75rem 1.5rem;
+  border: 0;
+  border-radius: var(--br-r-full);
+  font: inherit;
+  font-weight: 700;
+  line-height: 1;
+  cursor: pointer;
+  text-decoration: none;
+  background: var(--br-gray-200);
+  color: var(--br-text);
+  box-shadow: inset 0 -4px var(--br-lip-neutral);
+  transition:
+    transform var(--br-fast) var(--br-spring),
+    box-shadow var(--br-fast) var(--br-spring),
+    background-color var(--br-fast) linear;
+}
+
+.br-btn:hover { filter: brightness(.96); }
+
+.br-btn:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 -2px var(--br-lip-neutral);
+}
+
+.br-btn[disabled], .br-btn[aria-disabled="true"] {
+  opacity: .45;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
+/* blue-600 e non blue-500: il testo bianco sul 500 sta a 4.3:1 */
+.br-btn--primary {
+  background: var(--br-blue-600);
+  color: #ffffff;
+  box-shadow: inset 0 -4px var(--br-lip-blue);
+}
+.br-btn--primary:active { box-shadow: inset 0 -2px var(--br-lip-blue); }
+
+.br-btn--ghost {
+  background: transparent;
+  color: var(--br-text);
+  box-shadow: inset 0 0 0 2px var(--br-border);
+}
+.br-btn--ghost:hover { background: #00000008; filter: none; }
+.br-btn--ghost:active { transform: translateY(1px); }
+
+.br-btn--lg {
+  min-height: 60px;
+  padding: 1rem 2.25rem;
+  font-size: 1.125rem;
+  box-shadow: inset 0 -6px var(--br-lip-blue);
+}
+.br-btn--lg:active { box-shadow: inset 0 -3px var(--br-lip-blue); }
+
+.br-btn--block { width: 100%; }
+
+/* =============================================================================
+   Superfici
+   ========================================================================== */
+
+.br-card {
+  background: var(--br-surface);
+  border: 1px solid var(--br-border);
+  border-radius: var(--br-r-xl);
+  padding: 1.5rem;
+  box-shadow: var(--br-shadow-subtle);
+  transition: transform var(--br-base) var(--br-spring), box-shadow var(--br-base) var(--br-ease-out);
+}
+
+a.br-card:hover, .br-card--interattiva:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--br-shadow-base);
+}
+
+/* Il mattone delle griglie di argomenti: riempimento pieno, testo nero.
+   Imposta --br-tile-bg con un colore della palette. */
+.br-tile {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  padding: 1.5rem;
+  border-radius: var(--br-r-2xl);
+  background: var(--br-tile-bg, var(--br-mint-500));
+  color: var(--br-gray-950);          /* nero sui saturi chiari: 7:1 - 13:1 */
+  border: 0;
+  text-decoration: none;
+  transition: transform var(--br-base) var(--br-spring);
+}
+.br-tile:hover { transform: translateY(-4px) rotate(-.5deg); }
+.br-tile__icona { width: 40px; height: 40px; }
+
+.br-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .375rem;
+  min-height: 28px;
+  padding: .25rem .75rem;
+  border-radius: var(--br-r-full);
+  background: var(--br-pear-500);
+  color: var(--br-gray-950);
+  font-size: .875rem;
+  font-weight: 700;
+}
+.br-chip--neutra { background: var(--br-gray-200); }
+
+.br-stat__numero {
+  font-family: var(--br-font-serif);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.02em;
+}
+.br-stat__etichetta { color: var(--br-text-muted); font-size: .9375rem; }
+
+/* =============================================================================
+   Lezione
+   ========================================================================== */
+
+/* Barra di progresso a segmenti. Ogni passo è un segmento che si riempie. */
+.br-progress { display: flex; gap: .375rem; }
+.br-progress__seg {
+  flex: 1;
+  height: 8px;
+  border-radius: var(--br-r-full);
+  background: var(--br-gray-200);
+  overflow: hidden;
+}
+.br-progress__seg::after {
+  content: "";
+  display: block;
+  height: 100%;
+  width: 0;
+  border-radius: inherit;
+  background: var(--br-green-500);
+  transition: width var(--br-slow) var(--br-ease-out);
+}
+.br-progress__seg.is-fatto::after { width: 100%; }
+.br-progress__seg.is-corrente::after { width: 50%; background: var(--br-blue-500); }
+
+/* Opzione di risposta. È un <button> o un <label> con <input>, mai un <div>. */
+.br-choice {
+  display: flex;
+  align-items: center;
+  gap: .875rem;
+  width: 100%;
+  min-height: 60px;
+  padding: 1rem 1.25rem;
+  text-align: left;
+  font: inherit;
+  color: var(--br-text);
+  background: var(--br-surface);
+  border: 2px solid var(--br-border);
+  border-radius: var(--br-r-xl);
+  cursor: pointer;
+  box-shadow: inset 0 -4px #00000014;
+  transition: border-color var(--br-fast) linear, transform var(--br-fast) var(--br-spring);
+}
+.br-choice:hover { border-color: var(--br-blue-400); }
+.br-choice:active { transform: translateY(2px); box-shadow: inset 0 -2px #00000014; }
+
+.br-choice.is-selected { border-color: var(--br-blue-600); background: var(--br-blue-100); }
+
+/* Gli stati di esito non si affidano al solo colore: portano anche l'icona. */
+.br-choice.is-correct {
+  border-color: var(--br-green-800);
+  background: var(--br-green-100);
+  animation: br-pop var(--br-base) var(--br-spring);
+}
+.br-choice.is-wrong {
+  border-color: var(--br-red-800);
+  background: var(--br-red-100);
+  animation: br-shake .4s var(--br-ease-out);
+}
+
+.br-choice__segno {
+  flex: none;
+  width: 28px; height: 28px;
+  display: grid; place-items: center;
+  border-radius: var(--br-r-full);
+  border: 2px solid currentColor;
+  font-weight: 700; font-size: .875rem;
+}
+.br-choice.is-correct .br-choice__segno { background: var(--br-green-500); color: var(--br-gray-950); border-color: transparent; }
+.br-choice.is-wrong   .br-choice__segno { background: var(--br-red-500);   color: var(--br-gray-950); border-color: transparent; }
+
+/* Il feedback arriva dal basso, non compare. Va annunciato: role="status". */
+.br-feedback {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem 1.5rem;
+  border-top: 2px solid var(--br-border);
+  border-radius: var(--br-r-2xl) var(--br-r-2xl) 0 0;
+  background: var(--br-surface);
+  animation: br-slide-up var(--br-spring-time) var(--br-spring) both;
+}
+.br-feedback--correct { background: var(--br-green-100); border-color: var(--br-green-800); }
+.br-feedback--wrong   { background: var(--br-red-100);   border-color: var(--br-red-800); }
+.br-feedback__titolo  { font-weight: 700; margin: 0; }
+.br-feedback__testo   { margin: .25rem 0 0; color: var(--br-gray-900); }
+.br-feedback .br-btn  { margin-left: auto; }
+
+/* Percorso a nodi */
+.br-path { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.br-path__node {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: var(--br-surface);
+  border: 1px solid var(--br-border);
+  border-radius: var(--br-r-xl);
+  text-decoration: none;
+  color: inherit;
+}
+.br-path__bollo {
+  flex: none;
+  width: 44px; height: 44px;
+  display: grid; place-items: center;
+  border-radius: var(--br-r-full);
+  background: var(--br-gray-200);
+  font-weight: 700;
+}
+.br-path__node.is-fatto    .br-path__bollo { background: var(--br-green-500); color: var(--br-gray-950); }
+.br-path__node.is-corrente { border-color: var(--br-blue-600); border-width: 2px; }
+.br-path__node.is-corrente .br-path__bollo { background: var(--br-blue-600); color: #ffffff; }
+.br-path__node.is-bloccato { opacity: .6; }
+
+/* =============================================================================
+   Animazioni — nomi allineati ai keyframe del sito
+   ========================================================================== */
+
+@keyframes br-pop {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+@keyframes br-shake {
+  0%, 100%   { transform: translateX(0); }
+  20%, 60%   { transform: translateX(-6px); }
+  40%, 80%   { transform: translateX(6px); }
+}
+
+@keyframes br-slide-up {
+  from { transform: translateY(100%); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+
+@keyframes br-count-pulse {
+  0%   { transform: scale(1); }
+  40%  { transform: scale(1.25); }
+  100% { transform: scale(1); }
+}
+
+.br-anim-pop   { animation: br-pop var(--br-base) var(--br-spring); }
+.br-anim-conta { animation: br-count-pulse .4s var(--br-spring); }
+
+/* Movimento ridotto: le transizioni spariscono, il significato resta nell'icona
+   e nel testo del feedback, mai nel solo movimento. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .br-btn:active, .br-choice:active, .br-tile:hover, a.br-card:hover { transform: none; }
+}

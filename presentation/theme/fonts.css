@@ -1,0 +1,18 @@
+/* Font reali del brand. Proprietari (Commercial Type, Grilli Type): uso interno
+   Accenture, non ridistribuirli su un repository aperto. */
+@font-face {
+  font-family: "Graphik"; font-weight: 400; font-style: normal; font-display: swap;
+  src: local("Graphik-Regular-Web"), url("./fonts/graphik-regular-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Graphik"; font-weight: 500; font-style: normal; font-display: swap;
+  src: local("Graphik-Medium-Web"), url("./fonts/graphik-medium-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "Graphik"; font-weight: 600; font-style: normal; font-display: swap;
+  src: local("Graphik-Semibold-Web"), url("./fonts/graphik-semibold-web.woff2") format("woff2");
+}
+@font-face {
+  font-family: "GT Sectra Fine"; font-weight: 300; font-style: normal; font-display: swap;
+  src: local("GT-Sectra-Fine-Book"), url("./fonts/GT-Sectra-Fine-Book.woff2") format("woff2");
+}
