@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stile Brilliant — pagina d'esempio</title>
+  <link rel="stylesheet" href="brilliant.css">
+  <style>
+    /* Solo impaginazione della demo: i componenti stanno tutti in brilliant.css */
+    .demo-griglia { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+    .demo-due { display: grid; gap: 3rem; align-items: center; grid-template-columns: 1fr; }
+    @media (min-width: 56rem) { .demo-due { grid-template-columns: 1.1fr .9fr; } }
+    .demo-azioni { display: flex; flex-wrap: wrap; gap: .75rem; }
+    .demo-lezione { max-width: 44rem; margin-inline: auto; display: grid; gap: 1.5rem; }
+    .demo-opzioni { display: grid; gap: .75rem; }
+    .demo-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.25rem; }
+    .demo-forma { display: block; width: 100%; height: auto; border-radius: var(--br-r-2xl); }
+  </style>
+</head>
+
+<body class="br-page">
+
+  <a class="br-sr-only" href="#contenuto">Salta al contenuto</a>
+
+  <header class="br-container">
+    <nav class="demo-nav" aria-label="Principale">
+      <span style="font-weight:700; font-size:1.25rem; letter-spacing:-.01em;">Soldi &amp; Basi</span>
+      <div class="demo-azioni">
+        <a class="br-btn br-btn--ghost" href="#percorso">Percorso</a>
+        <a class="br-btn br-btn--primary" href="#lezione">Inizia</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="contenuto">
+
+    <!-- HERO ------------------------------------------------------------ -->
+    <section class="br-container br-section demo-due">
+      <div>
+        <p class="br-label">Educazione finanziaria di base</p>
+        <h1 class="br-display">Capire i tuoi soldi, <em>un passo</em> alla volta</h1>
+        <p class="br-lead">
+          Lezioni brevi che spiegano e calcolano. Nessun consiglio su cosa comprare:
+          solo i conti, fatti insieme a te.
+        </p>
+        <div class="demo-azioni">
+          <a class="br-btn br-btn--primary br-btn--lg" href="#lezione">Fai la prima lezione</a>
+          <a class="br-btn br-btn--ghost br-btn--lg" href="#percorso">Guarda il percorso</a>
+        </div>
+      </div>
+
+      <!-- L'illustrazione è geometria piena nei colori della palette:
+           stessa aria delle 3D del sito, dieci righe di SVG. -->
+      <svg class="demo-forma" viewBox="0 0 400 320" role="img"
+           aria-label="Tre colonne di altezza crescente che rappresentano un risparmio che cresce">
+        <rect x="0" y="0" width="400" height="320" rx="20" fill="#ffffff" stroke="#e4e4e4"/>
+        <rect x="56"  y="200" width="72" height="72"  rx="16" fill="#5cf0b6"/>
+        <rect x="164" y="140" width="72" height="132" rx="16" fill="#456dff"/>
+        <rect x="272" y="72"  width="72" height="200" rx="16" fill="#d8e82e"/>
+        <circle cx="308" cy="44" r="18" fill="#ff775c"/>
+      </svg>
+    </section>
+
+    <!-- PROVA SOCIALE --------------------------------------------------- -->
+    <section class="br-container" style="padding-bottom:4rem;">
+      <div class="demo-griglia">
+        <div class="br-card">
+          <p class="br-stat__numero">12</p>
+          <p class="br-stat__etichetta">lezioni da 4 minuti</p>
+        </div>
+        <div class="br-card">
+          <p class="br-stat__numero">0</p>
+          <p class="br-stat__etichetta">prerequisiti richiesti</p>
+        </div>
+        <div class="br-card">
+          <p class="br-stat__numero">100%</p>
+          <p class="br-stat__etichetta">calcoli mostrati passo passo</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARGOMENTI: le tile colorate ------------------------------------- -->
+    <section class="br-container br-section">
+      <h2 class="br-h2">Da dove vuoi partire</h2>
+      <p class="br-lead">Ogni argomento è indipendente. Non c'è un ordine obbligato.</p>
+
+      <div class="demo-griglia">
+        <a class="br-tile" href="#lezione" style="--br-tile-bg:#5cf0b6">
+          <svg class="br-tile__icona" viewBox="0 0 40 40" aria-hidden="true">
+            <rect x="4" y="12" width="32" height="22" rx="4" fill="#141414"/>
+            <circle cx="28" cy="23" r="4" fill="#5cf0b6"/>
+          </svg>
+          <span class="br-h3">Il conto corrente</span>
+          <span>Cosa entra, cosa esce, cosa costa tenerlo.</span>
+        </a>
+
+        <a class="br-tile" href="#lezione" style="--br-tile-bg:#d8e82e">
+          <svg class="br-tile__icona" viewBox="0 0 40 40" aria-hidden="true">
+            <path d="M6 30 L16 18 L24 24 L34 8" stroke="#141414" stroke-width="4" fill="none"/>
+          </svg>
+          <span class="br-h3">L'interesse composto</span>
+          <span>Perché il tempo cambia il risultato.</span>
+        </a>
+
+        <a class="br-tile" href="#lezione" style="--br-tile-bg:#ff775c">
+          <svg class="br-tile__icona" viewBox="0 0 40 40" aria-hidden="true">
+            <circle cx="20" cy="20" r="15" stroke="#141414" stroke-width="4" fill="none"/>
+            <path d="M20 11 v9 l6 5" stroke="#141414" stroke-width="4" fill="none"/>
+          </svg>
+          <span class="br-h3">Il budget mensile</span>
+          <span>Dividere le spese in tre gruppi.</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- PERCORSO -------------------------------------------------------- -->
+    <section id="percorso" class="br-container br-section" style="max-width:44rem;">
+      <h2 class="br-h2">Il tuo percorso</h2>
+      <ol class="br-path">
+        <li>
+          <a class="br-path__node is-fatto" href="#lezione">
+            <span class="br-path__bollo" aria-hidden="true">✓</span>
+            <span>
+              <span class="br-h3">Entrate e uscite</span>
+              <span class="br-muted">Completata</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <a class="br-path__node is-corrente" href="#lezione" aria-current="step">
+            <span class="br-path__bollo" aria-hidden="true">2</span>
+            <span>
+              <span class="br-h3">Le spese fisse</span>
+              <span class="br-muted">Sei qui</span>
+            </span>
+          </a>
+        </li>
+        <li>
+          <div class="br-path__node is-bloccato">
+            <span class="br-path__bollo" aria-hidden="true">3</span>
+            <span>
+              <span class="br-h3">Il fondo di emergenza</span>
+              <span class="br-muted">Si apre dopo la lezione 2</span>
+            </span>
+          </div>
+        </li>
+      </ol>
+    </section>
+
+    <!-- LEZIONE: una domanda per schermata ------------------------------ -->
+    <section id="lezione" class="br-container br-section">
+      <div class="demo-lezione">
+
+        <div>
+          <div class="br-progress" role="img" aria-label="Passo 2 di 5">
+            <span class="br-progress__seg is-fatto"></span>
+            <span class="br-progress__seg is-corrente"></span>
+            <span class="br-progress__seg"></span>
+            <span class="br-progress__seg"></span>
+            <span class="br-progress__seg"></span>
+          </div>
+          <p class="br-label" style="margin-top:.75rem;">Passo 2 di 5
+            <span class="br-chip" style="margin-left:.5rem;">3 giorni di fila</span>
+          </p>
+        </div>
+
+        <div class="br-card">
+          <h2 class="br-h3">Guadagni 1.500 € al mese. L'affitto è 600 €.
+            Quale quota delle entrate se ne va in affitto?</h2>
+          <p class="br-muted">Prova a rispondere. Se sbagli non perdi niente.</p>
+        </div>
+
+        <!-- Opzioni: <button>, non <div>. Gli stati portano icona + testo,
+             mai il solo colore. -->
+        <div class="demo-opzioni" role="group" aria-label="Scegli una risposta">
+          <button type="button" class="br-choice">
+            <span class="br-choice__segno" aria-hidden="true">A</span>
+            <span>Circa un quarto</span>
+          </button>
+
+          <button type="button" class="br-choice is-correct" aria-pressed="true">
+            <span class="br-choice__segno" aria-hidden="true">✓</span>
+            <span>Circa due quinti <strong>(40%)</strong></span>
+          </button>
+
+          <button type="button" class="br-choice is-wrong">
+            <span class="br-choice__segno" aria-hidden="true">✕</span>
+            <span>Circa la metà</span>
+          </button>
+        </div>
+
+        <!-- Il feedback spiega il perché, non giudica. role="status" lo annuncia. -->
+        <div class="br-feedback br-feedback--correct" role="status">
+          <div>
+            <p class="br-feedback__titolo">Esatto: 40%.</p>
+            <p class="br-feedback__testo">
+              600 diviso 1.500 fa 0,4. Moltiplicato per 100 sono 40 su 100,
+              cioè 40 centesimi di ogni euro che entra.
+            </p>
+          </div>
+          <button type="button" class="br-btn br-btn--primary">Continua</button>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- CHIUSURA -------------------------------------------------------- -->
+    <section class="br-container br-section" style="text-align:center;">
+      <h2 class="br-display" style="font-size:clamp(2rem,4.5vw,3.25rem);">
+        Cinque minuti al giorno, <em>e i conti tornano</em>
+      </h2>
+      <p class="br-lead" style="max-width:34rem; margin-inline:auto;">
+        Spieghiamo e calcoliamo. Non diciamo mai cosa comprare, vendere o scegliere.
+      </p>
+      <a class="br-btn br-btn--primary br-btn--lg" href="#lezione">Inizia adesso</a>
+    </section>
+
+  </main>
+
+  <footer class="br-container" style="padding-block:3rem; border-top:1px solid var(--br-border);">
+    <p class="br-muted" style="margin:0;">
+      Strumento didattico. Non fornisce consulenza finanziaria né raccomandazioni di investimento.
+    </p>
+  </footer>
+
+</body>
+</html>

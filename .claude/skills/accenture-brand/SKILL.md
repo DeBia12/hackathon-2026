@@ -1,269 +1,224 @@
 ---
 name: accenture-brand
-description: Design system Accenture completo - font Graphik e GT Sectra Fine inclusi, palette, animazioni, hero, card, bottoni, logo animato e coppie di colori verificate WCAG. Usala quando crei o modifichi pagine, interfacce, slide o materiali visivi che devono sembrare fatti da Accenture.
+description: Tema Accenture per la presentazione finale in Reveal.js - sfondo nero animato col video della hero di accenture.com, keyframe e curve copiati dal sito, font Graphik e GT Sectra Fine, coppie di colori verificate WCAG. Usala solo quando lavori sul deck in presentation/, non per la web app.
 ---
 
-# Brand Accenture — design system operativo
+# Brand Accenture — il tema della presentazione
 
-Tutti i valori di questo documento sono **misurati da accenture.com/it-it** (settembre 2026),
-non stimati: token CSS, curve di animazione, dimensioni dei componenti, file dei font.
+Questa skill copre **una cosa sola: il deck finale** in `presentation/`.
+Non è il design system della web app. L'app ha i suoi token in `app/src/index.css` e la
+guida in `presentation/guida/` ha la sua copia: nessuno dei due dipende da qui.
 
-## Cosa contiene la skill
+Ogni valore è **letto da accenture.com/it-it** col browser (settembre 2026) — keyframe,
+durate, ritardi, curve, colori. Dove il deck devia dal sito, la deviazione è dichiarata.
+
+## Cosa contiene
 
 | File | Cosa fa |
 |---|---|
-| `accenture.css` | Design system pronto all'uso: token, componenti, animazioni. Importalo e hai finito. |
-| `template.html` | Pagina completa d'esempio: hero, griglia di card, sezione editoriale. **Parti da qui.** |
-| `tailwind-preset.js` | Gli stessi token come preset Tailwind. |
-| `assets/fonts/` | I 4 font reali in woff2 — Graphik 400/500/600, GT Sectra Fine 300. |
-| `assets/fonts.css` | Le regole `@font-face`. |
-| `assets/logo/` | Logo completo, solo il segno `>`, chevron per le CTA. |
+| `reveal-accenture.css` | Il tema completo: token, sfondo animato, keyframe del sito, componenti delle slide. |
+| `sfondo.js` | Intensità del video slide per slide, e fermo immagine con `prefers-reduced-motion`. |
+| `template.html` | Scheletro di deck pronto. **Parti da qui.** |
+| `assets/video/` | Il video di sfondo della hero (12s, 1 MB) e il suo poster. |
+| `assets/fonts/` + `fonts.css` | Graphik 400/500/600 e GT Sectra Fine 300, i file reali. |
+| `assets/logo/` | Logo completo, il solo segno `>`, chevron per le CTA. |
 | `assets/reference/` | Screenshot del sito vero, per confronto visivo. |
 
-### Avvio rapido
+### Dov'è già installato
 
-```html
-<link rel="stylesheet" href="path/to/accenture-brand/accenture.css">
+`presentation/` lo usa già: `theme/accenture.css` è `reveal-accenture.css` con l'`@import`
+dei font riscritto su `theme/fonts.css`, `theme/sfondo.js` è una copia, gli asset video
+stanno in `presentation/assets/video/`. **Se modifichi il tema, tocca tutti e due i file**:
+sono copie, non un symlink.
+
+```bash
+npm run present    # http://localhost:8000
 ```
 
-Con **Tailwind v3**: importa `tailwind-preset.js` in `tailwind.config.ts`.
-Con **Tailwind v4** (questo progetto): i preset non si usano, i token vanno in un blocco
-`@theme` nel CSS di ingresso — l'implementazione viva è in `app/src/index.css`.
-In entrambi i casi i font si caricano a parte: il preset porta colori e curve, non i font.
+> Font e video sono **asset proprietari** (Commercial Type, Grilli Type, Accenture).
+> Uso interno: non pubblicarli su un repository aperto.
 
-> I font sono **proprietari** (Commercial Type, Grilli Type). Uso interno Accenture: non
-> ridistribuirli e non pubblicarli su un repository aperto. Senza i file, il fallback
-> `Arial/Helvetica` regge la composizione ma perde il carattere.
+## Lo sfondo nero animato
 
-## Le due firme del brand
+Sull'home il fondo della hero è un `<video>` in loop di 12 secondi: una nuvola di
+particelle scure che si muove lentamente su nero. È `custom-rad-hero-bg-video.mp4`,
+16:9, con un poster PNG per il primo fotogramma.
 
-Sono le cose che rendono una pagina riconoscibile come Accenture. Se ne implementi solo due, queste.
+> **Attenzione a non prendere il file sbagliato.** Nella stessa hero c'è anche
+> `Accenture-Reinvented-1920x600.mp4`: quella è la **sigla del logo** (REINVENTED → il
+> segno `>` → il lockup "reinvented with accenture"), non uno sfondo. Dietro a una slide
+> scriverebbe il wordmark Accenture sotto il titolo del progetto.
 
-**1. Il `>` dentro la parola.** Non accanto al titolo: *dentro*. Il sito scrive
-`REIN>ENTARE` sostituendo la V con il segno. È il gesto più identitario del brand.
+Qui il video sta **fisso dietro tutte le slide** e cambia intensità:
+
+| Dove | Opacità | Perché |
+|---|---|---|
+| Slide normali | `0.28` | Texture, non soggetto. Il testo deve vincere. |
+| `.slide-manifesto` | `0.85` | È l'uso che ne fa il sito: titolo, demo, chiusura. |
+
+Il markup sta **fuori da `.reveal`**, come primo figlio del `<body>`, così resta fermo
+mentre le slide scorrono:
 
 ```html
-<h1 class="acn-hero__headline">
-  <span class="acn-sr-only">Insieme per reinventare</span>
-  <span aria-hidden="true">Insieme per rein<svg class="acn-hero__mark" viewBox="0 0 32 32">
-    <path d="M0 22.6L17.66 16.03L0 9.13V0L30.24 12.18V19.75L0 32V22.6Z"/></svg>entare</span>
+<div class="acn-sfondo" aria-hidden="true">
+  <video class="acn-sfondo__video"
+         src="assets/video/accenture-hero-sfondo.mp4"
+         poster="assets/video/accenture-hero-poster.png"
+         autoplay muted loop playsinline preload="auto"></video>
+  <div class="acn-sfondo__velo"></div>
+</div>
+```
+
+`.acn-sfondo__velo` è l'unica aggiunta rispetto al sito: una vignettatura che tiene il
+testo leggibile sopra le particelle. Sul sito non serve perché lì il testo sta a sinistra
+e il video a destra; su una slide il testo ci passa sopra.
+
+`sfondo.js` va caricato **dopo** `Reveal.initialize()`: si aggancia a `ready` e
+`slidechanged` per alzare e abbassare l'intensità.
+
+## Le animazioni, copiate dal sito
+
+Valori letti dal DOM di accenture.com, non ricostruiti a orecchio. I nomi dei keyframe
+sono quelli originali, così chi confronta col sito li ritrova.
+
+| Elemento | Keyframe | Durata | Ritardo | Curva |
+|---|---|---|---|---|
+| Sfondo | `hero-custom-background` | 1550ms | 550ms | `cubic-bezier(.22,0,.63,1)` |
+| Titolo | `hero-custom-headline` | 750ms | 550ms | `cubic-bezier(.38,0,0,1)` |
+| Parti del titolo | `hero-custom-headline-left` / `-right` | 750ms | 1500ms | `cubic-bezier(.38,0,0,1)` |
+| Corpo | `hero-custom-body` | 1250ms | 1500ms | `cubic-bezier(.38,0,0,1)` |
+| Il segno `>` | `hero-custom-headline-V` | 750ms | 3000ms | `cubic-bezier(.38,0,0,1)`, `forwards` |
+| Trattino viola | `deco-line-in` | 750ms | — | `cubic-bezier(.38,0,0,1)` |
+| Frase editoriale | `editorialAnimation` | 750ms | — | `cubic-bezier(.38,0,0,1)` |
+
+Tutti con `animation-fill-mode: backwards` tranne il `>`, che è `forwards` perché il suo
+stato finale — `rotate(0) scale(.95) translateX(.025em)` — va mantenuto.
+
+**La deviazione dichiarata.** I ritardi pieni restano solo su `.slide-manifesto`. Il sito
+ha una hero sola; un deck ne ha dodici, e tre secondi di attesa per slide non sono
+presentabili. Sulle altre slide valgono `0 / 250 / 350 / 500ms`, tramite le variabili
+`--acn-ritardo-titolo`, `--acn-ritardo-parti`, `--acn-ritardo-corpo`, `--acn-ritardo-segno`.
+
+**La transizione fra slide è `fade`, non `slide`.** Con uno sfondo fisso dietro, far
+scorrere le slide orizzontalmente crea due movimenti in contrasto.
+
+### La curva della firma
+
+Tutto il resto del sito si muove con `cubic-bezier(0.85, 0, 0, 1)` a **550ms** — 53
+transizioni su 53, contate. Parte veloce, frena a lungo. Per hover e cambi di stato usa
+quella, in `--acn-curva`.
+
+## Il `>` dentro la parola
+
+Non accanto al titolo: **dentro**. Il sito scrive `REIN>ENTARE` sostituendo la V.
+È il gesto più identitario del brand, e nel deck arriva ruotando da 90°.
+
+```html
+<h1 class="acn-display">
+  <span class="acn-sr-only">Nome del progetto</span>
+  <span aria-hidden="true">
+    <span class="acn-titolo--sinistra">Nome del</span>
+    <span class="acn-titolo--destra">pro<svg class="acn-segno" viewBox="0 0 32 32"
+      aria-hidden="true"><path d="M0 22.6L17.66 16.03L0 9.13V0L30.24 12.18V19.75L0 32V22.6Z"/></svg>etto</span>
+  </span>
 </h1>
 ```
 
-Il testo completo va sempre dato ai lettori di schermo con `.acn-sr-only`, e il pezzo
-decorativo nascosto con `aria-hidden`. Altrimenti la parola risulta spezzata.
+Il testo completo va **sempre** in `.acn-sr-only`, e il pezzo decorativo in `aria-hidden`.
+Altrimenti chi usa un lettore di schermo sente la parola spezzata.
 
-**2. Una sola curva di movimento.** Tutto il sito si muove con
-`cubic-bezier(0.85, 0, 0, 1)` in **550ms**. Parte veloce e frena a lungo. Non mescolare
-`ease-in-out` o durate diverse: l'incoerenza del movimento si nota più di un colore sbagliato.
+Usalo per **una parola sola** in tutto il deck, dove il suono regge la sostituzione.
+Se nessuna parola funziona, non forzarlo: un titolo pulito è meglio di un gioco storto.
 
-```css
-transition: <qualsiasi-proprietà> 550ms cubic-bezier(0.85, 0, 0, 1);
-```
+## Classi delle slide
 
-## Palette
-
-| Token | HEX | Uso corretto |
-|---|---|---|
-| `--acn-purple` | `#A100FF` | Riempimenti, il segno `>`, accenti grafici |
-| `--acn-purple-2` | `#7500C0` | Hover del primario, **testo viola su fondo chiaro** |
-| `--acn-purple-3` | `#460073` | Fondi profondi |
-| `--acn-purple-active` | `#57008F` | Stato `:active` dei bottoni |
-| `--acn-purple-deep` | `#39005E` | Fondo card viola |
-| `--acn-purple-light` | `#BE82FF` | **Viola su fondo scuro** |
-| `--acn-purple-focus` | `#DCAFFF` | Anello di focus su fondo scuro |
-| `--acn-black` | `#000000` | Sfondo principale del sito |
-| `--acn-white` | `#FFFFFF` | Testo su scuro |
-| `--acn-surface-light` | `#F1F1EF` | Card e sezioni chiare — grigio **caldo** |
-| `--acn-surface-dark` | `#202020` | Card video / scure |
-| `--acn-border-light` | `#E3E3DF` | Bordi e divisori |
-| `--acn-grey` | `#A2A2A0` | Testo attenuato — **solo su fondo scuro** |
-| `--acn-grey-on-light` | `#5F5F5F` | Testo attenuato su fondo chiaro |
-
-Il grigio chiaro del brand è `#F1F1EF`: **caldo**, non neutro. Un `#F5F5F5` qualsiasi
-fa sembrare la pagina generica. È il dettaglio che si nota senza saper dire perché.
-
-### Contrasti misurati
-
-Valori reali da `contrast.mjs`, non stimati.
-
-| Combinazione | Rapporto | Verdetto |
-|---|---|---|
-| `#FFFFFF` su `#000000` | 21.0:1 | ✅ AAA |
-| `#BE82FF` su `#000000` | 7.83:1 | ✅ AAA |
-| `#A2A2A0` su `#000000` | 8.21:1 | ✅ AAA |
-| `#DCAFFF` su `#000000` | 11.62:1 | ✅ AAA |
-| `#FFFFFF` su `#39005E` | 15.72:1 | ✅ AAA |
-| `#FFFFFF` su `#7500C0` | 8.34:1 | ✅ AAA |
-| `#FFFFFF` su `#A100FF` | 5.3:1 | ✅ AA |
-| `#000000` su `#F1F1EF` | 18.57:1 | ✅ AAA |
-| `#7500C0` su `#F1F1EF` | 7.38:1 | ✅ AAA |
-| `#5F5F5F` su `#FFFFFF` | 6.39:1 | ✅ AA |
-| `#A100FF` su `#FFFFFF` | 5.3:1 | ✅ AA |
-| `#A100FF` su `#F1F1EF` | 4.69:1 | ✅ AA (poco margine) |
-| `#A100FF` su `#000000` | **3.96:1** | ❌ **solo testo grande** (≥24px, o ≥18.66px bold) |
-| `#A2A2A0` su `#F1F1EF` | **2.26:1** | ❌ **mai** |
-
-### Le tre trappole
-
-**1. Viola pieno su nero non basta.** `#A100FF` su nero dà 3.96:1. Il sito stesso non lo usa
-mai per il testo: su fondo scuro il viola di testo è **`#BE82FF`** (7.83:1). Il `#A100FF`
-su nero resta valido per riempimenti, il segno `>` e i titoli molto grandi.
-
-**2. I due grigi non sono intercambiabili.** `#A2A2A0` è pensato per il **nero** (8.21:1);
-su `#F1F1EF` crolla a 2.26:1. Su fondo chiaro il testo attenuato è `#5F5F5F`.
-
-**3. Il viola di testo cambia con lo sfondo.** Su chiaro `#7500C0`, su scuro `#BE82FF`.
-Usare `#A100FF` per il testo funziona solo su bianco, e con poco margine.
-
-Verifica qualsiasi coppia: `node .claude/skills/accessibilita/contrast.mjs "#BE82FF" "#000000"`
-
-## Tipografia
-
-Il brand usa **due** famiglie, non una. È l'errore più comune: usare solo il sans.
-
-**Graphik** (sans) — interfaccia, titoli, testo. Pesi 400, 500, 600.
-**GT Sectra Fine** (serif, peso 300) — voce editoriale: sottotitoli d'apertura, citazioni,
-frasi di manifesto. Mai per il testo di lettura lungo, mai per l'interfaccia.
-
-```css
-font-family: "Graphik", Arial, Helvetica, sans-serif;
-font-family: "GT Sectra Fine", Palatino, serif;
-```
-
-| Classe | Dimensione (a 1440px) | Peso | Interlinea | Spaziatura |
-|---|---|---|---|---|
-| `.acn-display` | 100px | 600 | 1.1 | −3px, MAIUSCOLO |
-| `.acn-h1` | 64px | 500 | 1.15 | −0.03em |
-| `.acn-h2` | 48px | 500 | 1.2 | −0.03em |
-| `.acn-h3` | 32px | 500 | 1.25 | −0.02em |
-| `.acn-editorial` | 32px | 300 | 1.25 | serif |
-| `.acn-body` | 16px | 400 | 1.6 | — |
-| `.acn-eyebrow` | 14px | 500 | 1.2 | +0.02em, MAIUSCOLO |
-
-Due regole che il sito applica ovunque:
-- **I titoli hanno spaziatura negativa.** Da −0.02em in giù man mano che crescono. Un titolo
-  a spaziatura normale non sembra Accenture.
-- **Il peso massimo è 600.** Niente `700`, niente `bold`. La forza viene dalla dimensione.
-
-Sopra i 1440px il sito scala tutto linearmente fino a 1920px (fattore 1.333).
-Le classi in `accenture.css` lo riproducono con `clamp()`.
+| Classe | Cosa fa |
+|---|---|
+| `.slide-manifesto` | Sfondo a piena intensità, sequenza hero completa. Titolo, demo, chiusura. **Max 3 nel deck.** |
+| `.slide-chiara` | Fondo `#F1F1EF`, testo nero. La via di fuga per le slide dense. |
+| *(nessuna)* | Slide normale: nero, sfondo attenuato, ritardi corti. |
 
 ## Componenti
 
-### Bottoni
+| Classe | Cosa |
+|---|---|
+| `.acn-display` | Titolo enorme maiuscolo, −0.045em. Solo sulle manifesto. |
+| `.acn-eyebrow` | Occhiello maiuscolo sopra il titolo. |
+| `.acn-editoriale` | Serif GT Sectra 300. La voce di manifesto, mai per il testo lungo. |
+| `.acn-editoriale--entra` | La stessa, che sale ruotando di 6°. |
+| `.acn-riga` | Il trattino viola 42×5px che precede il corpo. |
+| `.numero-grande` | Il dato che regge una slide da solo. |
+| `.didascalia` | Fonte, nota, attribuzione. |
+| `.due-colonne` · `.riquadro` · `.passo` | Layout e blocchi di contenuto. |
+| `.acn-cta` | Bottone terziario: testo + quadrato viola col `>` che scivola di 4px. |
 
-Il primario **non cambia colore di sfondo**: un gradiente scorre da destra a sinistra
-sotto il testo. È la meccanica esatta del sito.
+## Palette
 
-```css
-background-image: linear-gradient(90deg, #7500C0 50%, #A100FF 0);
-background-size: 200% 200%;
-background-position-x: 100%;        /* a riposo */
-/* :hover → background-position-x: 0 */
-```
-
-| Classe | Aspetto | Hover |
+| Token | HEX | Uso |
 |---|---|---|
-| `.acn-btn--primary` | Fondo viola pieno | Wipe a gradiente verso `#7500C0` |
-| `.acn-btn--secondary` | Solo contorno 1px | Il testo sbiadisce verso il grigio |
-| `.acn-btn--tertiary` | Testo + quadrato viola col `>` | Il quadrato scivola di 4px a destra |
+| `--acn-viola` | `#A100FF` | Riempimenti, il segno `>`, bordi, grafica |
+| `--acn-viola-chiaro` | `#BE82FF` | **Testo** viola su fondo scuro |
+| `--acn-viola-testo` | `#7500C0` | **Testo** viola su fondo chiaro |
+| `--acn-viola-profondo` | `#39005E` | Fondo dei riquadri |
+| `--acn-viola-focus` | `#DCAFFF` | Anello di focus su scuro |
+| `--acn-nero` / `--acn-bianco` | `#000000` / `#FFFFFF` | Fondo e testo |
+| `--acn-superficie` | `#F1F1EF` | Slide chiara — grigio **caldo** |
+| `--acn-grigio` | `#A2A2A0` | Testo attenuato — **solo su scuro** |
+| `--acn-grigio-chiaro` | `#5F5F5F` | Testo attenuato — **solo su chiaro** |
 
-Altezza minima **48px**, angoli a **0**, larghezza `fit-content`.
+### Contrasti misurati
 
-```html
-<a class="acn-btn acn-btn--tertiary" href="#">
-  Scopri di più
-  <span class="acn-btn__icon" aria-hidden="true">
-    <svg viewBox="0 0 32 32"><path d="M0 22.6L17.66 16.03L0 9.13V0L30.24 12.18V19.75L0 32V22.6Z"/></svg>
-  </span>
-</a>
-```
+Il deck è nero, quindi conta la prima colonna.
 
-### Card
+| Su nero | | Su chiaro `#F1F1EF` | |
+|---|---|---|---|
+| `#FFFFFF` | 21.0:1 ✅ AAA | `#000000` | 18.57:1 ✅ AAA |
+| `#BE82FF` | 7.83:1 ✅ AAA | `#7500C0` | 7.38:1 ✅ AAA |
+| `#A2A2A0` | 8.21:1 ✅ AAA | `#5F5F5F` | 5.65:1 ✅ AA |
+| `#DCAFFF` | 11.62:1 ✅ AAA | `#A100FF` | 4.69:1 ✅ AA (poco margine) |
+| `#A100FF` | **3.96:1** ❌ solo testo ≥24px | `#A2A2A0` | **2.26:1** ❌ mai |
 
-Anatomia reale: **testo in alto, immagine sotto**. Non il contrario, e mai testo sopra
-l'immagine. 300×424px, nessun raggio, **nessuna ombra**. In hover l'intera card scala del 4%.
+Le due trappole, entrambe già evitate dal tema:
+- **`#A100FF` non è un colore di testo su nero.** Resta per riempimenti e per il `>`.
+  Su fondo scuro il viola di testo è `#BE82FF`.
+- **I due grigi non sono intercambiabili.** `#A2A2A0` è del nero, `#5F5F5F` del chiaro.
 
-```html
-<a class="acn-card" href="#">
-  <div class="acn-card__body">
-    <p class="acn-card__label">Report di ricerca</p>
-    <h3 class="acn-card__title">Titolo su due o tre righe</h3>
-  </div>
-  <div class="acn-card__media"><img src="..." alt=""></div>
-</a>
-```
+Verifica qualsiasi coppia:
+`node .claude/skills/accessibilita/contrast.mjs "#BE82FF" "#000000"`
 
-Varianti: `.acn-card` (nera), `--light` (`#F1F1EF`, testo nero), `--deep` (`#39005E`),
-`--dark` (`#202020`). Griglia a 4 colonne con `.acn-card-grid`.
+## Tipografia
 
-### Hero
+Due famiglie, non una. **Graphik** per tutto, **GT Sectra Fine 300** per la voce editoriale.
 
-Fondo nero o immagine a tutto campo, griglia a 12 colonne, padding `60px 80px`.
-Titolo sulle prime 8 colonne, corpo sulle ultime 4 allineato in basso, preceduto dal
-trattino viola `42×5px` (`.acn-deco-line`).
+| Classe | Peso | Spaziatura |
+|---|---|---|
+| `.acn-display` | 600 | −0.045em, MAIUSCOLO |
+| `h1` / `h2` | 600 | −0.03em |
+| `h3` | 600 | −0.02em |
+| `.acn-editoriale` | 300 serif | 0 |
+| `.acn-eyebrow` | 500 | +0.02em, MAIUSCOLO |
 
-La sequenza d'ingresso: sfondo in dissolvenza (550ms) → titolo che sale (750ms) → corpo
-(1500ms) → il `>` che si raddrizza ruotando da 90°.
-
-### Logo
-
-Il logo è **animato**. A riposo si vede solo il `>` a tutta altezza; in hover rimpicciolisce
-(`scale: .396`), scivola di `88.5px` a destra sopra la "t", e la parola "accenture" risale
-al suo posto. Usa `assets/logo/accenture-logo.svg` con le classi `.acn-logo__mark` e
-`.acn-logo__text` sui due path. Per header compatti: `.acn-logo--mark` mostra solo il segno.
-
-## Layout e spazio
-
-- Griglia **4 / 8 / 12** colonne ai breakpoint 600px e 1024px.
-- Gutter orizzontale: 16px mobile → 48px tablet → **80px** desktop.
-- Scala di spaziatura: **16 / 32 / 48 / 96 / 160px**. Non inventare valori intermedi.
-- Sezioni: 96px di padding verticale, 160px a desktop. Il respiro è parte del brand.
-- Larghezza massima della pagina: 1920px, centrata.
-- Header alto **72px**.
+Due regole che il sito applica ovunque: **spaziatura negativa** sui titoli (un titolo a
+spaziatura normale non sembra Accenture) e **peso massimo 600**, mai `700`. La forza viene
+dalla dimensione.
 
 ## Accessibilità
 
-Il sito reale rispetta queste regole: mantenerle non è un compromesso sul brand.
+Il deck si proietta, ma va anche navigato e letto. Quello che il tema garantisce già:
 
-- **Salto al contenuto**: `.acn-skip-link` come **primo elemento** del `<body>`, puntato
-  all'id del `<main>` o della prima sezione. Compare solo col focus da tastiera.
-- **Focus**: `outline: 2px solid` con `outline-offset: 8px`. Il default è `#DCAFFF`
-  (la pagina è scura); dentro `.acn-light` passa a `#A100FF`. Mai `outline: none` senza
-  sostituto.
-- **Movimento ridotto**: `accenture.css` copre `prefers-reduced-motion` azzerando durata
-  **e ritardo**, più gli hover di scala. Se aggiungi animazioni tue, coprile anche lì.
-- **Rivelazione allo scroll**: `.acn-reveal` + `.is-visible` via IntersectionObserver.
-- Target touch minimo 24×24px; i bottoni sono già a 48px.
-- Il `>` decorativo dentro le parole va sempre con `aria-hidden` + testo completo in `.acn-sr-only`.
+- **Movimento ridotto**: durate *e ritardi* azzerati, video fermo su un fotogramma della
+  nuvola già formata, transizione fra slide a `none`. Azzerare solo la durata è il bug
+  classico: con `fill: backwards` e 1500ms di ritardo il contenuto resterebbe invisibile
+  un secondo e mezzo proprio a chi ha chiesto meno animazioni.
+- **Focus**: `2px` con `outline-offset: 8px`, `#DCAFFF` sul nero e `#A100FF` sulla slide
+  chiara. La regola è scritta come *default scuro + eccezione `.slide-chiara`*, non come
+  `body:not(.slide-chiara)`: quella classe sta sulle **sezioni**, quindi il selettore
+  negato sarebbe sempre vero.
+- **Il `>` decorativo** sempre con `aria-hidden` e testo completo in `.acn-sr-only`.
+- **Lo sfondo** è `aria-hidden` e `pointer-events: none`.
+- **Export PDF**: `@media print` nasconde sfondo, controlli e barra di avanzamento.
 
-### Tre errori che questo design system rende facili
-
-Sono emersi dall'audit del template. Se generi una pagina nuova, controlla questi tre punti.
-
-**1. Non mettere `class="js"` nel markup di `<html>`.** La regola `.js .acn-reveal` porta
-`opacity: 0`: se la classe è già nell'HTML, scatta al parsing del CSS e senza JavaScript il
-contenuto resta invisibile **per sempre**. La classe la aggiunge lo script a fine pagina.
-
-**2. Non scrivere `body:not(.acn-light) :focus-visible`.** La classe `.acn-light` sta sulle
-*sezioni*, non sul `<body>`: quel selettore è sempre vero e applica l'anello chiaro anche
-dentro le sezioni chiare, dove `#DCAFFF` su `#F1F1EF` dà 1.6:1. Regola giusta: default
-chiaro, eccezione `.acn-light`.
-
-**3. In `prefers-reduced-motion` azzera anche `animation-delay`.** Con `fill-mode: backwards`
-e un ritardo di 1500ms, azzerare solo la durata lascia il contenuto invisibile per un secondo
-e mezzo a chi ha chiesto meno animazioni.
-
-### Una scelta consapevole
-
-Le card sono `<a>` che contengono un `<h3>`. Il nome accessibile del link diventa
-"Report di ricerca — Titolo", leggermente ridondante ma informativo, e tutta l'area resta
-cliccabile. È il compromesso scelto: l'alternativa (`<article>` + link con `aria-labelledby`)
-è più pulita per la navigazione per heading ma perde il target esteso. Se ti serve quella,
-il pattern è nel referto dell'`revisore-accessibilita`.
-
-Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
+Prima di dichiarare finito il deck, lancia l'agente `revisore-accessibilita`.
 
 ## Da evitare
 
@@ -271,6 +226,7 @@ Prima di dichiarare finita una UI, lancia l'agente `revisore-accessibilita`.
 - `font-weight: 700` o superiore.
 - Titoli senza spaziatura negativa.
 - Grigio neutro (`#F5F5F5`) al posto del grigio caldo `#F1F1EF`.
-- Curve di animazione diverse da quella del brand.
-- Viola su viola, o `#A100FF` come colore di testo su fondo scuro.
-- Più accenti viola nella stessa schermata: il viola evidenzia **una** cosa.
+- Curve o durate diverse da quelle della tabella.
+- `#A100FF` come colore di testo su fondo scuro.
+- Più di un accento viola nella stessa slide: il viola evidenzia **una** cosa.
+- Più di tre `.slide-manifesto`: se tutto è manifesto, niente lo è.

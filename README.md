@@ -98,7 +98,8 @@ npm run contrasto '#A100FF' '#000000'
 > Il brand ha **due viola e due grigi**, e usarli sul fondo sbagliato è l'errore più facile:
 > `#A100FF` su nero dà 3.96:1 (su scuro il testo viola è `#BE82FF`, 7.83:1) e `#A2A2A0`
 > su bianco dà 2.56:1 (su chiaro il grigio è `#5F5F5F`, 6.39:1).
-> I dettagli sono in [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md).
+> I dettagli sono in [`.claude/skills/accenture-brand/SKILL.md`](.claude/skills/accenture-brand/SKILL.md),
+> che copre **solo il deck**: la web app ha una sua identità in `app/src/index.css`.
 
 ## Convenzioni
 
