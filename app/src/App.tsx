@@ -1,6 +1,8 @@
 import { useEffect, useRef } from "react";
 import type { ReactElement } from "react";
-import type { Padronanza, Schermata } from "@/dominio/tipi";
+import type { Schermata } from "@/dominio/tipi";
+import { CONCETTI } from "@/dominio/concetti";
+import { avanzamento } from "@/dominio/percorso";
 import { useApprendimento } from "@/stato/ApprendimentoContext";
 import { SkipLink } from "@/components/SkipLink";
 import { Intestazione } from "@/componenti/Intestazione";
@@ -11,15 +13,6 @@ import { Valutazione } from "@/schermate/Valutazione";
 import { Modulo } from "@/schermate/Modulo";
 import { Risultato } from "@/schermate/Risultato";
 import { Trasparenza } from "@/schermate/Trasparenza";
-
-const TOTALE_CONCETTI = 12;
-
-function livelloDaXp(xp: number): string {
-  if (xp < 10) return "Principiante";
-  if (xp < 30) return "Esploratore";
-  if (xp < 60) return "Navigatore";
-  return "Consapevole";
-}
 
 /** Etichetta leggibile da screen reader per ogni schermata. */
 function etichettaSchermata(schermata: Schermata): string {
@@ -57,13 +50,10 @@ export function App(): ReactElement {
 
   const percorsoIniziato = stato.risposteIniziali.length > 0;
 
-  const concettiAcquisiti = Object.values(stato.padronanza).filter(
-    (p): p is Padronanza => p !== undefined && p.stato === "acquisito",
-  ).length;
-
-  const percentualeProgresso = Math.round(
-    (concettiAcquisiti / TOTALE_CONCETTI) * 100,
-  );
+  // Unica fonte di verità su livello e progresso: contano i concetti acquisiti,
+  // non le lezioni viste. Duplicare la soglia qui produrrebbe due livelli diversi
+  // nella stessa schermata, uno in intestazione e uno nella mappa.
+  const progresso = avanzamento(stato, CONCETTI);
 
   function renderSchermata(): ReactElement {
     const s = stato.schermata;
@@ -87,12 +77,10 @@ export function App(): ReactElement {
     <>
       <SkipLink />
       <Intestazione
-        livello={percorsoIniziato ? livelloDaXp(stato.xp) : undefined}
-        percentualeProgresso={
-          percorsoIniziato ? percentualeProgresso : undefined
-        }
-        concettiAcquisiti={percorsoIniziato ? concettiAcquisiti : undefined}
-        concettiTotali={percorsoIniziato ? TOTALE_CONCETTI : undefined}
+        livello={percorsoIniziato ? progresso.livello : undefined}
+        percentualeProgresso={percorsoIniziato ? progresso.percentuale : undefined}
+        concettiAcquisiti={percorsoIniziato ? progresso.concettiAcquisiti : undefined}
+        concettiTotali={percorsoIniziato ? progresso.concettiTotali : undefined}
         onRicomincia={() => invia({ tipo: "azzera" })}
       />
       <main
